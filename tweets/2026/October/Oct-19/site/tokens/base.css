@@ -1,0 +1,647 @@
+/* ── Robocurve · Base element styling ────────────────────────────────
+   Light resets + brand defaults. Consumers can build directly on these. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Every anchor target lands below the sticky header with a little breathing
+   room; harmless for ids that are never linked directly. */
+[id] { scroll-margin-top: calc(var(--header-h) + 8px); }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden; /* guard against incidental horizontal scroll on small screens */
+}
+
+/* Media never forces the page wider than the viewport */
+img, svg, video, canvas { max-width: 100%; }
+
+/* Long words/URLs wrap instead of overflowing on narrow screens */
+p, h1, h2, h3, h4, li, a { overflow-wrap: break-word; }
+
+/* Headings — editorial serif by default */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  margin: 0;
+}
+h1 { font-size: var(--text-4xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+h4 { font-size: var(--text-lg); }
+
+p { margin: 0 0 1em; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); }
+
+/* Mono eyebrow — recurring brand device */
+.rc-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Hairline */
+hr { border: none; border-top: var(--border-w) solid var(--border-hairline); margin: var(--space-6) 0; }
+
+::selection { background: var(--ember-100); color: var(--neutral-900); }
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ── Page entrance cascade ────────────────────────────────────────────
+   The site's <main class="rc-page"> remounts on navigation; its top-level
+   blocks rise + fade in, staggered. Authored here (not in a React <style>)
+   so it ships in the bundled stylesheet and survives server prerendering. */
+.rc-page > * > * {
+  animation: rc-page-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rc-page > * > *:nth-child(1) { animation-delay: 0s; }
+.rc-page > * > *:nth-child(2) { animation-delay: 0.14s; }
+.rc-page > * > *:nth-child(3) { animation-delay: 0.26s; }
+.rc-page > * > *:nth-child(4) { animation-delay: 0.38s; }
+.rc-page > * > *:nth-child(5) { animation-delay: 0.5s; }
+.rc-page > * > *:nth-child(n+6) { animation-delay: 0.6s; }
+@keyframes rc-page-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rc-page > * > * { animation: none; }
+}
+
+/* ── Homepage layout classes ──────────────────────────────────────────
+   Every property that CHANGES at a breakpoint lives here, at all widths —
+   inline JSX styles can't be overridden by media queries, so nothing
+   breakpoint-varying may be inline. Non-varying styling stays inline in
+   HomePage.jsx / Chrome.jsx. Breakpoints (registered in
+   test/screen-constants.test.mjs): 1440px = floating work TOC; 1000px =
+   grids collapse to one column; 560px = phone gutters + tighter nav/card
+   padding. */
+
+/* Section shell: side gutters only (vertical padding is per-section inline).
+   56px is the Figma comp's page gutter at 1440 (content column 1328). The
+   gutter is exposed as --sec-gutter so full-bleed children (the hero card
+   strip) can cancel it with a negative margin at every breakpoint. */
+.rc-sec { --sec-gutter: 56px; padding-left: var(--sec-gutter); padding-right: var(--sec-gutter); }
+
+/* Header/footer nav row. Footer overrides the gap via --nav-gap inline. */
+.rc-nav { display: flex; align-items: center; flex-wrap: wrap; gap: var(--nav-gap, 32px); }
+
+/* Header's three pill groups (nav links | wordmark | Talk to us). Desktop:
+   a 1fr auto 1fr grid, so the wordmark is centred on the page whatever the
+   side pills weigh. The bar is transparent and lets clicks through between
+   the pills; the pills themselves are translucent + backdrop-blurred (user
+   call, 2026-08-26). Below 1000px there isn't room for all three pills side
+   by side — stack them. The layout must live here (not inline in
+   Chrome.jsx): an inline style would always beat this class regardless of
+   the media query, silently defeating the breakpoint override. */
+.rc-header-row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; justify-items: center; pointer-events: none; }
+.rc-header-row > :first-child { justify-self: start; }
+.rc-header-row > :last-child { justify-self: end; }
+.rc-header-pill { pointer-events: auto; background: rgba(235,234,231,0.72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 8px rgba(0,0,0,0.04); }
+/* The CTA pill hugs its chip (user call, 2026-08-27 — it used to match the
+   nav pill's width); the 1fr/auto/1fr grid keeps the wordmark centred
+   whatever the two sides weigh. */
+.rc-header-nav { flex-wrap: nowrap; gap: 10px; padding: 4px 6px; border-radius: 34px; }
+.rc-header-cta { display: flex; align-items: center; box-sizing: border-box; justify-content: center; gap: 4px; padding: 4px 6px; border-radius: 34px; }
+.rc-header-wordmark { padding: 6px 52px; }
+/* Desktop: the CTA is a bare dark pill — no frosted wrapper (v2 comp,
+   user call 2026-09-29). Below 1000px the wrapper returns to hold the
+   hamburger beside it. */
+.rc-header-row .rc-header-cta { background: none; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; padding: 0; }
+.rc-header-cta .rc-header-chip { padding-block: 8px; }
+.rc-header-chip { font-size: var(--text-sm); padding: 6px 14px; }
+/* Keep all four nav links clear of the centred wordmark above the mobile breakpoint. */
+.rc-header-nav .rc-header-chip { padding-inline: 10px; }
+/* The hamburger only exists on phones (below). */
+.rc-header-menu-btn { display: none; }
+@media (max-width: 1000px) {
+  /* One row (user call, 2026-08-27): [☰ | Talk to us] left, wordmark
+     right, and the nav links drop down under the left pill when the
+     hamburger is open. The header is position:sticky, so it is the
+     dropdown's containing block; top clears the row's 24px bottom padding
+     by 10px. */
+  .rc-header-row { display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 12px; }
+  .rc-header-row .rc-header-cta { order: 0; justify-content: flex-start; padding: 4px 6px 4px 4px; background: rgba(235,234,231,0.72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 8px rgba(0,0,0,0.04); }
+  .rc-header-cta .rc-header-chip { padding-block: 6px; }
+  .rc-header-wordmark { order: 1; }
+  .rc-header-menu-btn { display: inline-flex; align-items: center; justify-content: center; align-self: stretch; min-width: 34px; margin: 0; padding: 0; border: 0; border-radius: 30px; background: transparent; color: var(--neutral-900); cursor: pointer; }
+  .rc-header-menu-btn:hover { background: rgba(27,21,15,0.08); }
+  .rc-header-row .rc-header-nav { display: none; position: absolute; left: var(--sec-gutter); top: calc(100% - 14px); flex-direction: column; align-items: stretch; gap: 2px; min-width: 176px; padding: 6px; border-radius: 22px; }
+  .rc-header-open .rc-header-nav { display: flex; }
+  .rc-header-nav .rc-header-chip { padding: 10px 14px; }
+  .rc-header-nav .rc-header-chip:hover { background: rgba(27,21,15,0.08); }
+}
+
+/* Hero (Figma 2103:5173, 1440×981 comp). Vertical rhythm is the comp's:
+   62px header→copy, 62px copy→card strip, 19px strip→logo row, 60px to the
+   bottom edge; rc-screen-hero's min-height keeps the curve art full-screen.
+   The card strip cancels the right gutter so the third card peeks off-screen
+   exactly as drawn, and scrolls sideways (snap, hidden scrollbar) at every
+   width. Cards are fixed-size at desktop, capped to the viewport below. */
+.rc-hero { position: relative; isolation: isolate; display: flex; flex-direction: column; padding-top: 62px; padding-bottom: 60px; }
+/* The curve art (a 1440×997 export) matches the comp's bg frame: it starts 16px above the top
+   of the page — behind the (transparent-at-top) header — and its bottom
+   sits on the hero's bottom edge, so the lower wave band stays. */
+/* The wave art is the comp's 1440×997 frame, drawn at width scale (no side
+   cropping, so every wave lands where the comp puts it relative to the
+   headline) and hung 16px above the header like the comp. The hero is taller
+   than the frame, so the section's own background continues the art's flat
+   bottom band beneath it; on wide screens the art is taller than the hero
+   and its bottom is cropped instead. The band is sampled from the art's
+   last RENDERED row (a 1440-wide screenshot, 17 stops) — the SVG's own
+   bottom rect is darker than what its blurred wave overlays produce, and
+   the mismatch showed as a hard line under the logo row (user, 2026-08-26);
+   the art's last 72px also fade into the band so any residual step is soft. */
+.rc-hero { background: linear-gradient(90deg, rgb(32,166,192) 0%, rgb(34,166,192) 6.25%, rgb(45,171,194) 12.5%, rgb(58,174,197) 18.75%, rgb(66,176,197) 25%, rgb(78,180,199) 31.25%, rgb(88,183,200) 37.5%, rgb(96,186,202) 43.75%, rgb(106,187,203) 50%, rgb(116,191,206) 56.25%, rgb(124,193,207) 62.5%, rgb(131,194,207) 68.75%, rgb(138,197,209) 75%, rgb(146,199,208) 81.25%, rgb(153,202,210) 87.5%, rgb(161,203,211) 93.75%, rgb(169,208,214) 100%); }
+.rc-hero-bg { position: absolute; left: 0; top: calc(-1 * var(--header-h) - 16px); width: 100%; height: auto; max-height: calc(100% + var(--header-h) + 16px); object-fit: cover; object-position: center top; pointer-events: none; z-index: -1; -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 72px), transparent); }
+/* The hero's bottom edge fades into the page at every width (user call,
+   2026-08-26; kept over the v2 comp's hard edge, user 2026-09-29). Painted
+   above the art and the band, below the content. */
+.rc-hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 110px; background: linear-gradient(to bottom, rgba(255,254,251,0), var(--surface-page)); pointer-events: none; z-index: -1; }
+.rc-hero-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; max-width: 548px; margin-bottom: 62px; }
+/* Hero cards: the study card, then the Hanoi and Jenga clips, in one row
+   that scrolls sideways (hidden scrollbar, snap) at every width. It
+   cancels both gutters and pads them back so cards run to the viewport
+   edges; the last clip may sit partly off-screen (user 2026-09-29). */
+.rc-hero-cards { display: flex; align-items: stretch; gap: 24px; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; margin-left: calc(-1 * var(--sec-gutter)); margin-right: calc(-1 * var(--sec-gutter)); padding-left: var(--sec-gutter); padding-right: var(--sec-gutter); scroll-padding-left: var(--sec-gutter); }
+.rc-hero-cards::-webkit-scrollbar { display: none; }
+.rc-hero-cards > .rc-hero-card { flex: 0 0 auto; }
+.rc-hero-card { flex: 0 0 auto; box-sizing: border-box; min-width: 0; min-height: 330px; padding: 14px; border-radius: 18px; border: 0.5px solid var(--surface-pill); background: var(--surface-float); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); overflow: hidden; scroll-snap-align: start; }
+.rc-hero-teaser { height: 100%; width: auto; max-width: 100%; border-radius: 6px; background: var(--neutral-900); overflow: hidden; }
+.rc-hero-card-chart { width: 425px; max-width: calc(100vw - 2 * var(--sec-gutter)); display: flex; flex-direction: column; gap: 21px; }
+.rc-hero-card-head { display: flex; align-items: center; justify-content: space-between; }
+/* The comp's divider runs edge to edge under the card padding. */
+.rc-hero-card-rule { margin: 0 -14px; border: none; border-top: 0.5px solid var(--surface-pill); }
+.rc-hero-card-open { display: flex; flex: 0 0 auto; border-radius: 50%; }
+.rc-hero-card-open img { display: block; }
+/* v2 cards (Figma 2368:16420): a 425px chart card with a subtitle, and the
+   Hanoi clip card — 659px wide so the 16:9 clip exactly fills the strip's
+   383px height inside the 14px padding (cover-cropped on phones). */
+.rc-lbars { position: relative; }
+.rc-lbars > svg { display: block; width: 100%; height: 252px; overflow: visible; } /* fixed: LeaderboardBars draws 1 unit = 1px at H = 252 */
+.rc-lbars-val { font-family: var(--font-sans); font-size: 14px; font-weight: var(--weight-semibold); fill: #fff; }
+.rc-lbars-val-out { fill: var(--neutral-900); }
+.rc-lbars-name { font-family: var(--font-sans); font-size: 12px; fill: var(--neutral-900); }
+.rc-hero-card-sub a { color: inherit; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.rc-hero-card-sub { margin: 0; font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.4; color: var(--neutral-900); text-wrap: balance; }
+.rc-hero-card-title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-card); line-height: var(--leading-snug); letter-spacing: -0.07em; color: var(--neutral-900); }
+.rc-hero-bars { display: block; width: 100%; height: auto; } /* fills the card's width — no dead space (user 2026-09-29) */
+.rc-hero-card-video { display: flex; width: 659px; max-width: calc(100vw - 2 * var(--sec-gutter)); }
+.rc-hero-card-video .rc-hero-teaser { width: 100%; height: auto; }
+.rc-hero-card-video .rc-hero-teaser video { object-fit: cover; }
+
+/* News reel (Figma 2368:16989, plans/0006): "Featured on:" then the live
+   press logos in greyscale as a marquee. Pure CSS so it runs from first
+   paint (the JS scroller waited for hydration): the track holds two
+   identical rows, each padded 44px on the right, and slides exactly one
+   row (-50%) per loop. No hover pause — that is what froze the old CSS
+   marquee on phones (sticky :hover); reduced motion parks it. The logos
+   carry explicit width/height so WebKit sizes the max-content track right. */
+.rc-reel { display: flex; align-items: center; gap: 44px; padding: 40px 24px; }
+.rc-reel-label { flex: 0 0 auto; font-family: var(--font-sans); font-weight: var(--weight-bold); font-size: var(--text-sm); line-height: 1.4; color: rgba(27,21,15,0.8); white-space: nowrap; }
+.rc-reel-window { flex: 1 1 auto; min-width: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.rc-reel-track { display: flex; width: max-content; animation: rc-reel 34s linear infinite; }
+.rc-reel-row { display: flex; flex: 0 0 auto; align-items: center; gap: 44px; height: 61px; padding-right: 44px; }
+.rc-reel-row a { display: inline-flex; flex: 0 0 auto; align-items: center; }
+/* Monochrome per the comp's greyscale strip; full colour on hover/focus. */
+.rc-reel-row img { display: block; flex: 0 0 auto; max-height: 32px; filter: grayscale(1); opacity: 0.55; transition: filter 0.2s ease, opacity 0.2s ease; }
+.rc-reel-row a:hover img, .rc-reel-row a:focus-visible img { filter: none; opacity: 1; }
+.rc-reel-named { text-decoration: none; }
+.rc-reel-named span { font-family: var(--font-sans); font-size: 20px; font-weight: var(--weight-semibold); color: rgba(27,22,19,0.64); white-space: nowrap; transition: color 0.2s ease; }
+.rc-reel-named:hover span, .rc-reel-named:focus-visible span { color: #1b1613; }
+@keyframes rc-reel { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .rc-reel-track { animation: none; } }
+
+/* Trends (Figma 2365:12922 minus its heading block, src/Trends.jsx).
+   A 3-column grid: sticky title list | stacked panels joined by a hairline |
+   an empty column the list's width, so the panels stay centred (the comp's
+   right-hand card was cut, user 2026-09-29). The list centres on the viewport (its two items are 70px tall —
+   update the `top` offset if that changes). */
+.rc-trends { padding-top: 60px; padding-bottom: 96px; }
+.rc-trends-h2 { margin: 0 auto; max-width: 714px; text-align: center; font-family: var(--font-display); font-weight: var(--weight-bold); font-stretch: expanded; font-size: var(--text-2xl); line-height: var(--leading-tight); letter-spacing: -0.07em; color: var(--neutral-900); text-wrap: balance; }
+.rc-trends-grid { position: relative; display: grid; grid-template-columns: 254px minmax(0, 714px) 254px; justify-content: space-between; align-items: start; }
+.rc-trends-panels { position: relative; display: flex; flex-direction: column; gap: 101px; padding-top: 40px; }
+/* The hairline: only between panels — it starts at the first panel's top
+   edge (= the column's 40px padding-top), never above it. */
+.rc-trends-panels::before { content: ''; position: absolute; left: 50%; top: 40px; bottom: 0; width: 1px; background: rgba(27,21,15,0.1); }
+.rc-trends-panel { position: relative; display: flex; flex-direction: column; gap: 16px; padding: 24px; border-radius: 18px; border: 1px solid rgba(0,0,0,0.08); background: var(--surface-page); transition: box-shadow 0.4s ease; }
+/* No fading: every panel stays at full strength (user 2026-09-30); the
+   side list alone tracks the active one. */
+.rc-trends-panel { border-color: rgba(0,0,0,0.1); background: var(--surface-float); box-shadow: 0 15px 6px rgba(0,0,0,0.01), 0 9px 5px rgba(0,0,0,0.01), 2px 4px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.05), inset 4px 5px 4px rgba(255,255,255,0.15); }
+.rc-trends-rule { margin: 0; border: none; border-top: 0.5px solid rgba(27,21,15,0.12); }
+.rc-trends-copy { display: flex; flex-direction: column; gap: 8px; }
+.rc-trends-title { margin: 0; font-family: var(--font-display); font-weight: var(--weight-bold); font-stretch: expanded; font-size: 1.25rem; line-height: var(--leading-snug); letter-spacing: -0.07em; color: var(--neutral-900); }
+.rc-trends-body a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.rc-trends-body { margin: 0; max-width: 524px; font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.4; color: var(--neutral-900); }
+.rc-trends-slot { width: 100%; aspect-ratio: 720 / 380; margin-top: 5px; }
+/* Trend charts (src/SpeedChart.jsx, src/ParetoChart.jsx) in the panels. Grid and
+   axes recessive; ticks/labels in text tokens, series colour only on marks. */
+.rc-chart { position: relative; margin: 4px 0 0; container: rc-chart / inline-size; }
+.rc-chart-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 6px; padding: 0; list-style: none; font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-normal); color: rgba(27,21,15,0.75); }
+.rc-chart-legend li { display: inline-flex; align-items: center; gap: 5px; }
+.rc-chart-band { color: rgba(27,21,15,0.55); }
+.rc-chart-swatch { display: inline-block; flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; }
+/* CSS owns the plot box — its height is a clamp of the chart's width — and
+   the chart draws into it 1 unit = 1px (src/useChartSize.js), so labels
+   keep their size on every screen and hydration never moves the page. */
+.rc-chart-plot { position: relative; height: clamp(280px, 52cqw, 350px); }
+.rc-chart-plot svg { display: block; width: 100%; height: 100%; overflow: visible; touch-action: pan-y; }
+.rc-chart-plot svg:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 6px; }
+.rc-chart-grid { stroke: rgba(27,21,15,0.07); stroke-width: 1; }
+.rc-chart-axis { stroke: rgba(27,21,15,0.25); stroke-width: 1; }
+.rc-chart-frontier { stroke: rgba(27,21,15,0.45); stroke-width: 1.5; stroke-dasharray: 2 4; stroke-linecap: round; }
+.rc-chart-label { font-family: var(--font-sans); font-size: 12px; fill: rgba(27,21,15,0.7); }
+.rc-chart-label-strong { font-weight: var(--weight-semibold); fill: var(--neutral-900); }
+.rc-chart-legend svg { display: block; }
+.rc-chart-cross { stroke: rgba(27,21,15,0.2); stroke-width: 1; stroke-dasharray: 3 3; }
+.rc-chart-tick { font-family: var(--font-sans); font-size: 12px; fill: rgba(27,21,15,0.6); }
+.rc-chart-rate { font-family: var(--font-sans); font-size: 12px; font-weight: var(--weight-semibold); fill: var(--neutral-900); }
+.rc-chart-ratelab { font-family: var(--font-sans); font-size: 12px; fill: rgba(27,21,15,0.6); }
+/* Narrow charts (< ParetoChart.jsx NARROW = 600px of chart width): the
+   speed chart's line-end growth rates move into its legend. */
+.rc-chart-legend-rate { display: none; font-weight: var(--weight-semibold); color: var(--neutral-900); }
+@container rc-chart (max-width: 599px) {
+  .rc-chart-legend-rate { display: inline; }
+}
+.rc-chart-tip { position: absolute; z-index: 2; display: flex; flex-direction: column; gap: 2px; min-width: 150px; padding: 8px 10px; border-radius: 10px; border: 0.5px solid rgba(27,21,15,0.12); background: #fff; box-shadow: 0 4px 14px rgba(27,21,15,0.1); font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-normal); color: rgba(27,21,15,0.7); pointer-events: none; white-space: nowrap; }
+.rc-chart-tip strong { color: var(--neutral-900); font-weight: var(--weight-semibold); }
+.rc-chart-tip span { display: inline-flex; align-items: center; gap: 6px; }
+.rc-chart-cap { margin-top: 8px; font-family: var(--font-sans); font-size: var(--text-xs); line-height: var(--leading-normal); color: rgba(27,21,15,0.6); }
+.rc-chart-cap a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.rc-trends-nav, .rc-trends-nav { position: sticky; top: calc(50vh - 35px); margin-top: 300px; }
+.rc-trends-nav ul { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.rc-trends-navitem { display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 14px; border: 0; border-radius: 29px; background: transparent; font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.4; text-align: left; color: rgba(27,21,15,0.6); cursor: pointer; }
+.rc-trends-navitem:hover { background: rgba(27,21,15,0.04); }
+.rc-trends-navitem-on { color: var(--neutral-900); }
+.rc-trends-dot { flex: 0 0 auto; width: 6px; height: 6px; border-radius: 4px; background: rgba(27,21,15,0.4); }
+.rc-trends-navitem-on .rc-trends-dot { background: var(--neutral-900); }
+
+/* Results (Figma 2103:4250): a 481px tab column (314px pills) beside the
+   chart panel, 36px apart, on the section's grey band. Below 1000px the
+   pills become one horizontally scrolling row above the panel. */
+.rc-band { background: var(--surface-band); }
+.rc-results { display: flex; align-items: flex-start; gap: 36px; }
+.rc-results-aside { flex: 0 0 481px; display: flex; flex-direction: column; gap: 40px; }
+.rc-results-tabs { display: flex; flex-direction: column; gap: 12px; }
+.rc-results-tab { display: flex; align-items: center; gap: 12px; width: 314px; max-width: 100%; padding: 6px 14px; border: none; border-radius: 29px; background: transparent; cursor: pointer; text-align: left; transition: background var(--dur-fast) ease; }
+.rc-results-tab:hover, .rc-results-tab:focus-visible { background: rgba(27,21,15,0.06); }
+/* 811px is the panel's width at the 1440 comp; on wider screens the box
+   below is height-capped, so growing the panel would only add dead space
+   either side of the chart; the spare width stays on the right (user call). */
+.rc-results-panel { flex: 0 1 811px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.rc-results-card { padding: 19px; border-radius: 21px; background: var(--neutral-0); }
+/* The figure box is sized by the card's width at the scaling chart's own
+   aspect (1.45; the viewBoxes are cropped to their ink), capped so the
+   section still fits a laptop screen, and does not change between tabs;
+   each figure fills it at its own aspect, centered — the wider speed and
+   voice charts sit a little short of the top and bottom. */
+.rc-results-fig { aspect-ratio: 1.45; max-height: 500px; display: flex; align-items: center; justify-content: center; }
+.rc-results-fig svg { display: block; width: 100%; height: 100%; }
+.rc-results-video .rc-hero-teaser { width: 100%; height: auto; }
+.rc-results-image { display: block; }
+.rc-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.rc-results-image img { display: block; width: 100%; height: auto; border-radius: 10px; }
+
+.rc-blog { max-width: 1000px; margin: 0 auto; padding-block: var(--space-16); }
+.rc-blog-header { max-width: 800px; margin: var(--space-8) auto; }
+.rc-blog-header time { color: var(--text-muted); font-size: var(--text-sm); }
+.rc-blog-header h1 { margin: var(--space-4) 0 0; font-size: var(--text-hero); line-height: var(--leading-snug); letter-spacing: var(--tracking-tight); text-wrap: balance; }
+.rc-blog-image { display: block; width: 100%; height: auto; border-radius: 16px; margin-bottom: var(--space-10); }
+.rc-blog-body { max-width: 68ch; margin: 0 auto; font-size: var(--text-md); line-height: var(--leading-relaxed); color: var(--text-body); }
+.rc-blog-body p, .rc-blog-body ul { margin: 0 0 var(--space-6); }
+.rc-blog-body ul { padding-left: var(--space-6); }
+.rc-blog-body li + li { margin-top: var(--space-3); }
+.rc-blog-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+
+/* Why it matters (Figma 2103:4413): heading row (585px headline | 329px
+   aside), then the 709px growth chart beside a 573px column of three
+   "stakes" cards that top-align with it (the comp bottom-aligns; user call,
+   2026-08-26 — the spare space goes under "Our answer"). Both rows stack
+   below 1000px. */
+.rc-why-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; }
+.rc-why-aside { flex: 0 0 329px; }
+.rc-why { display: flex; align-items: stretch; gap: 46px; }
+.rc-why-chart { flex: 1 1 709px; min-width: 0; container-type: inline-size; }
+/* WhyChart draws 1 unit = 1px into this box (src/useChartSize.js); the
+   clamp keeps the comp's 709×526 shape on desktop, taller on phones. */
+.rc-why-plot { height: clamp(300px, 74cqw, 526px); }
+.rc-why-cards { flex: 1 1 573px; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; gap: 12px; }
+.rc-why-card { position: relative; display: flex; flex-direction: column; gap: 24px; padding: 24px; border: 1px dashed rgba(0,0,0,0.2); border-radius: 18px; color: var(--neutral-900); transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out); }
+.rc-why-card-eyebrow { color: rgba(27,22,19,0.64); transition: color var(--dur-base) var(--ease-out); }
+.rc-why-card-dot { position: absolute; top: 22px; right: 22px; width: 8px; height: 8px; border-radius: 50%; background: var(--neutral-900); transition: opacity var(--dur-fast) ease; }
+/* Hover/focus state from the comp (2105:8057): ink card, cream text, no dot. */
+.rc-why-card:hover, .rc-why-card:focus-within { background: var(--neutral-900); color: #fffefb; }
+.rc-why-card:hover .rc-why-card-eyebrow, .rc-why-card:focus-within .rc-why-card-eyebrow { color: #fffefb; }
+.rc-why-card:hover .rc-why-card-dot, .rc-why-card:focus-within .rc-why-card-dot { opacity: 0; }
+
+/* Our work (Figma 2103:4591): 732px column (heading on top, "Open source"
+   card pinned to the bottom) beside the 572px Inspect Robots card, 24px
+   apart; the card's art header is a 572×134 export. */
+.rc-work { display: flex; align-items: stretch; gap: 24px; }
+.rc-work-left { flex: 1 1 732px; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+.rc-work-card { flex: 0 0 572px; border-radius: 18px; background: var(--surface-band); overflow: hidden; }
+.rc-work-card img { display: block; width: 100%; height: auto; }
+.rc-oss-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 132px; padding: 24px; border: 1px dashed rgba(0,0,0,0.2); border-radius: 18px; }
+
+/* About (Figma 2103:4666): the comp's teal radial gradient + curve art as
+   one cover-fit SVG behind a centered 920px statement and a 520px white
+   mission card. Padding follows the comp (139px to the eyebrow); the card
+   sits 72px under the statement, not the comp's 18px, and the section runs
+   a little taller to match (user call, 2026-08-26). */
+.rc-about { position: relative; isolation: isolate; overflow: hidden; padding-top: 139px; padding-bottom: 120px; color: #fffefb; }
+.rc-about-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: -1; }
+.rc-about-card { box-sizing: border-box; width: 100%; max-width: 520px; margin: 72px auto 0; padding: 44px; border-radius: 12px; background: var(--neutral-0); color: var(--neutral-900); }
+
+/* Testimonials (Figma 2103:4692): 329px heading column, then the quote
+   strip 36px to its right, bleeding through the right gutter and rolling
+   continuously as a marquee (two copies of the row; the track slides one
+   copy + one gap per loop; hover pauses; reduced motion stops it). Cards:
+   331px wide, at least the comp's 492px tall, a hairline on the left. */
+.rc-testi { display: flex; align-items: flex-start; gap: 36px; }
+.rc-testi-head { flex: 0 0 329px; }
+/* A native horizontal scroller (hidden scrollbar) that Testimonials.jsx
+   also advances as a marquee; overflow-y hidden so a vertical wheel over it
+   scrolls the page, never the strip. */
+.rc-testi-strip { flex: 1 1 auto; min-width: 0; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; margin-right: calc(-1 * var(--sec-gutter)); padding-right: var(--sec-gutter); }
+.rc-testi-strip::-webkit-scrollbar { display: none; }
+.rc-testi-track { display: flex; gap: 16px; width: max-content; }
+.rc-testi-row { display: flex; gap: 16px; }
+/* Final CTA (Figma 2103:4792, 617px tall): the comp's ~204px vertical
+   padding around the centered copy, on the About-style gradient art, grown
+   to 250px (user call, 2026-08-26: taller band). */
+/* The CTA carries 24px of extra bottom padding that the footer panel's
+   rounded top overlaps, so the corners sit on the dark band, not page white. */
+.rc-cta { position: relative; isolation: isolate; overflow: hidden; padding-top: 250px; padding-bottom: 274px; }
+
+/* Footer (Figma 2103:4801): rounded grey panel, 24px inset; three equal
+   link cards + a 506px newsletter card (12px apart, 260px tall); the legal
+   row; then the 405px watermark block — giant "Robocurve" in Imagin,
+   clipped by the panel edge, over the hero's teal curve art. */
+.rc-foot { position: relative; z-index: 1; overflow: hidden; margin-top: -24px; padding: 24px 24px 0; border-radius: 24px 24px 0 0; background: var(--surface-band); }
+.rc-foot-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) 506px; gap: 12px; }
+.rc-foot-card { box-sizing: border-box; min-height: 260px; padding: 44px 38px; border-radius: 18px; background: var(--neutral-0); display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.rc-foot-legal { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 12px; padding: 0 16px; font-family: var(--font-sans); font-size: var(--text-sm); line-height: var(--leading-normal); color: rgba(0,0,0,0.62); }
+/* The watermark block bleeds through the panel's side padding so the arcs
+   run to the panel's edges, as in the comp. */
+.rc-foot-mark { position: relative; height: clamp(120px, 28vw, 405px); margin: 12px -24px 0; overflow: hidden; }
+/* The arcs group is 1640×580 at (-179, 66) in the comp's 1392px inner block,
+   i.e. at -155px in the 1440px panel: -10.8% / 113.9% of the bled block. */
+.rc-foot-mark img { position: absolute; left: -10.8%; top: 66px; width: 113.9%; max-width: none; height: auto; }
+/* Watermark per the comp's CSS: Imagin Bold up to 312px (the comp's size at
+   1440) on a 1.43 line, centered, -0.02em, white→50% white gradient text
+   fill; the comp's 13px backdrop blur is dropped — CSS applies it to the
+   whole box, not the glyphs, which fogged the arcs behind it (user,
+   2026-08-24); sat so the letters' bottoms clear the block's edge (the comp
+   clipped the lower quarter; user wants them whole). The word is 5.05× the
+   font size wide, so 19.6vw (not the comp's 21.7vw) keeps the R and e
+   inside the viewport at every width; the 4rem floor fits 320px phones
+   (user, 2026-08-26: the ends were clipped below ~1575px). */
+.rc-foot-mark span { position: absolute; left: 50%; bottom: -0.36em; transform: translateX(-50%); font-family: var(--font-display); font-weight: var(--weight-bold); font-size: clamp(4rem, 19.6vw, 19.5rem); line-height: 1.43; letter-spacing: -0.02em; white-space: nowrap; text-align: center; background: linear-gradient(180deg, #FFFEFB 14.61%, rgba(255,254,251,0.5) 73.33%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+
+/* Contact (Figma 2103:4744): centered heading, the 450px frosted form
+   card, and the comp's teal swoosh (exported at its 1284×1601 bounds)
+   raised and enlarged to sit behind the form as drawn — overflowing the
+   section, so the section clips it. The comp's 124px padding / 870px height
+   grew to 140px / 930px and the art dropped 24px (user call, 2026-08-26). */
+.rc-contact { position: relative; isolation: isolate; overflow: hidden; padding-top: 140px; padding-bottom: 140px; min-height: 930px; box-sizing: border-box; }
+.rc-contact-art { position: absolute; left: -4%; top: 84px; width: 108%; max-width: none; height: auto; pointer-events: none; z-index: -1; }
+.rc-contact-card { position: relative; box-sizing: border-box; width: 100%; max-width: 450px; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; border-radius: 34px; background: rgba(242,241,239,0.8); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+
+.rc-testi-card { flex: 0 0 331px; max-width: calc(100vw - 2 * var(--sec-gutter)); box-sizing: border-box; min-height: 492px; margin: 0; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; border-left: 1px solid rgba(27,21,15,0.1); }
+.rc-navlink {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text-body);
+  letter-spacing: var(--tracking-snug);
+  text-decoration: none;
+  transition: color var(--dur-fast) ease;
+}
+.rc-navlink:hover { color: var(--text-strong); }
+
+/* Standing-robot eye blink: scaleY squash centred on the eye (fill-box).
+   One double blink + one single per 5.6s loop for an organic rhythm; the
+   global prefers-reduced-motion rule above disables it. */
+.rc-bot-blink { transform-box: fill-box; transform-origin: center; animation: rc-bot-blink 5.6s linear infinite; }
+@keyframes rc-bot-blink {
+  0%, 36%, 40.5%, 42%, 46.5%, 76%, 80.5%, 100% { transform: scaleY(1); }
+  38%, 44%, 78% { transform: scaleY(0.08); }
+}
+
+/* Why-it-matters: the forecast curve is a full-bleed background overlay
+   behind the copy at every width (like the pre-redesign hero). Two variants
+   swap at 1000px: the wide slice (.rc-curve-bg) would crop the curve's ends
+   on narrow screens, so a bottom-right-anchored crop with a vertical cream
+   wash (.rc-curve-bg-narrow) takes over there. */
+.rc-curve-bg-narrow { display: none; }
+
+
+/* Screen-height sections: 80svh accounts for mobile browser chrome (URL bar)
+   so a "screenful" is honest on phones too; the vh line is the fallback for
+   browsers without svh. The hero additionally subtracts the sticky header.
+   Content taller than the viewport still grows past the minimum. */
+.rc-screen { min-height: 80vh; min-height: 80svh; }
+.rc-screen-hero { min-height: calc(100vh - var(--header-h)); min-height: calc(100svh - var(--header-h)); }
+
+@media (max-width: 1000px) {
+  /* Narrow screens: the art fills the hero's height instead (its natural
+     height would be a fraction of the stacked hero), cropped at the sides. */
+  .rc-hero { background: none; }
+  .rc-hero-bg { right: 0; bottom: 0; height: calc(100% + var(--header-h) + 16px); max-height: none; object-position: center bottom; }
+  .rc-sec { --sec-gutter: 24px; }
+        /* stretch, not flex-start: the tab row must take the column's width so its
+     own overflow-x can scroll, instead of sizing to its 1200px of pills. */
+  .rc-results { flex-direction: column; align-items: stretch; gap: 28px; }
+  .rc-results-aside { flex-basis: auto; gap: 24px; }
+  .rc-results-panel { flex-basis: auto; }
+  .rc-results-tabs { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; gap: 8px; margin-right: calc(-1 * var(--sec-gutter)); padding-right: var(--sec-gutter); scrollbar-width: none; }
+  .rc-results-tabs::-webkit-scrollbar { display: none; }
+  .rc-results-tab { width: auto; flex: 0 0 auto; white-space: nowrap; }
+  .rc-why-head { flex-direction: column; gap: 20px; }
+  .rc-why-aside { flex-basis: auto; }
+  .rc-why { flex-direction: column; gap: 28px; }
+  .rc-why-chart, .rc-why-cards { flex-basis: auto; }
+  .rc-work { flex-direction: column; }
+  .rc-testi { flex-direction: column; align-items: stretch; gap: 28px; }
+  .rc-foot-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rc-foot-news { grid-column: 1 / -1; }
+  .rc-testi-head { flex-basis: auto; }
+  .rc-work-left { flex-basis: auto; gap: 28px; }
+  .rc-work-card { flex-basis: auto; }
+  .rc-oss-card { flex-direction: column; align-items: flex-start; }
+  .rc-curve-bg { display: none; }
+  .rc-curve-bg-narrow { display: block; }
+  .rc-reel { gap: 24px; padding: 32px 0; }
+  .rc-trends-grid { grid-template-columns: minmax(0, 1fr); justify-content: stretch; gap: 32px; }
+  .rc-trends-nav, .rc-trends-spacer { display: none; }
+  .rc-trends-panels { gap: 48px; padding-top: 48px; }
+    /* No scroll-spy in one column: every panel at full strength. */
+      }
+
+@media (max-width: 560px) {
+  .rc-sec { --sec-gutter: 18px; }
+  .rc-blog { padding-top: var(--space-5); }
+  .rc-blog-header { margin-block: var(--space-5); }
+  /* Phone hero: tighter rhythm; the video card stacks text over a 16:9
+     video; cards grow to their content instead of the comp's fixed 330px. */
+  .rc-hero { padding-top: 32px; padding-bottom: 32px; }
+  .rc-hero-copy { margin-bottom: 32px; }
+  /* Every card keeps the desktop cards' proportion (516×438 at 1440) on
+     phones too (user call, 2026-08-27): the ratio fixes the card's height
+     at the phone width, and the chart/video boxes fill what the title row
+     leaves — the chart letterboxes into its box (viewBox SVG at 100%/100%),
+     the clip fills the height and crops at the sides as on desktop. */
+  .rc-hero-cards { gap: 12px; }
+  .rc-hero-card { min-height: 0; aspect-ratio: 516 / 438; }
+  /* Tighter title→rule→figure rhythm: a two-line title would otherwise
+     leave the chart little of the fixed height. */
+  .rc-hero-card-chart { gap: 12px; }
+  .rc-hero-card-video .rc-hero-teaser { height: 100%; aspect-ratio: auto !important; }
+  /* The study card sizes to its full-width chart instead of the fixed
+     ratio (the clips then stretch to its height). */
+  .rc-hero-card-chart { aspect-ratio: auto; }
+  .rc-reel { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .rc-reel-window { width: 100%; }
+  .rc-trends { padding-bottom: 64px; }
+  .rc-trends-panel { padding: 16px; }
+    .rc-about { padding-top: 72px; padding-bottom: 64px; }
+  .rc-about-card { margin-top: 48px; }
+  .rc-cta { padding-top: 110px; padding-bottom: 128px; }
+  .rc-foot { margin-top: -18px; padding: 12px 12px 0; border-radius: 18px 18px 0 0; }
+  .rc-foot-mark { margin-left: -12px; margin-right: -12px; }
+  .rc-foot-cards { grid-template-columns: 1fr; }
+  .rc-foot-card { min-height: 0; padding: 28px 22px; }
+  .rc-about-card { padding: 28px 22px; }
+  /* Compact nav: wordmark + three links + gutters ≈ a full 320-350px screen
+     at the desktop gap/size, wrapping inside the fixed-height header. Tighter
+     gap + one type step down keeps the row on one line at 320px. */
+  .rc-nav { gap: 12px; }
+  .rc-navlink { font-size: var(--text-xs); }
+  .rc-header-wordmark { padding: 6px 20px; }
+  .rc-header-chip { font-size: var(--text-xs); padding: 6px 10px; }
+}
+
+/* All Robocurve runs — grouped evidence table and shareable filters. */
+.rc-runs-page { padding-top: 24px; padding-bottom: 48px; max-width: 1440px; margin: 0 auto; box-sizing: border-box; }
+.rc-runs-heading { max-width: 760px; margin-bottom: 20px; }
+.rc-runs-back { display: inline-block; margin-bottom: 16px; color: var(--accent); font-size: var(--text-sm); text-decoration: none; }
+.rc-runs-heading h1 { margin: 0 0 8px; font-family: var(--font-display); font-weight: var(--weight-bold); font-stretch: expanded; font-size: var(--text-2xl); line-height: 1.1; letter-spacing: -.055em; text-wrap: balance; }
+.rc-runs-controls { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px; }
+.rc-runs-search { flex: 1 0 240px; margin: 0; font-size: var(--text-xs); }
+.rc-runs-search input { box-sizing: border-box; width: 100%; border: 1px solid rgba(27,21,15,.25); border-radius: 4px; padding: 8px 10px; color: var(--neutral-900); background: #fff; font: inherit; font-weight: normal; }
+.rc-runs-search input::placeholder { color: #736d66; }
+.rc-runs-filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; flex: 4 1 760px; align-items: start; }
+.rc-runs-filter { min-width: 0; font-size: var(--text-xs); }
+.rc-runs-filter summary { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 10px; border: 1px solid rgba(27,21,15,.2); border-radius: 4px; cursor: pointer; list-style: none; }
+.rc-runs-filter summary::-webkit-details-marker { display: none; }
+.rc-runs-filter[open] summary { border-color: var(--accent); background: var(--surface-page); }
+.rc-runs-filter-count { margin-left: auto; font-size: var(--text-xs); color: var(--text-muted); }
+.rc-runs-options { box-sizing: border-box; min-width: 0; width: 100%; max-height: 240px; overflow-y: auto; margin: 4px 0 0; padding: 4px; border: 1px solid var(--border-hairline); border-radius: 4px; background: var(--surface-float); }
+.rc-runs-options label { display: flex; align-items: start; gap: 9px; padding: 9px 6px; cursor: pointer; line-height: 1.4; }
+.rc-runs-options label:hover { background: var(--surface-page); }
+.rc-runs-options input { accent-color: var(--accent); margin-top: 3px; flex-shrink: 0; }
+.rc-runs-selected { display: flex; flex: 1 0 100%; flex-wrap: wrap; gap: 6px; }
+.rc-runs-selected button { border: 1px solid rgba(0,95,115,.2); color: #005f73; background: #edf2ee; border-radius: 20px; padding: 4px 8px; font: inherit; font-size: var(--text-xs); cursor: pointer; text-align: left; }
+.rc-runs-selected .rc-runs-clear { background: transparent; border-color: transparent; text-decoration: underline; }
+.rc-runs-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 14px 0 8px; font-size: var(--text-xs); }
+.rc-runs-toolbar p { margin: 0; }
+.rc-runs-toolbar > div { display: flex; flex-wrap: wrap; gap: 16px; }
+.rc-runs-toolbar button, .rc-runs-text-button { color: var(--accent); background: none; border: 0; padding: 4px 0; cursor: pointer; font: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.rc-runs-toolbar button:disabled { opacity: .45; cursor: default; }
+.rc-runs-table-scroll { overflow-x: auto; border-top: 1px solid var(--border-hairline); background: var(--surface-float); }
+.rc-runs-table { width: 100%; min-width: 900px; border-collapse: collapse; text-align: left; font-size: var(--text-xs); }
+.rc-runs-table th, .rc-runs-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-hairline); vertical-align: middle; }
+.rc-runs-table thead th { font-weight: var(--weight-semibold); color: var(--text-muted); background: transparent; white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; }
+.rc-runs-table th:first-child { width: 32%; min-width: 240px; }
+.rc-runs-table td:nth-child(2) { min-width: 110px; }
+.rc-runs-group th { padding: 0; }
+.rc-runs-group-header > button { display: flex; align-items: center; flex: 1; gap: 8px; padding: 8px; font: inherit; font-weight: var(--weight-semibold); color: inherit; text-align: left; background: transparent; border: 0; cursor: pointer; }
+.rc-runs-group button svg { flex: 0 0 auto; transition: transform .15s ease; }
+.rc-runs-chevron-open { transform: rotate(90deg); }
+.rc-runs-level-0 { background: #eef2f4; }
+.rc-runs-level-0 .rc-runs-group-header > button { font-size: var(--text-xs); }
+.rc-runs-level-1 { background: #f6f8f9; }
+.rc-runs-level-1 .rc-runs-group-header > button { padding-left: 22px; }
+.rc-runs-level-2 .rc-runs-group-header > button { padding-left: 38px; font-weight: normal; }
+.rc-runs-group:hover { background: #eef3f5; }
+.rc-runs-count { flex-shrink: 0; font-variant-numeric: tabular-nums; font-size: var(--text-xs); color: var(--text-muted); }
+.rc-runs-group-summary { display: flex; align-items: center; gap: 12px; color: var(--text-muted); font-weight: normal; min-width: 250px; padding-right: 8px; }
+.rc-runs-bar { display: flex; gap: 1px; height: 9px; max-width: 150px; overflow: hidden; border-radius: 3px; min-width: 80px; }
+.rc-runs-outcome { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; flex: 0 0 auto; }
+.rc-runs-outcome-zero { background: #c1c9cd; }
+.rc-runs-outcome-partial, .rc-runs-outcome-refused_capability { background: #7a93a8; }
+.rc-runs-outcome-complete { background: #275e71; }
+.rc-runs-outcome-refused { background: #1f7a5c; }
+.rc-runs-outcome-invalid { background: repeating-linear-gradient(45deg, #b8bdc2, #b8bdc2 2px, #e8ebed 2px, #e8ebed 4px); }
+.rc-runs-outcome-attempted_failed { background: #bb821d; }
+.rc-runs-outcome-attempted_succeeded { background: #b3372f; }
+.rc-runs-trial th { font-weight: normal; }
+.rc-runs-trial th > span { display: inline-block; vertical-align: middle; }
+.rc-runs-trial-number { min-width: 20px; padding-left: 46px; margin-right: 12px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.rc-runs-run-id { font-family: var(--font-mono); }
+.rc-runs-run-id small { display: block; margin-top: 1px; color: var(--text-muted); font-family: var(--font-sans); font-size: var(--text-xs); }
+.rc-runs-numeric { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rc-runs-table a { color: var(--accent); text-underline-offset: 3px; }
+.rc-runs-video-links { display: flex; gap: 8px; }
+.rc-runs-muted { color: var(--text-muted); }
+.rc-runs-legends { display: flex; flex-wrap: wrap; gap: 20px 40px; margin-top: 20px; font-size: var(--text-xs); color: var(--text-muted); }
+.rc-runs-legends strong { font-weight: var(--weight-semibold); }
+.rc-runs-legends ul { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 0; padding: 0; list-style: none; }
+.rc-runs-legends li { display: flex; align-items: center; }
+.rc-runs-empty { padding: 48px 24px; text-align: center; border: 1px solid var(--border-hairline); border-radius: 12px; }
+.rc-runs-empty h2 { font-size: var(--text-lg); }
+.rc-runs-page :is(button, input, summary, a):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.rc-hero-card-runs { display: flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid var(--border-hairline); border-radius: 50%; color: var(--neutral-900); margin-left: 10px; }
+.rc-hero-card-runs:hover { background: var(--surface-page); color: var(--accent); }
+.rc-hero-card-runs:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 560px) {
+  .rc-runs-page { padding-top: 16px; }
+  .rc-runs-filter summary { min-height: 44px; }
+  .rc-runs-search input { min-height: 44px; }
+  .rc-runs-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rc-runs-options { max-height: 200px; }
+  .rc-runs-toolbar > div { gap: 8px 16px; }
+}
+.rc-runs-outcome-guardrail_blocked { background: #7761a1; }
+.rc-runs-coverage { margin-top: 12px; color: var(--text-muted); font-size: var(--text-xs); line-height: 1.5; }
+.rc-hero-card-note { margin: 0; color: var(--text-muted); font-size: var(--text-xs); line-height: 1.4; }
+.rc-runs-control-wrap { position: relative; display: inline-block; }
+.rc-runs-control-badge { display: inline-flex; gap: 5px; align-items: center; border: 1px solid #d2d9d3; border-radius: 3px; padding: 2px 4px; background: transparent; color: #254b43; font: inherit; cursor: pointer; white-space: nowrap; }
+.rc-runs-control-tip { position: fixed; z-index: 100; width: 250px; max-width: calc(100% - 24px); padding: 12px; border: 1px solid #d2d9d3; border-radius: 8px; background: #fff; color: var(--neutral-900); box-shadow: 0 6px 20px #1b150f20; white-space: normal; font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.5; text-align: left; }
+
+.rc-runs-group-controls { display: flex; gap: 4px; }
+
+.rc-runs-group-header { display: flex; align-items: center; gap: 16px; }
+.rc-runs-group-kind { color: var(--text-muted); font-size: var(--text-xs); font-weight: normal; }
+.rc-runs-group-action { margin-left: auto; color: var(--accent); font-weight: normal; font-size: var(--text-xs); white-space: nowrap; }

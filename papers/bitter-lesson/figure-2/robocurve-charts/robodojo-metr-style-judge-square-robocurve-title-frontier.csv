@@ -1,0 +1,13 @@
+model,name,developer,release_date,effort,mode,label,n_trials,mean_score_pct,ci_low_pct,ci_high_pct,grading,in_fit
+gpt-5.6-sol,GPT-5.6 Sol,OpenAI,2026-07-09,high,fast,GPT-5.6 Sol (H),120,14.89,12.12,18.09,Astra autograde,1
+claude-opus-5,Claude Opus 5,Anthropic,2026-07-24,medium,standard,Claude Opus 5 (M),120,23.0,18.89,27.31,Astra autograde,1
+gemini-3.8-flash,Gemini 3.8 Flash,Google,2026-09-02,high,standard,Gemini 3.8 Flash (H),120,36.24,32.61,39.67,Astra autograde,1
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,high,fast,GPT-6 Astra (H),120,42.52,38.32,46.42,Astra autograde,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,high,ultrafast,GPT-6 Astra (H+UF),120,47.08,43.82,50.28,Astra autograde,1
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,medium,standard,GPT-6 Astra (M),120,39.98,36.43,43.5,Astra autograde,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,xhigh,fast,GPT-6 Astra (XH),120,45.19,42.73,47.52,Astra autograde,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,high,fast,Claude Opus 5.5 (H),120,38.22,34.97,41.33,Astra autograde,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,medium,standard,Claude Opus 5.5 (M),120,38.84,34.83,42.78,Astra autograde,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,xhigh,fast,Claude Opus 5.5 (XH),120,48.27,44.89,51.71,Astra autograde,1
+gpt-6-sol,GPT-6 Sol,OpenAI,2026-09-22,high,fast,GPT-6 Sol (H),120,21.98,18.18,25.83,Astra autograde,0
+gpt-6.1-sol,GPT-6.1 Sol,OpenAI,2026-09-29,high,fast,GPT-6.1 Sol (H),120,41.69,37.39,45.48,Astra autograde,0

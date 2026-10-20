@@ -1,0 +1,101 @@
+{
+ "columns": [
+  "model",
+  "mean_score",
+  "minutes_per_attempt",
+  "pareto_frontier"
+ ],
+ "rows": [
+  [
+   "MolmoAct2",
+   "18.9%",
+   "0.8 min per attempt",
+   "Yes"
+  ],
+  [
+   "GR00T N1.7",
+   "9.5%",
+   "0.9 min per attempt",
+   "No"
+  ],
+  [
+   "Dream-1",
+   "59.3%",
+   "1.4 min per attempt",
+   "Yes"
+  ],
+  [
+   "GPT-6 Astra (high, ultrafast)",
+   "47.1%",
+   "2.5 min per attempt",
+   "No"
+  ],
+  [
+   "Opus 5.5 (high) (fast)",
+   "38.2%",
+   "3.1 min per attempt",
+   "No"
+  ],
+  [
+   "GPT-5.6 Sol (high) (fast)",
+   "14.9%",
+   "3.6 min per attempt",
+   "No"
+  ],
+  [
+   "GPT-6 Sol (high) (fast)",
+   "22.0%",
+   "3.7 min per attempt",
+   "No"
+  ],
+  [
+   "GPT-6 Astra (high) (fast)",
+   "42.5%",
+   "4.0 min per attempt",
+   "No"
+  ],
+  [
+   "GPT-6.1 Sol (high) (fast)",
+   "41.7%",
+   "4.0 min per attempt",
+   "No"
+  ],
+  [
+   "GPT-6 Astra (medium)",
+   "36.7%",
+   "4.2 min per attempt",
+   "No"
+  ],
+  [
+   "Opus 5.5 (medium)",
+   "36.0%",
+   "4.5 min per attempt",
+   "No"
+  ],
+  [
+   "GPT-6 Astra (xhigh) (fast)",
+   "45.2%",
+   "4.8 min per attempt",
+   "No"
+  ],
+  [
+   "Opus 5.5 (xhigh) (fast)",
+   "48.3%",
+   "5.3 min per attempt",
+   "No"
+  ],
+  [
+   "Gemini 3.8 Flash (high)",
+   "36.2%",
+   "7.2 min per attempt",
+   "No"
+  ],
+  [
+   "Gemini 4 Argon (high) (priority)",
+   "48.2%",
+   "20.5 min per attempt",
+   "No"
+  ]
+ ],
+ "aria_label": "Scatter of RoboDojo-RC Tier 1 mean score against wall-clock time per task attempt. MolmoAct2 18.9% at 0.8 min per attempt (frontier); GR00T N1.7 9.5% at 0.9 min per attempt; Dream-1 59.3% at 1.4 min per attempt (frontier); GPT-6 Astra (high, ultrafast) 47.1% at 2.5 min per attempt; Opus 5.5 (high) (fast) 38.2% at 3.1 min per attempt; GPT-5.6 Sol (high) (fast) 14.9% at 3.6 min per attempt; GPT-6 Sol (high) (fast) 22.0% at 3.7 min per attempt; GPT-6 Astra (high) (fast) 42.5% at 4.0 min per attempt; GPT-6.1 Sol (high) (fast) 41.7% at 4.0 min per attempt; GPT-6 Astra (medium) 36.7% at 4.2 min per attempt; Opus 5.5 (medium) 36.0% at 4.5 min per attempt; GPT-6 Astra (xhigh) (fast) 45.2% at 4.8 min per attempt; Opus 5.5 (xhigh) (fast) 48.3% at 5.3 min per attempt; Gemini 3.8 Flash (high) 36.2% at 7.2 min per attempt; Gemini 4 Argon (high) (priority) 48.2% at 20.5 min per attempt. Use arrow keys to step through models."
+}

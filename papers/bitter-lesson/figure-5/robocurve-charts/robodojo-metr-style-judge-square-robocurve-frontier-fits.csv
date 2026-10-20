@@ -1,0 +1,4 @@
+chart,fit_space,n_points,fitted_configurations,slope_per_month,slope_units,pct_change_per_month,line_start_date,line_start_y,line_end_date,line_end_y
+score,linear,5,GPT-5.6 Sol (H); Claude Opus 5 (M); Gemini 3.8 Flash (H); GPT-6 Astra (H+UF); Claude Opus 5.5 (XH),13.78693,score points per month,,2026-07-01,11.9746,2026-10-07,56.3609
+cost,log10,3,GPT-5.6 Sol (H); Claude Opus 5 (M); Gemini 3.8 Flash (H),-0.44083,log10 USD per month,-63.76,2026-07-01,3.1566,2026-10-07,0.1202
+rate,linear,3,GPT-5.6 Sol (H); Gemini 3.8 Flash (H); GPT-6 Astra (H+UF),0.20884,checkpoints per minute per month,,2026-07-01,0.1394,2026-10-07,0.8118

@@ -1,0 +1,90 @@
+{
+ "snapshot_at": "Sep 29, 2026, 02:30 PM PDT",
+ "source": "Robocurve (working-draft snapshot)",
+ "setup": "120 task attempts per model. High effort, Fast mode for the September 29 cohort; Gemini uses high effort, standard mode, with verified replacements for two overheated attempts. GPT-6.1 Sol uses high effort and Fast mode, collected September 30\u2013October 1 (Pacific); its scores are automated grades.",
+ "aggregation": "Trial i contains all six tasks at original slot i, with redos replacing their original slots. Progress is the six-task mean; resources are six-task sums. Model values average 20 trials. Wall time is summed task duration, not concurrent elapsed time.",
+ "uncertainty": "95% percentile bootstrap confidence intervals; 50,000 resamples, seed 20260929. Aggregate intervals resample 20 six-task trials; task-bar intervals use 20 attempts for that task.",
+ "models": [
+  {
+   "name": "GPT-6 Astra",
+   "score": 42.52,
+   "ci": [
+    38.37,
+    46.52
+   ],
+   "cost_usd": 20.9,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "Claude Opus 5.5",
+   "score": 38.22,
+   "ci": [
+    34.94,
+    41.38
+   ],
+   "cost_usd": 13.41,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "GPT-6 Sol",
+   "score": 21.98,
+   "ci": [
+    18.18,
+    25.73
+   ],
+   "cost_usd": 5.7,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "GPT-5.6 Sol",
+   "score": 14.89,
+   "ci": [
+    12.12,
+    18.1
+   ],
+   "cost_usd": 10.61,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "Gemini 3.8 Flash",
+   "lab": "google",
+   "score": 36.24166666666667,
+   "cost_usd": 3.96035622375,
+   "cost_is_estimate": true,
+   "effort": "high",
+   "mode": "standard",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-01",
+   "source": "Verified Gemini set, including two valid replacements for overheated Pack And Pour Fruit runs",
+   "minutes": 7.20896944040203
+  },
+  {
+   "name": "GPT-6.1 Sol",
+   "lab": "openai",
+   "score": 41.69166666666666,
+   "cost_usd": 12.885591289999999,
+   "minutes": 4.0370844331066635,
+   "cost_is_estimate": true,
+   "cost_basis_id": "gpt-6.1-sol-fast-20261002",
+   "effort": "high",
+   "mode": "fast",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-02",
+   "source": "120 included, automatically graded runs; two excluded attempts omitted"
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+/* Self-hosted copies of the two Google families the card uses, so the render
+   works offline. Imported before fonts.css: when the CDN import loads, its rules
+   come later and win; offline, these are the only ones. Either way the render is
+   byte-identical on this machine (verified 2026-10-20). */
+@font-face { font-family: 'Open Sans'; font-weight: 400; font-style: normal; src: url('/assets/fonts/local/OpenSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Open Sans'; font-weight: 600; font-style: normal; src: url('/assets/fonts/local/OpenSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'Space Grotesk'; font-weight: 400; src: url('/assets/fonts/local/SpaceGrotesk-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'Space Grotesk'; font-weight: 500; src: url('/assets/fonts/local/SpaceGrotesk-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('/assets/fonts/local/SpaceGrotesk-Bold.ttf') format('truetype'); }
