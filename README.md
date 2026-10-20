@@ -1,0 +1,1 @@
+This repo contains all of the code and data required to replicate the figures in the papers and tweets published by Robocurve. To recreate Figure X in one of our papers, go to `papers/<paper name>/figure-X`. To recreate a plot that was tweeted on the data DD.MM.YYYY, go to `tweets/YYYY/<month name>/MM-DD`.
