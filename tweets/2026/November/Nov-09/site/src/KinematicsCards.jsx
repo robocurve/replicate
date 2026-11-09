@@ -395,7 +395,7 @@ function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
         <div style={{ display: 'flex', alignItems: 'last baseline', justifyContent: 'space-between', gap: 8, marginTop: 4 }}>{/* caption left, attribution right, on the caption's last baseline */}
           <figcaption className="rc-chart-cap" style={{ margin: 0, whiteSpace: 'nowrap' }}>{cap}</figcaption>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            <Wordmark size={13} aria-label="Robocurve" style={{ opacity: 0.4, filter: 'grayscale(1)' }} />
+            <Wordmark size={13} aria-label="Robocurve" style={{ opacity: 0.6, filter: 'grayscale(1) brightness(0)' }} />{/* same ink as the caption: black at 60% (user 2026-11-09) */}
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-sans)', fontSize: 11, color: 'rgba(27,21,15,0.6)' }}>
               CC BY 4.0<span aria-hidden="true" style={{ width: 1, height: 12, background: 'rgba(27,21,15,0.3)' }} />robocurve.org
             </span>

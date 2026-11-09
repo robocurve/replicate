@@ -39,7 +39,7 @@ Run `./regenerate.sh` to rebuild all four PNGs (1600x1280). It needs Python 3 wi
 
 ## How the images are made
 
-`site/` is a trimmed copy of the `robocurve/website` repo at commit `73ef5df` (branch `kinematics-draft`,
+`site/` is a trimmed copy of the `robocurve/website` repo at commit `a0ed446` (branch `kinematics-draft`,
 2026-11-09). `package.json`, `package-lock.json`, `tokens/fonts-local.css` and the self-hosted Open Sans and Space
 Grotesk fonts are reused from `tweets/2026/October/Oct-19/site`; `build.mjs` and `shot.mjs` are adapted from it (card
 ids, output names, page title). Code comments in the copied files refer to their source repos (for example, the
@@ -48,8 +48,10 @@ website repo being private, or paths in Robocurve's internal social repo); they 
 - `site/src/KinematicsCards.jsx` defines the cards (`KIN_WIDE54_PANELS`, ids `kw-fk`, `kw-mc`, `kw-ik`, `kw-twist`),
   including the cross-panel arrows and their routing.
 - `site/src/{Trends,robodojoModels,ReleaseChart,ParetoChart,SpeedChart}.jsx`, `useChartSize.js`, `placeLabels.js`,
-  `runs.mjs`, `components/Wordmark.jsx`, `styles.css`, `tokens/*.css` and `assets/data/*.json` are unmodified files
-  from that commit, included because the card module imports them. `styles.css` additionally imports
+  `runs.mjs`, `styles.css`, `tokens/*.css` and `assets/data/*.json` are unmodified files from that commit, included
+  because the card module imports them. `components/Wordmark.jsx` is changed in one place: the "Robocurve" logotype
+  is drawn as outlines of the text set in Imagin Bold (shaped with HarfBuzz at the site's -0.06em tracking), so the
+  render matches the posted cards without shipping the paid Imagin webfont. `styles.css` additionally imports
   `fonts-local.css` so the render works offline. The Imagin webfont is not included, because the cards don't use it.
 - `site/entry.jsx` mounts the four cards in the 580x464 CSS frame of the website's unlisted `/draft/` page, using
   the CSS copied from `src/DraftPage.jsx`. `site/shot.mjs` serves `dist/` locally and screenshots
@@ -58,5 +60,5 @@ website repo being private, or paths in Robocurve's internal social repo); they 
 ## Verification (2026-11-09)
 
 The regenerated PNGs are 1600x1280, the same as `original/`. Every point, label, arrow and line sits in the same
-place. Against the originals, the mean absolute pixel difference is 1.6 to 2.4 on the 0-255 scale, and 0.5 to 1.3%
+place. Against the originals, the mean absolute pixel difference is 1.5 to 2.4 on the 0-255 scale, and 0.5 to 1.3%
 of pixels differ by more than 64 levels, all at glyph edges (text rasterisation differs between machines).
