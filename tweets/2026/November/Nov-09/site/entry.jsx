@@ -1,6 +1,6 @@
 /* Mounts the four 5:4 Franka Panda cards (KIN_WIDE54_PANELS, ids kw-*) exactly as the website's unlisted /draft/
    page framed them: 580x464 CSS each, shot at 1600/580 DPR by shot.mjs. The CSS below is copied from src/DraftPage.jsx of
-   robocurve/website (commit 5683168, branch kinematics-draft); the attribution sits inside each card, beside the caption. */
+   robocurve/website (commit f4e4a2e, branch kinematics-draft); the attribution sits inside each card, beside the caption. */
 import { createRoot } from 'react-dom/client';
 import { Panel } from './src/Trends.jsx';
 import { KIN_WIDE54_PANELS } from './src/KinematicsCards.jsx';
