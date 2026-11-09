@@ -379,7 +379,7 @@ const KW_X = ['Beats the curve by (cm)', 'Beats the curve by (points)', 'Beats t
 const MOBILE_Y = ['Hand-position error (cm)', 'MCQs answered correctly (%)', 'IK error (cm)', 'Distance from real Panda (cm)'];
 function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
   const boxRef = useRef(null);
-  const cap = mobile ? <>44 LLMs. {['FK error', 'MCQ', 'IK error', 'Edited-arm'][i]} data from Aiden Swann (2026).{wideLeft ? <><br />Curve and 95% band fitted without Gemini 4 Argon,<br />GPT-6 Astra, and GPT-6.1 Sol.</> : <><br />Curve and 95% band exclude Argon, Astra, and <span style={{ whiteSpace: 'nowrap' }}>GPT-6.1 Sol</span>.</>}</> : PAIR_CAP(metric, topN, i === 1 ? 'points' : 'cm');
+  const cap = mobile ? wideLeft ? <>44 LLMs. Data from Aiden Swann (2026). Curve and 95% band<br />fitted without Gemini 4 Argon, GPT-6 Astra, and GPT-6.1 Sol.</> : <>44 LLMs. {['FK error', 'MCQ', 'IK error', 'Edited-arm'][i]} data from Aiden Swann (2026).{<><br />Curve and 95% band exclude Argon, Astra, and <span style={{ whiteSpace: 'nowrap' }}>GPT-6.1 Sol</span>.</>}</> : PAIR_CAP(metric, topN, i === 1 ? 'points' : 'cm');
   // wideLeft (5:4): caption sits under the scatter so the ranking runs down to the footer (user 2026-11-09).
   return (
     <figure className="rc-chart" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
