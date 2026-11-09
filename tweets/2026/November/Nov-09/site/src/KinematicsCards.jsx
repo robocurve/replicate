@@ -435,6 +435,6 @@ export const KIN_SQUARE_WIDE_PANELS = KIN_PAIR_MOBILE_PANELS.map((p, i) => ({
 }));
 // 5:4 top 10, wider scatter (user 2026-11-09): kw-*, 580x464 CSS.
 export const KIN_WIDE54_PANELS = KIN_PAIR_MOBILE_PANELS.map((p, i) => ({
-  ...p, title: i < 3 ? `General AI capability largely predicts robotics skill on the Franka${[' (FK)', ' (MCQ)', ''][i]}`
+  ...p, title: i < 3 ? `General AI capability largely predicts robotics skill on the Franka${[' (FK)', ' (MCQ)', ' Panda'][i]}`
     : 'General AI capability largely predicts overfitting to a Franka', id: p.id.replace('km-', 'kw-'), chart: pair(i, ['FK error', 'multiple-choice', 'IK error', 'changed-table'][i], -15, true, true),
 }));

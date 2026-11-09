@@ -39,7 +39,7 @@ Run `./regenerate.sh` to rebuild all four PNGs (1600x1280). It needs Python 3 wi
 
 ## How the images are made
 
-`site/` is a trimmed copy of the `robocurve/website` repo at commit `a0ed446` (branch `kinematics-draft`,
+`site/` is a trimmed copy of the `robocurve/website` repo at commit `ba7b93a` (branch `kinematics-draft`,
 2026-11-09). `package.json`, `package-lock.json`, `tokens/fonts-local.css` and the self-hosted Open Sans and Space
 Grotesk fonts are reused from `tweets/2026/October/Oct-19/site`; `build.mjs` and `shot.mjs` are adapted from it (card
 ids, output names, page title). Code comments in the copied files refer to their source repos (for example, the
