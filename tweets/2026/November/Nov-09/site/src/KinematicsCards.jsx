@@ -379,7 +379,7 @@ const KW_X = ['Beats the curve by (cm)', 'Beats the curve by (points)', 'Beats t
 const MOBILE_Y = ['Hand-position error (cm)', 'MCQs answered correctly (%)', 'IK error (cm)', 'Distance from real Panda (cm)'];
 function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
   const boxRef = useRef(null);
-  const cap = mobile ? <>44 LLMs. {['FK error', 'MCQ', 'IK error', 'Edited-arm'][i]} data from Aiden Swann (2026).{wideLeft ? <> Curve and 95% band fitted without<br />Gemini 4 Argon, GPT-6 Astra, and GPT-6.1 Sol.</> : <><br />Curve and 95% band exclude Argon, Astra, and <span style={{ whiteSpace: 'nowrap' }}>GPT-6.1 Sol</span>.</>}</> : PAIR_CAP(metric, topN, i === 1 ? 'points' : 'cm');
+  const cap = mobile ? <>44 LLMs. {['FK error', 'MCQ', 'IK error', 'Edited-arm'][i]} data from Aiden Swann (2026).{wideLeft ? <><br />Curve and 95% band fitted without Gemini 4 Argon,<br />GPT-6 Astra, and GPT-6.1 Sol.</> : <><br />Curve and 95% band exclude Argon, Astra, and <span style={{ whiteSpace: 'nowrap' }}>GPT-6.1 Sol</span>.</>}</> : PAIR_CAP(metric, topN, i === 1 ? 'points' : 'cm');
   // wideLeft (5:4): caption sits under the scatter so the ranking runs down to the footer (user 2026-11-09).
   return (
     <figure className="rc-chart" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
@@ -392,9 +392,9 @@ function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
         <div style={{ flex: mobile ? 1.2 : 1, minWidth: 0, display: 'flex', position: 'relative', zIndex: 1 }}>{cloneElement(KIN_RANK_PANELS[i].chart(), { noCaption: true, rankOnly: true, topN, compact: mobile || topN > 0, ...(i === 3 ? { xTitle: 'Distance below predicted (cm)' } : {}), ...(mobile && i === 0 ? { xTitle: 'Error below predicted (cm)' } : {}), ...(wideLeft ? { xTitle: KW_X[i], hint: i < 3 ? '↑ better' : '↑ more overfit' } : {}) })}</div>
       </div>
       {wideLeft ? ( /* 5:4: caption left, attribution right on one row (user 2026-11-09) */
-        <div style={{ position: 'relative', marginTop: 4 }}>{/* caption line 1 runs full width; line 2 is short and the attribution sits beside it */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 4 }}>{/* caption left, attribution right, centred on the same band */}
           <figcaption className="rc-chart-cap" style={{ margin: 0, whiteSpace: 'nowrap' }}>{cap}</figcaption>
-          <div style={{ position: 'absolute', right: 0, bottom: 2, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
             <Wordmark size={13} aria-label="Robocurve" style={{ opacity: 0.4, filter: 'grayscale(1)' }} />
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-sans)', fontSize: 11, color: 'rgba(27,21,15,0.6)' }}>
               CC BY 4.0<span aria-hidden="true" style={{ width: 1, height: 12, background: 'rgba(27,21,15,0.3)' }} />robocurve.org
