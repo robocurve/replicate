@@ -9,6 +9,7 @@
 import { LogoMarker, LAB, LABEL_INK } from './robodojoModels.jsx';
 import { cloneElement, useEffect, useId, useRef, useState } from 'react';
 import { useChartSize } from './useChartSize.js';
+import { Wordmark } from './components/Wordmark.jsx';
 import DATA from './kinematicsData.json';
 
 const HALO = { paintOrder: 'stroke', stroke: 'var(--surface-page, #FBFAF6)', strokeWidth: 4, strokeLinejoin: 'round' };
@@ -378,7 +379,7 @@ const KW_X = ['Beats the curve by (cm)', 'Beats the curve by (points)', 'Beats t
 const MOBILE_Y = ['Hand-position error (cm)', 'MCQs answered correctly (%)', 'IK error (cm)', 'Distance from real Panda (cm)'];
 function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
   const boxRef = useRef(null);
-  const cap = mobile ? <>44 LLMs. {['FK error', 'MCQ', 'IK error', 'Edited-arm'][i]} data from Aiden Swann (2026).{wideLeft ? ' ' : <br />}Curve and 95% band {wideLeft ? 'omit' : 'exclude'} Argon, Astra, and <span style={{ whiteSpace: 'nowrap' }}>GPT-6.1 Sol</span>.</> : PAIR_CAP(metric, topN, i === 1 ? 'points' : 'cm');
+  const cap = mobile ? <>44 LLMs. {['FK error', 'MCQ', 'IK error', 'Edited-arm'][i]} data from Aiden Swann (2026).<br />Curve and 95% band {wideLeft ? 'omit' : 'exclude'} Argon, Astra, and <span style={{ whiteSpace: 'nowrap' }}>GPT-6.1 Sol</span>.</> : PAIR_CAP(metric, topN, i === 1 ? 'points' : 'cm');
   // wideLeft (5:4): caption sits under the scatter so the ranking runs down to the footer (user 2026-11-09).
   return (
     <figure className="rc-chart" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
@@ -390,7 +391,17 @@ function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
         </div>
         <div style={{ flex: mobile ? 1.2 : 1, minWidth: 0, display: 'flex', position: 'relative', zIndex: 1 }}>{cloneElement(KIN_RANK_PANELS[i].chart(), { noCaption: true, rankOnly: true, topN, compact: mobile || topN > 0, ...(i === 3 ? { xTitle: 'Distance below predicted (cm)' } : {}), ...(mobile && i === 0 ? { xTitle: 'Error below predicted (cm)' } : {}), ...(wideLeft ? { xTitle: KW_X[i], hint: i < 3 ? '↑ better' : '↑ more overfit' } : {}) })}</div>
       </div>
-      <figcaption className="rc-chart-cap" style={wideLeft ? { whiteSpace: 'nowrap' } : undefined}>{cap}</figcaption>
+      {wideLeft ? ( /* 5:4: caption left, attribution right on one row (user 2026-11-09) */
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, marginTop: 4 }}>
+          <figcaption className="rc-chart-cap" style={{ margin: 0 }}>{cap}</figcaption>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3, flexShrink: 0 }}>
+            <Wordmark size={11} aria-label="Robocurve" style={{ opacity: 0.4, filter: 'grayscale(1)' }} />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-sans)', fontSize: 8, color: 'rgba(27,21,15,0.6)' }}>
+              CC BY 4.0<span aria-hidden="true" style={{ width: 1, height: 9, background: 'rgba(27,21,15,0.3)' }} />robocurve.org
+            </span>
+          </div>
+        </div>
+      ) : <figcaption className="rc-chart-cap">{cap}</figcaption>}
     </figure>
   );
 }
