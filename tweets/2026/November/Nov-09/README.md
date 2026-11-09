@@ -39,7 +39,7 @@ Run `./regenerate.sh` to rebuild all four PNGs (1600x1280). It needs Python 3 wi
 
 ## How the images are made
 
-`site/` is a trimmed copy of the `robocurve/website` repo at commit `1391105` (branch `kinematics-draft`,
+`site/` is a trimmed copy of the `robocurve/website` repo at commit `d4cb296` (branch `kinematics-draft`,
 2026-11-09). `package.json`, `package-lock.json`, `tokens/fonts-local.css` and the self-hosted Open Sans and Space
 Grotesk fonts are reused from `tweets/2026/October/Oct-19/site`; `build.mjs` and `shot.mjs` are adapted from it (card
 ids, output names, page title). Code comments in the copied files refer to their source repos (for example, the
@@ -58,5 +58,5 @@ website repo being private, or paths in Robocurve's internal social repo); they 
 ## Verification (2026-11-09)
 
 The regenerated PNGs are 1600x1280, the same as `original/`. Every point, label, arrow and line sits in the same
-place. Against the originals, the mean absolute pixel difference is 1.7 to 2.4 on the 0-255 scale, and 0.5 to 1.3%
+place. Against the originals, the mean absolute pixel difference is 1.6 to 2.6 on the 0-255 scale, and 0.5 to 1.3%
 of pixels differ by more than 64 levels, all at glyph edges (text rasterisation differs between machines).

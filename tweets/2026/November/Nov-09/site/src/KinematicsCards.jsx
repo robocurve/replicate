@@ -392,7 +392,7 @@ function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
         <div style={{ flex: mobile ? 1.2 : 1, minWidth: 0, display: 'flex', position: 'relative', zIndex: 1 }}>{cloneElement(KIN_RANK_PANELS[i].chart(), { noCaption: true, rankOnly: true, topN, compact: mobile || topN > 0, ...(i === 3 ? { xTitle: 'Distance below predicted (cm)' } : {}), ...(mobile && i === 0 ? { xTitle: 'Error below predicted (cm)' } : {}), ...(wideLeft ? { xTitle: KW_X[i], hint: i < 3 ? '↑ better' : '↑ more overfit' } : {}) })}</div>
       </div>
       {wideLeft ? ( /* 5:4: caption left, attribution right on one row (user 2026-11-09) */
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 4 }}>{/* caption left, attribution right, centred on the same band */}
+        <div style={{ display: 'flex', alignItems: 'last baseline', justifyContent: 'space-between', gap: 8, marginTop: 4 }}>{/* caption left, attribution right, on the caption's last baseline */}
           <figcaption className="rc-chart-cap" style={{ margin: 0, whiteSpace: 'nowrap' }}>{cap}</figcaption>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
             <Wordmark size={13} aria-label="Robocurve" style={{ opacity: 0.4, filter: 'grayscale(1)' }} />
