@@ -3,6 +3,9 @@
 Errors (cm, lower is better) have a floor near 0 and flatten for weak models; accuracies (%) live between chance (25%)
 and 100%. Every candidate is fitted with a robust (soft-L1) loss so the outliers we are looking for don't drag the curve
 toward themselves. Selection: lowest leave-one-out median absolute error (robust to the same outliers).
+
+In this folder only fit_form is used: make_data.py passes the curve family for each card directly (the family
+that selection picked when the cards were made). The rest is kept as the original analysis code.
 """
 
 from __future__ import annotations

@@ -17,7 +17,7 @@ const X = { min: 126, max: 171, ticks: [130, 140, 150, 160, 170] };
 const OTHER = '#9A968C';
 // One colour per leader (user 2026-11-09): Astra and Sol share OpenAI's ink otherwise.
 const LEADER_INK = { 'GPT-6 Astra': '#1B150F', 'GPT-6.1 Sol': '#2E6DB4', 'Gemini 4 Argon': '#1F6B36' };
-const inkOf = (p) => LEADER_INK[p.name] ?? inkOf(p);
+const inkOf = (p) => LEADER_INK[p.name] ?? LABEL_INK[p.lab];
 const BAND = '#6B6A66'; // neutral: lab blue is OpenAI's dot colour
 
 // Leader labels stacked to the left of the top-right cluster, joined by thin grey leader lines

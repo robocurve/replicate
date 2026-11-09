@@ -3,12 +3,13 @@ without GPT-6 Astra, GPT-6.1 Sol and Gemini 4 Argon, its 95% residual band, and 
 
 Inputs
 - Aiden Swann's released per-model scores (figures/all_models.csv of github.com/swannaiden/vlm-robotics-training at
-  commit fd223ef, downloaded on first run into data/upstream/; that repo has no licence file, so it is not copied here).
+  commit fd223ef8, downloaded on first run into data/upstream/ and checked against its sha256; that repo has no licence file, so it is not copied here).
 - data/panda_rerun_robocurve.csv: the 12 models Robocurve re-ran with Aiden's harness and prompts (these replace his
   numbers for the same model).
 - data/eci_scores.csv: Epoch AI's Capabilities Index (epoch.ai, CC BY 4.0); data/model_map.csv maps model ids to ECI names.
 """
 import csv
+import hashlib
 import json
 import urllib.request
 from pathlib import Path
@@ -18,7 +19,8 @@ import numpy as np
 from fits import fit_form
 
 HERE = Path(__file__).resolve().parent
-UPSTREAM_URL = "https://raw.githubusercontent.com/swannaiden/vlm-robotics-training/fd223ef/figures/all_models.csv"
+UPSTREAM_URL = "https://raw.githubusercontent.com/swannaiden/vlm-robotics-training/fd223ef8d1bd54ac6e489c14f1bffec86fd1f106/figures/all_models.csv"
+UPSTREAM_SHA256 = "3a995aa5beaf1e24df2e269415cb814bebd0313d9985a70dc96cea07f58481a5"
 UPSTREAM = HERE / "data/upstream/all_models.csv"
 LEAD = {"openai/gpt-6-astra": "GPT-6 Astra", "openai/gpt-6.1-sol": "GPT-6.1 Sol", "google/gemini-4-argon": "Gemini 4 Argon"}
 # card key, panel name in the score CSVs, kind (sets the curve family and sign), curve family
@@ -35,6 +37,7 @@ def scores(path):
 if not UPSTREAM.exists():
     UPSTREAM.parent.mkdir(parents=True, exist_ok=True)
     urllib.request.urlretrieve(UPSTREAM_URL, UPSTREAM)
+assert hashlib.sha256(UPSTREAM.read_bytes()).hexdigest() == UPSTREAM_SHA256, f"unexpected contents in {UPSTREAM}"
 s = scores(HERE / "data/panda_rerun_robocurve.csv")
 for k, v in scores(UPSTREAM).items():
     s.setdefault(k, v)  # Robocurve rerun wins where both exist

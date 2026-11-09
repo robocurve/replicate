@@ -8,17 +8,17 @@ so those three can be compared against the rest.
 
 | File | Test | Left axis | Right axis |
 |---|---|---|---|
-| `franka-fk.png` | forward kinematics: joint angles to hand position | hand-position error (cm) | error below the curve (cm) |
-| `franka-mcq.png` | multiple choice: pick the hand position out of four | correct answers (%) | points above the curve |
-| `franka-ik.png` | inverse kinematics: target to joint angles | hand-position IK error (cm) | error below the curve (cm) |
-| `franka-overfitting.png` | forward kinematics with an edited Franka geometry | distance from the real Franka's answer (cm) | distance below the curve (cm) |
+| `franka-fk.png` | forward kinematics: joint angles to hand position | Hand-position error (cm) ↓ better | Beats the curve by (cm) ↑ better |
+| `franka-mcq.png` | multiple choice: pick the hand position out of four | Correct answers (%) ↑ better | Beats the curve by (points) ↑ better |
+| `franka-ik.png` | inverse kinematics: target to joint angles | Hand-position IK error (cm) ↓ better | Beats the curve by (cm) ↑ better |
+| `franka-overfitting.png` | forward kinematics with an edited Franka geometry | Distance from real Franka (cm) ↓ more overfit | Beyond the curve (cm) ↑ more overfit |
 
 Run `./regenerate.sh` to rebuild all four PNGs (1600x1280). It needs Python 3 with numpy and scipy, plus Node 22+.
 
 ## Where the numbers come from
 
 - **Scores.** Aiden Swann's released per-model table, `figures/all_models.csv` of
-  [swannaiden/vlm-robotics-training](https://github.com/swannaiden/vlm-robotics-training) at commit `fd223ef`.
+  [swannaiden/vlm-robotics-training](https://github.com/swannaiden/vlm-robotics-training) at commit `fd223ef8`.
   That repo has no licence file, so it is not copied here: `make_data.py` downloads it into `data/upstream/` on
   first run. Robocurve re-ran 12 models with Aiden's harness, prompts and strict system prompt, with reasoning off
   (or the lowest effort the API accepts). Those results are in `data/panda_rerun_robocurve.csv` and replace Aiden's
@@ -31,16 +31,19 @@ Run `./regenerate.sh` to rebuild all four PNGs (1600x1280). It needs Python 3 wi
 - **Fits** (`fits.py`, `make_data.py`). Error panels use an exponential decay to a floor. Multiple choice uses a
   logistic from chance (25%) to 100%. Both are fitted with a robust soft-L1 loss on the 41 models other than the three
   named ones. The band is the 2.5th to 97.5th percentile of those 41 models' residuals around the curve. "Beats the
-  curve by" is each model's residual, signed so that positive is better (for the overfitting card, positive means
-  closer to the real Franka than the curve predicts). Models are ranked by that number.
+  curve by" is each model's residual, signed so that positive is better. On the overfitting card the same sign means
+  more overfit: closer to the real Franka's answer than the curve predicts. Models are ranked by that number.
 - `make_data.py` writes `site/src/kinematicsData.json`, which is the only data the cards read. It is byte-identical
-  to the file the posted cards were rendered from.
+  to the file the posted cards were rendered from. It is committed, so the cards still build if the upstream
+  download ever disappears (the download is pinned to the full commit hash and checked against a sha256).
 
 ## How the images are made
 
-`site/` is a trimmed copy of the `robocurve/website` repo at commit `3522088` (branch `kinematics-draft`,
-2026-11-09). The render harness (`build.mjs`, `shot.mjs`, `package.json`, `package-lock.json`, `tokens/fonts-local.css`
-and the self-hosted Open Sans and Space Grotesk fonts) is reused from `tweets/2026/October/Oct-19/site`.
+`site/` is a trimmed copy of the `robocurve/website` repo at commit `ca2aba5` (branch `kinematics-draft`,
+2026-11-09). `package.json`, `package-lock.json`, `tokens/fonts-local.css` and the self-hosted Open Sans and Space
+Grotesk fonts are reused from `tweets/2026/October/Oct-19/site`; `build.mjs` and `shot.mjs` are adapted from it (card
+ids, output names, page title). Code comments in the copied files refer to their source repos (for example, the
+website repo being private, or paths in Robocurve's internal social repo); they are left as they were.
 
 - `site/src/KinematicsCards.jsx` defines the cards (`KIN_WIDE54_PANELS`, ids `kw-fk`, `kw-mc`, `kw-ik`, `kw-twist`),
   including the cross-panel arrows and their routing.
@@ -55,5 +58,5 @@ and the self-hosted Open Sans and Space Grotesk fonts) is reused from `tweets/20
 ## Verification (2026-11-09)
 
 The regenerated PNGs are 1600x1280, the same as `original/`. Every point, label, arrow and line sits in the same
-place. Against the originals, the mean absolute pixel difference is 1.5 to 2.4 on the 0-255 scale, and 0.5 to 1.2%
+place. Against the originals, the mean absolute pixel difference is 1.5 to 2.4 on the 0-255 scale, and 0.5 to 1.3%
 of pixels differ by more than 64 levels, all at glyph edges (text rasterisation differs between machines).
