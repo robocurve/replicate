@@ -394,10 +394,10 @@ function PairChart({ i, metric, topN = 0, mobile = false, wideLeft = false }) {
       {wideLeft ? ( /* 5:4: caption left, attribution right on one row (user 2026-11-09) */
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12, marginTop: 4 }}>
           <figcaption className="rc-chart-cap" style={{ margin: 0 }}>{cap}</figcaption>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3, flexShrink: 0 }}>
-            <Wordmark size={11} aria-label="Robocurve" style={{ opacity: 0.4, filter: 'grayscale(1)' }} />
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-sans)', fontSize: 8, color: 'rgba(27,21,15,0.6)' }}>
-              CC BY 4.0<span aria-hidden="true" style={{ width: 1, height: 9, background: 'rgba(27,21,15,0.3)' }} />robocurve.org
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <Wordmark size={16} aria-label="Robocurve" style={{ opacity: 0.4, filter: 'grayscale(1)' }} />
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-sans)', fontSize: 11, color: 'rgba(27,21,15,0.6)' }}>
+              CC BY 4.0<span aria-hidden="true" style={{ width: 1, height: 12, background: 'rgba(27,21,15,0.3)' }} />robocurve.org
             </span>
           </div>
         </div>
