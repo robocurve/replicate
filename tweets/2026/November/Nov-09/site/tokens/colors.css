@@ -1,0 +1,97 @@
+/* ── Robocurve · Colors ──────────────────────────────────────────────
+   Warm editorial palette: cream paper, deep warm ink, an olive-green accent,
+   plus a small forecast/data set. Warm-tinted neutrals throughout. */
+
+:root {
+  /* Warm neutrals — paper → ink */
+  --neutral-0:   #ffffff;
+  --neutral-50:  #faf6ef; /* page background (warm paper) */
+  --neutral-100: #f2ece1; /* sunken section / subtle tint */
+  --neutral-200: #e6ddcd; /* hairline borders, dividers */
+  --neutral-300: #d2c6b2; /* strong border, disabled fill */
+  --neutral-400: #ac9f8a; /* muted icon / placeholder */
+  --neutral-500: #857a68; /* muted text */
+  --neutral-600: #5e5446; /* secondary text */
+  --neutral-700: #403830; /* body text on light */
+  --neutral-800: #2a241d; /* dark surface */
+  --neutral-900: #1a1511; /* primary text / darkest surface */
+
+  /* Teal — primary brand accent (the "instrument" signal).
+     NOTE: token IDs stay `--ember-*` for back-compat with existing
+     references; the values are now the teal family. */
+  --ember-50:  #e3f1ef; /* pale teal tint */
+  --ember-100: #c2e3df;
+  --ember-200: #94d2bd; /* mint — soft tiles */
+  --ember-300: #4fb3a6; /* accent on dark surfaces */
+  --ember-400: #0a9396; /* vivid accent / curve + glow on ink */
+  --ember-500: #005f73; /* primary (white text passes AA) */
+  --ember-600: #024e5e; /* hover */
+  --ember-700: #013a47; /* press / active */
+
+  /* Canonical brand colors for external listings / third-party sites.
+     High-contrast shades of the base brand teal (--ember-500 #005f73),
+     for use on pure-white (light) and pure-black (dark) backgrounds.
+     Documentation only — NOT consumed by any component; live site
+     accent stays --ember-500 via --accent below. Do not alias these. */
+  --brand-contrast-light: #003945; /* AAA brand teal on white (~12.6:1) — canonical light-theme brand color for external listings */
+  --brand-contrast-dark:  #0aa8a0; /* AAA brand teal on black (~7.12:1) — canonical dark-theme brand color for external listings */
+
+  /* Cool deep ink — for dark "instrument" sections */
+  --ink-deep:   #001219; /* darkest cool surface */
+  --ink-deep-2: #07303a; /* lifted cool surface */
+
+  /* Earthy companions — warm accents that complement the teal in charts */
+  --clay-500:  #d4a373; /* warm tan — secondary data accent */
+  --taupe-600: #6c584c; /* deep warm brown — tertiary data accent */
+  --sand-100:  #faedcd; /* warm cream — soft warm surface */
+
+  /* Forecast / data accents (charts, capability curves) */
+  --teal-500:  #117a6b;
+  --teal-600:  #0e6457;
+  --gold-500:  #c68a2e;
+  --slate-500: #2e4a6b;
+
+  /* Status */
+  --green-500: #3f7d3a;
+  --red-500:   #c0362c;
+  --amber-500: #c68a2e;
+
+  /* ── Semantic aliases ── */
+  --surface-page:    #FFFEFB; /* Figma comp page bg (2026-08 redesign); was the warmer ivory #FFFAED */
+  --surface-card:    var(--neutral-0);
+  --surface-pill:    #ebeae7; /* pill-chip header nav; distinct from the neutral sunken surface */
+  --surface-float:   #fdfcf9; /* frosted cards/badges floating over the hero curve art (Figma); pairs with a --surface-pill hairline */
+  --surface-band:    #F2F1EF; /* grey full-width band behind the Results section (Figma) */
+  --surface-sunken:  var(--neutral-100);
+  --surface-inverse: var(--ink-deep);
+  --surface-inverse-2: var(--ink-deep-2);
+
+  --text-strong:     var(--neutral-900);
+  --text-body:       var(--neutral-700);
+  --text-muted:      #736853; /* darker than neutral-500 (#857a68) to meet WCAG AA 4.5:1 on light surfaces — 5.26:1 on --surface-page, 4.66:1 on --surface-sunken. neutral-500 stays for non-text uses (e.g. dark-surface input placeholder). */
+  --text-on-inverse: var(--neutral-50);
+  --text-on-inverse-muted: var(--neutral-400);
+
+  --border-hairline: var(--neutral-200);
+  --border-strong:   var(--neutral-300);
+  --border-inverse:  rgba(255,255,255,0.14);
+
+  --accent:        var(--ember-500);
+  --accent-hover:  var(--ember-600);
+  --accent-press:  var(--ember-700);
+  --accent-soft:   var(--ember-50);
+  --accent-soft-2: var(--ember-100);
+  --on-accent:     #ffffff;
+
+  --link:          var(--ember-600);
+  --link-hover:    var(--ember-700);
+
+  /* Data viz ordered scale */
+  --data-1: var(--ember-500);
+  --data-2: var(--clay-500);
+  --data-3: var(--gold-500);
+  --data-4: var(--taupe-600);
+  --data-5: var(--neutral-400);
+
+  --focus-ring: var(--ember-400);
+}

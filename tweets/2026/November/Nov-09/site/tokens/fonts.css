@@ -1,0 +1,51 @@
+/* Robocurve webfonts.
+   Imagin → serif display headlines via --font-display (self-hosted, below)
+   Open Sans → body, nav, and button text via --font-sans
+   Figtree → small eyebrow and badge labels via --font-eyebrow
+   Space Grotesk → retained for not-yet-reskinned sections
+   IBM Plex Mono → data readouts only, via --font-data (tokens/typography.css):
+                   the homepage hero task-card % numbers, plus the RobotWalk
+                   blueprint diagram's readouts (a literal font-family; that
+                   component is exported but not mounted on a live route)
+   Formerly also imported Newsreader + Hanken Grotesk — dropped in the
+   typography consolidation: nothing referenced them after the uniform-type
+   refactor.
+   The free families load via Google Fonts CDN @import; build.mjs asserts the
+   bundled stylesheet begins with exactly one such @import, so keep it first. */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@500&family=IBM+Plex+Mono:wght@400;500;600&family=Open+Sans:wght@400;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* Imagin (Dora Typefoundry) — PAID webfont. The user bought the Fontspring
+   webfont license on 2026-08-24 (Webfont EULA v2.0: @font-face embedding
+   only, on sites we own, under the receipt's monthly-pageview cap; the repo
+   is private, so checking the binaries in is licensee-controlled storage).
+   Self-hosted from assets/fonts/imagin/ (copied verbatim to
+   dist/assets/fonts/imagin/ — build.mjs marks /assets/* external so esbuild
+   leaves these URLs alone). Only the three faces the site sets (Regular, Bold, Bold Expanded) are
+   checked in; the italic, condensed and other cuts stay out of the repo
+   until a design needs them. The Bold face is <link rel="preload">ed in build.mjs
+   since it paints the hero headline. */
+@font-face {
+  font-family: 'Imagin';
+  src: url('/assets/fonts/imagin/imagin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Imagin';
+  src: url('/assets/fonts/imagin/imagin-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* The Expanded cut carries the big section headlines (Figma "Imagin Bold
+   Expanded"); select it with `font-stretch: expanded` on the same family. */
+@font-face {
+  font-family: 'Imagin';
+  src: url('/assets/fonts/imagin/imagin-bold-expanded.woff2') format('woff2');
+  font-weight: 700;
+  font-stretch: expanded;
+  font-style: normal;
+  font-display: swap;
+}

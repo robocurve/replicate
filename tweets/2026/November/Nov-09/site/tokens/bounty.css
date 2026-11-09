@@ -1,0 +1,77 @@
+/* ── Bounty "Expression of Interest" page (plans/0005, Figma 2220:99) ──
+   Layout rules for src/BountyPage.jsx. Same contract as base.css: anything
+   that changes at a breakpoint lives here; non-varying styling stays inline
+   in the JSX. Breakpoints are the two registered ones (1000 / 560). The page
+   is emitted only by the `bounty` build target (dist-bounty/); these rules
+   ride along in the shared stylesheet. */
+
+/* Hero (Figma 2220:100, 570px incl. the 86px header at 1440). The art is a
+   raster export of the comp's own hero background (frame 2220:102 as
+   clipped in the frame, exported at 2× = 2880×1140 → assets/bounty/hero-bg-2x.webp, 60 KB at q95 — the 1× export banded visibly on retina; new filename because /assets/* is edge-cached immutable for a year). It
+   is NOT assets/about/bg.svg: that SVG's blur filters don't run inside an
+   <img>, so its waves render as thin hard lines on flat teal, visibly
+   unlike the comp's soft bands (user, 2026-09-02). The art must COVER the
+   section at every width — white copy sits on it — so it is stretched, not
+   width-scaled (contrast with .rc-hero-bg), and hung 16px above the
+   transparent sticky header like the homepage hero. No overflow:hidden: the
+   art escapes upward behind the header; horizontal bleed is already
+   clipped by body { overflow-x: hidden }. */
+.rc-bounty-hero { position: relative; isolation: isolate; box-sizing: border-box; min-height: 484px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding-top: 62px; padding-bottom: 100px; color: #fffefb; }
+.rc-bounty-hero-bg { position: absolute; left: 0; right: 0; top: calc(-1 * var(--header-h) - 16px); width: 100%; height: calc(100% + var(--header-h) + 16px); object-fit: cover; object-position: center top; pointer-events: none; z-index: -1; }
+.rc-bounty-hero-copy { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; max-width: 548px; }
+
+/* Stat strip (Figma 2220:137): three 320px cells on hairline rules. */
+.rc-bounty-stats { display: flex; align-items: center; justify-content: center; gap: 12px; padding-top: 28px; padding-bottom: 28px; }
+.rc-bounty-stat { box-sizing: border-box; width: 320px; max-width: 100%; min-height: 172px; padding: 0 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; text-align: center; }
+.rc-bounty-stat-rule { flex: 0 0 auto; width: 1px; height: 149px; background: rgba(27,21,15,0.1); }
+
+/* Participation (Figma 2220:159): two equal grey cards, then the
+   "What happens next" row on a top hairline. */
+.rc-bounty-part { display: flex; flex-direction: column; gap: 64px; padding-top: 64px; padding-bottom: 64px; }
+.rc-bounty-cards { display: flex; align-items: stretch; gap: 24px; }
+.rc-bounty-card { position: relative; isolation: isolate; overflow: hidden; flex: 1 1 0; min-width: 0; box-sizing: border-box; padding: 24px; border-radius: 18px; background: var(--surface-band); display: flex; flex-direction: column; gap: 24px; }
+/* Card decoration (Figma Vector 5666): a wave burned into the grey card
+   behind the "what you receive" column and the photo. */
+.rc-bounty-card-wave { position: absolute; left: 226px; top: 73px; width: 617px; height: 340px; max-width: none; mix-blend-mode: color-burn; pointer-events: none; z-index: -1; }
+/* "What each team receives" (2220:188): copy column + the YAM photo as a
+   full-height column flush to the card's top/right/bottom edges (the
+   negative margins cancel the card padding; the card clips to its radius).
+   The photo is a cutout on transparency, so it scales to the card height
+   and takes whatever width that implies (user call, 2026-09-02). */
+.rc-bounty-card-receive { flex-direction: row; align-items: stretch; gap: 24px; }
+.rc-bounty-receive-copy { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.rc-bounty-receive-fig { flex: 0 0 auto; align-self: stretch; aspect-ratio: 519 / 606; max-width: 45%; margin: -24px -24px -24px 0; }
+.rc-bounty-receive-img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; }
+.rc-bounty-next { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-top: 1px solid rgba(27,22,19,0.1); }
+.rc-bounty-next-cta { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+
+/* Testimonials band: the shared .rc-testi component on the grey band. */
+.rc-bounty-testi { padding-top: 96px; padding-bottom: 96px; }
+
+/* Register (Figma 2220:478): centred heading + 450px frosted card over the
+   contact swoosh, mirrored (the comp's group is the same art flipped). */
+.rc-bounty-register { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 44px; padding-top: 124px; padding-bottom: 124px; }
+.rc-bounty-register-art { position: absolute; left: -4%; top: 40px; width: 108%; max-width: none; height: auto; transform: scaleX(-1); pointer-events: none; z-index: -1; }
+.rc-bounty-register-card { border: 1px dashed rgba(0,0,0,0.2); }
+
+@media (max-width: 1000px) {
+  .rc-bounty-stats { flex-direction: column; gap: 0; }
+  .rc-bounty-stat { min-height: 0; padding: 24px; }
+  .rc-bounty-stat-rule { width: 100%; max-width: 320px; height: 1px; }
+  .rc-bounty-cards { flex-direction: column; }
+  .rc-bounty-card { flex-basis: auto; }
+  /* Stacked card: the photo becomes a full-width 320px strip under the copy,
+     bleeding to the card's sides and bottom; the desktop column's aspect
+     ratio / width cap must be reset or the strip shrinks and overflows. */
+  .rc-bounty-card-receive { flex-direction: column; }
+  .rc-bounty-receive-fig { align-self: auto; aspect-ratio: auto; max-width: none; width: auto; height: 320px; margin: 0 -24px -24px; }
+  .rc-bounty-receive-img { width: 100%; height: 100%; }
+}
+
+@media (max-width: 560px) {
+  .rc-bounty-hero { min-height: 0; padding-top: 32px; padding-bottom: 64px; }
+  .rc-bounty-part { gap: 40px; padding-top: 48px; padding-bottom: 48px; }
+  .rc-bounty-next { flex-direction: column; align-items: stretch; padding: 16px 0; }
+  .rc-bounty-testi { padding-top: 64px; padding-bottom: 64px; }
+  .rc-bounty-register { gap: 32px; padding-top: 72px; padding-bottom: 72px; }
+}

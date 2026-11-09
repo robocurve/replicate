@@ -1,0 +1,108 @@
+/* Careers role pages (src/CareersRole.jsx; Figma 2312:7073, header 2312:8464).
+   Desktop is the comp's 1440 frame: 239px nav | gutter | 710px copy | gutter |
+   18px rail. At the registered 1000px breakpoint the nav and rail drop out
+   and the copy runs full width. */
+
+/* Both bands also carry .rc-sec for the site gutter.
+   Hero: pulled up behind the sticky (transparent) header so the header pills
+   sit on the dark art, as in the comp. 82px from header to title, 134px below. */
+.rc-role-hero {
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: calc(var(--header-h) + 82px); padding-bottom: 134px;
+  background: #000 url('/assets/careers/role-hero.webp') center / cover no-repeat;
+  text-align: center;
+}
+.rc-role-hero-title {
+  margin: 0;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: 54px; line-height: 1; letter-spacing: -0.07em;
+  color: var(--surface-page);
+  text-wrap: balance;
+}
+
+.rc-role-body { background: var(--surface-band); padding-top: 64px; padding-bottom: 124px; }
+.rc-role-grid {
+  max-width: 1328px; margin: 0 auto;
+  display: grid; grid-template-columns: 239px 1fr minmax(0, 710px) 1fr 18px;
+  align-items: start;
+}
+
+/* Section nav (Figma 2312:7726) */
+.rc-role-nav {
+  grid-column: 1; position: sticky; top: calc(var(--header-h) + 24px);
+  display: flex; flex-direction: column; gap: 36px;
+  font-family: var(--font-sans); font-size: var(--text-sm); line-height: 1.4; color: #1b150f;
+}
+.rc-role-nav-back { color: inherit; text-decoration: none; }
+.rc-role-nav-back:hover { text-decoration: underline; }
+.rc-role-nav-list { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+.rc-role-nav-head { padding: 6px 14px; font-weight: var(--weight-semibold); }
+.rc-role-nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 6px 14px; border-radius: 29px;
+  color: rgba(27, 21, 15, 0.8); text-decoration: none;
+}
+.rc-role-nav-item:hover, .rc-role-nav-item.is-active { color: #1b150f; }
+.rc-role-nav-well {
+  display: flex; padding: 2px; border-radius: 18px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0.5px 0.5px 0 0 #fff, inset 0 -2px 2px 0 rgba(255, 255, 255, 0.5), inset 2px 2px 6px 0 rgba(0, 0, 0, 0.06);
+}
+.rc-role-nav-dot {
+  width: 6px; height: 6px; border-radius: 4px; background: #f2f1ef;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25), inset 0 1px 0 0 #fff;
+  transition: background var(--dur-fast) ease, box-shadow var(--dur-fast) ease;
+}
+.rc-role-nav-item.is-active .rc-role-nav-dot { background: #3fb7cf; box-shadow: none; }
+
+/* Role copy (Figma 2312:7781): sections 54px apart with a 5% hairline
+   between; heading + lead 8px apart, 38px to the list. */
+.rc-role-main { grid-column: 3; min-width: 0; font-family: var(--font-sans); }
+.rc-role-intro { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.rc-role-intro p { margin: 0; }
+.rc-role-tag {
+  padding: 4px 10px; border: 1px dashed rgba(0, 0, 0, 0.2); border-radius: 29px;
+  font-size: 24px; line-height: 1.2; color: #57514b;
+}
+.rc-role-title { font-size: 36px; line-height: 1.2; color: #57514b; }
+.rc-role-intro .rc-role-lede { margin-top: -4px; font-size: 12px; line-height: 1.8; color: rgba(27, 21, 15, 0.7); }
+.rc-role-section { margin-top: 54px; display: flex; flex-direction: column; gap: 38px; }
+.rc-role-section + .rc-role-section { padding-top: 54px; border-top: 1px solid rgba(0, 0, 0, 0.05); }
+.rc-role-section-head { display: flex; flex-direction: column; gap: 8px; }
+.rc-role-section-head h2 { margin: 0; font-family: var(--font-sans); font-weight: 400; font-size: 24px; line-height: 1.2; letter-spacing: 0; color: #57514b; }
+.rc-role-section-head p, .rc-role-section > p { margin: 0; font-size: var(--text-sm); line-height: 1.8; color: #1b150f; }
+.rc-role-section ul { margin: 0; padding-left: 21px; font-size: var(--text-sm); line-height: 1.8; color: #1b150f; }
+.rc-role-link { color: inherit; text-decoration: underline; text-decoration-skip-ink: none; }
+.rc-role-link:hover { color: var(--accent); }
+.rc-role-ctas { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Legal notices under the referral card: small, muted, hairline above. */
+.rc-role-legal { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; gap: 8px; }
+.rc-role-legal p { margin: 0; font-size: 12px; line-height: 1.6; color: rgba(27, 21, 15, 0.7); }
+
+/* Scroll rail (Figma 2312:7920): 6×2 grey ticks every 7px; the teal cursor is
+   the comp's 18/14/10px stack, positioned by scroll progress. */
+.rc-role-rail { grid-column: 5; align-self: stretch; }
+.rc-role-rail-track {
+  position: relative; height: 100%;
+  background: repeating-linear-gradient(to bottom, rgba(96, 96, 96, 0.45) 0 2px, transparent 2px 7px) right top / 6px 100% no-repeat;
+}
+.rc-role-rail-cursor {
+  position: absolute; right: 0; width: 18px; height: 16px;
+  background:
+    linear-gradient(#00a1c0, #00a1c0) right 0 / 18px 2px no-repeat,
+    linear-gradient(rgba(0, 161, 192, 0.65), rgba(0, 161, 192, 0.65)) right 7px / 14px 2px no-repeat,
+    linear-gradient(rgba(0, 161, 192, 0.45), rgba(0, 161, 192, 0.45)) right 14px / 10px 2px no-repeat,
+    var(--surface-band);
+}
+
+@media (max-width: 1000px) {
+  .rc-role-hero { padding-top: calc(var(--header-h) + 56px); padding-bottom: 72px; }
+  .rc-role-hero-title { font-size: 40px; }
+  .rc-role-body { padding-top: 40px; padding-bottom: 80px; }
+  .rc-role-grid { grid-template-columns: minmax(0, 1fr); }
+  .rc-role-nav, .rc-role-rail { display: none; }
+  .rc-role-main { grid-column: 1; }
+  .rc-role-tag { font-size: 20px; }
+  .rc-role-title { font-size: 30px; }
+}

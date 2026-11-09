@@ -1,0 +1,156 @@
+{
+ "snapshot_at": "Sep 29, 2026, 02:30 PM PDT",
+ "source": "Robocurve (working-draft snapshot)",
+ "setup": "120 task attempts per model. High effort, Fast mode for the September 29 cohort; Gemini uses high effort, standard mode, with verified replacements for two overheated attempts. GPT-6.1 Sol uses high effort and Fast mode, collected September 30\u2013October 1 (Pacific); its scores are automated grades.",
+ "aggregation": "Trial i contains all six tasks at original slot i, with redos replacing their original slots. Progress is the six-task mean; resources are six-task sums. Model values average 20 trials. Wall time is summed task duration, not concurrent elapsed time.",
+ "uncertainty": "95% percentile bootstrap confidence intervals; 50,000 resamples, seed 20260929. Aggregate intervals resample 20 six-task trials; task-bar intervals use 20 attempts for that task.",
+ "models": [
+  {
+   "name": "GPT-6 Astra",
+   "score": 42.52,
+   "ci": [
+    38.37,
+    46.52
+   ],
+   "cost_usd": 20.9,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "Claude Opus 5.5",
+   "score": 38.22,
+   "ci": [
+    34.94,
+    41.38
+   ],
+   "cost_usd": 13.41,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "GPT-6 Sol",
+   "score": 21.98,
+   "ci": [
+    18.18,
+    25.73
+   ],
+   "cost_usd": 5.7,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "GPT-5.6 Sol",
+   "score": 14.89,
+   "ci": [
+    12.12,
+    18.1
+   ],
+   "cost_usd": 10.61,
+   "n_trials": 20,
+   "effort": "high",
+   "mode": "fast",
+   "n_attempts": 120
+  },
+  {
+   "name": "Gemini 3.8 Flash",
+   "lab": "google",
+   "score": 36.24166666666667,
+   "cost_usd": 3.96035622375,
+   "cost_is_estimate": true,
+   "effort": "high",
+   "mode": "standard",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-01",
+   "source": "Verified Gemini set, including two valid replacements for overheated Pack And Pour Fruit runs",
+   "minutes": 7.20896944040203
+  },
+  {
+   "name": "GPT-6.1 Sol",
+   "lab": "openai",
+   "score": 41.69166666666666,
+   "cost_usd": 12.885591289999999,
+   "minutes": 4.0370844331066635,
+   "cost_is_estimate": true,
+   "cost_basis_id": "gpt-6.1-sol-fast-20261002",
+   "effort": "high",
+   "mode": "fast",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-02",
+   "source": "120 included, automatically graded runs; two excluded attempts omitted"
+  },
+  {
+   "name": "Gemini 4 Argon",
+   "lab": "google",
+   "score": 48.233333333333356,
+   "cost_usd": 14.05362881538461,
+   "minutes": 20.492951890710135,
+   "cost_is_estimate": true,
+   "cost_basis_id": "gemini-4-argon-priority-20261014",
+   "effort": "high",
+   "mode": "priority",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-14",
+   "source": "120 runs, last 20 per task (Final Runs rule); overheat-ended runs kept; cost averages the 117 priced attempts"
+  },
+  {
+   "name": "GR00T N1.7",
+   "lab": "nvidia",
+   "score": 9.508333333333335,
+   "cost_usd": 0.30486635704813175,
+   "cost_is_estimate": true,
+   "cost_basis_id": "rtx-5090-runpod-ondemand-20261018",
+   "minutes": 0.9385416666666667,
+   "effort": "vla",
+   "mode": "self-hosted",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-18",
+   "source": "120 completed, automatically graded runs from its workbench set; Stand Up Bottles on the old (adapted 2026-09-22) rubric, re-graded 2026-10-18",
+   "wall_clock_minutes": 2.561902160068335,
+   "minutes_basis": "mean time to final score over scored trials"
+  },
+  {
+   "name": "MolmoAct2",
+   "lab": "ai2",
+   "score": 18.9,
+   "cost_usd": 0.39395928606838104,
+   "cost_is_estimate": true,
+   "cost_basis_id": "rtx-5090-runpod-ondemand-20261018",
+   "minutes": 0.8028138528138528,
+   "effort": "vla",
+   "mode": "self-hosted",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-18",
+   "source": "120 completed, automatically graded runs from its workbench set; Stand Up Bottles on the old (adapted 2026-09-22) rubric, re-graded 2026-10-18",
+   "wall_clock_minutes": 3.3105822358687473,
+   "minutes_basis": "mean time to final score over scored trials"
+  },
+  {
+   "name": "Dream-1",
+   "lab": "dreamlabs",
+   "score": 59.25,
+   "cost_usd": 0.9020519884910063,
+   "cost_is_estimate": false,
+   "cost_basis_id": "dream-labs-hosted-3usd-hr-20261018",
+   "minutes": 1.5365819209039548,
+   "minutes_basis": "mean time to final score over scored trials",
+   "wall_clock_minutes": 3.006839961636688,
+   "effort": "vla",
+   "mode": "hosted",
+   "n_trials": 20,
+   "n_attempts": 120,
+   "snapshot_at": "2026-10-18",
+   "source": "120 completed, automatically graded runs from its workbench set; Stand Up Bottles on the old (adapted 2026-09-22) rubric, re-graded 2026-10-18"
+  }
+ ]
+}
