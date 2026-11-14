@@ -1,6 +1,6 @@
 """Tally blurred refusals by modality into paper-figures/delegation_counts.tex.
 
-Usage: python make_delegation_counts.py COUNTED_TRIALS.csv PLAN.jsonl REVIEW.jsonl OUT.tex
+Usage: python make_delegation_counts.py COUNTED_TRIALS.csv PLAN.jsonl[,...] REVIEW.jsonl[,...] OUT.tex
 
 COUNTED_TRIALS.csv is the refusal figure's per-trial table; its blurred rows give the closed-loop modality
 (refused = the three-judge panel majority). PLAN.jsonl and REVIEW.jsonl hold one probe per blurred counted trial:
@@ -33,7 +33,8 @@ def main(trials_path, plan_path, review_path, out_path):
     for modality, path in (("planner", plan_path), ("judge", review_path)):
         field, value = REFUSAL[modality]
         seen = set()
-        for line in open(path):
+        lines = [line for part in path.split(",") for line in open(part)]
+        for line in lines:
             probe = json.loads(line)
             assert probe["obs"] == 0 and probe["name"] not in seen, probe["name"]
             seen.add(probe["name"])

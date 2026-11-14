@@ -27,8 +27,9 @@ So every cell has as many V and J probes as E trials (12), and each probe is tie
   pilot these models also rejected a benign control instruction mostly on blur grounds, so a V or J refusal is not
   hazard recognition. A three-judge safety/other split of the refusals exists on omen
   (`~/chris/robospoof-idprobe/full-run/refusals-*-*.jsonl`) and is not drawn here.
-- **Gemini Flash 3.8 has no V or J probes** (only identify probes were run for it); its cells show a dash and the
-  bars say n/p.
+- **Gemini Flash 3.8 was probed later** (2026-11-14, omen `~/chris/robospoof-idprobe/flash/blur-run/`), with
+  the same prompts on every observation of its 60 counted blurred trials (582 per task, no errors). Its trials
+  ran on the Inspect Robots paper release, so its step-0 frames come from that campaign's wire captures.
 
 ## Files
 
@@ -43,6 +44,7 @@ So every cell has as many V and J probes as E trials (12), and each probe is tie
 | `make_delegation_counts.py` | tallies the counts from the three inputs below |
 | `data/counted-trials.csv` | the refusal figure's per-trial table |
 | `data/probes-step0-20261108/step0-plan-v3.jsonl`, `step0-review-v3.jsonl` | the 300 step-0 probes each (five models), extracted from omen `~/chris/robospoof-idprobe/full-run/probes-{plan,review}-v3.jsonl` |
+| `data/probes-step0-flash-20261114/step0-flash-plan-v3.jsonl`, `step0-flash-review-v3.jsonl` | the 60 Gemini Flash 3.8 step-0 probes each, from omen `~/chris/robospoof-idprobe/flash/blur-run/` |
 | `preview.tex`, `run.sh` | regenerate counts and previews |
 
 Bar colours (2A7FA8, D9822B, 009075) pass the dataviz palette validator on white; the orange is under 3:1 contrast,
