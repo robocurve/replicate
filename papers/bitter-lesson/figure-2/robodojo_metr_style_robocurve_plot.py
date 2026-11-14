@@ -34,6 +34,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import os
 import sys
 from datetime import date, datetime
 from pathlib import Path
@@ -55,14 +56,18 @@ from svgpath2mpl import parse_path  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE / "robocurve-style"
-DATA = HERE / "robodojo-metr-style-data-judge.csv"
+# BITTER_LESSON_DATA / BITTER_LESSON_OUT point the loaders and writers at another folder (the submission snapshot
+# reads its own); unset, everything reads and writes next to this script, as for the submitted figures.
+DATA_DIR = Path(os.environ.get("BITTER_LESSON_DATA", HERE))
+OUT_DIR = Path(os.environ.get("BITTER_LESSON_OUT", HERE))
+DATA = DATA_DIR / "robodojo-metr-style-data-judge.csv"
 CHECK = "--check" in sys.argv
 ONE_PER_MODEL = "--one-per-model" in sys.argv
 FRONTIER_FIT = "--frontier" in sys.argv  # fit the line to the running best, not the highest effort per model
 FRONTIER_ULTRAFAST = "--frontier-no-ultrafast" not in sys.argv  # ultrafast configurations may sit on the frontier
 SUFFIX = "-frontier" if FRONTIER_FIT else ""
-CHARTS = HERE / "robocurve-charts"  # the three titled --frontier charts as PNG, with their reconstruction CSVs
-OUT = HERE / f"robodojo-metr-style-judge-square-robocurve{SUFFIX}"
+CHARTS = OUT_DIR / "robocurve-charts"  # the three titled --frontier charts as PNG, with their reconstruction CSVs
+OUT = OUT_DIR / f"robodojo-metr-style-judge-square-robocurve{SUFFIX}"
 
 # robocurve.org tokens (site.css .rc-chart-* classes and the inline SVG charts).
 INK = "#1a1511"  # --neutral-900: axis titles
@@ -337,8 +342,11 @@ def place_label(ax, r: dict, x: float, y: float, label: str, spec: tuple, column
     return ann, leader, relpos
 
 
+MODE_SUFFIX = {"ultrafast": "+UF", "priority": "+PR"}  # serving tiers named in the label; fast and standard are not
+
+
 def config_label(r: dict) -> str:
-    return f"{r['name']} ({EFFORT[r['effort']]}{'+UF' if r['mode'] == 'ultrafast' else ''})"
+    return f"{r['name']} ({EFFORT[r['effort']]}{MODE_SUFFIX.get(r['mode'], '')})"
 
 
 def highest_effort(rows: list[dict]) -> dict[str, dict]:

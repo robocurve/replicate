@@ -67,10 +67,13 @@ if not SHOW:
 
 HERE = Path(__file__).resolve().parent
 FONT_DIR = next((d for d in (HERE / "fonts", Path("/usr/share/fonts/truetype/liberation")) if d.is_dir()), HERE / "fonts")  # the bundled Liberation TTFs (SIL OFL 1.1), else Debian's fonts-liberation package
-DATA = HERE / "robodojo-metr-style-data-judge.csv"
-MILESTONES = HERE / "robodojo-milestone-mix.json"
+# BITTER_LESSON_DATA / BITTER_LESSON_OUT point at another data and output folder (the submission snapshot reads its own); unset, the script reads and writes next to itself, as for the submitted figure.
+DATA_DIR = Path(os.environ.get("BITTER_LESSON_DATA", HERE))
+OUT_DIR = Path(os.environ.get("BITTER_LESSON_OUT", HERE))
+DATA = DATA_DIR / "robodojo-metr-style-data-judge.csv"
+MILESTONES = DATA_DIR / "robodojo-milestone-mix.json"
 XMODE = "date" if "--x" in sys.argv and sys.argv[sys.argv.index("--x") + 1] == "date" else "cost"
-OUT = HERE / ("robodojo-3d-cost-time-score" if XMODE == "cost" else "robodojo-3d-date-time-score")
+OUT = OUT_DIR / ("robodojo-3d-cost-time-score" if XMODE == "cost" else "robodojo-3d-date-time-score")
 
 
 def _arg(flag: str, default: float) -> float:
@@ -92,7 +95,7 @@ elif BLOCKS and "--height" in sys.argv:
     OUT = Path(str(OUT) + "-h" + f"{float(sys.argv[sys.argv.index('--height') + 1]):g}".replace(".", "p"))  # e.g. -h6p12
 SERIF = "--font" in sys.argv and sys.argv[sys.argv.index("--font") + 1] == "serif"  # --paper: Liberation Serif (Times metrics) instead of Liberation Sans
 if PAPER:
-    OUT = HERE / "paper-figures" / f"robodojo-3d-frontier{'-serif' if SERIF else ''}"
+    OUT = OUT_DIR / "paper-figures" / f"robodojo-3d-frontier{'-serif' if SERIF else ''}"
 
 DEV_COLOR = {"OpenAI": "#2a78d6", "Anthropic": "#eb6834", "Google": "#1baf7a"}
 SURFACE = "#ffffff"  # paper figures: pure white, not the dataviz off-white
@@ -181,6 +184,10 @@ PLACE_COST = {
     ("gpt-6.1-sol", "high", "fast"): (12, 26, "left"),
     ("gpt-5.6-sol", "high", "fast"): (12, 0, "left"),
     ("claude-opus-5", "medium", "standard"): (12, -40, "left"),
+    # Configurations added in the post-submission data (absent from the submitted data, so these entries are unused there).
+    ("gemini-4-argon", "high", "priority"): (12, 0, "left"),
+    ("gemini-3.6-flash", "high", "standard"): (12, 0, "left"),
+    ("gpt-6.1-sol", "high", "ultrafast"): (12, 0, "left"),
 }
 PLACE_DATE = {k: (12, 0, "left") for k in PLACE_COST}
 
@@ -195,7 +202,8 @@ else:
     if PAPER:  # the 2D paper figures' axes: subtasks per hour instead of minutes per subtask, and score, both in log space with the
         # 2D figures' ranges and 1-2-5 ticks; "subtask" is the paper's word for a rubric milestone
         X_LABEL = "API cost per subtask (USD, log space)"
-        RATE_RANGE, RATE_TICKS, Y_LABEL = (8, 63), (10, 20, 50), "Subtask completion rate\n(subtasks per hour, log space)"
+        # BITTER_LESSON_RATE_FLOOR lowers the rate axis for a later data set (the post-submission data sets 6 for Gemini 4 Argon's 7.1).
+        RATE_RANGE, RATE_TICKS, Y_LABEL = (float(os.environ.get("BITTER_LESSON_RATE_FLOOR", 8)), 63), (10, 20, 50), "Subtask completion rate\n(subtasks per hour, log space)"
         SCORE_RANGE, SCORE_TICKS, Z_LABEL = (10, 67), (10, 20, 30, 50), "Mean task score (%, log space)"
 if PAPER and PER_TRIAL:
     raise SystemExit("--paper draws the per-subtask axes; drop --per-trial")
@@ -262,8 +270,11 @@ def load() -> list[dict]:
     return rows
 
 
+MODE_SUFFIX = {"ultrafast": "+UF", "priority": "+PR"}  # serving tiers named in the label; fast and standard are not
+
+
 def label(r: dict) -> str:
-    return f"{r['name']} ({EFFORT[r['effort']]}{'+UF' if r['mode'] == 'ultrafast' else ''})"
+    return f"{r['name']} ({EFFORT[r['effort']]}{MODE_SUFFIX.get(r['mode'], '')})"
 
 
 def draw_scene(ax, rows: list[dict], elev: float, azim: float, with_labels: bool = True) -> list:
@@ -511,6 +522,42 @@ BLOCKS_LAYOUT_PAPER = [  # --paper: the log rate and score axes move the markers
         (("claude-opus-5-5", "high", "fast"), (0.08, 1.0)),
     ]),
 ]
+BLOCKS_SUBMITTED = {key for _, _, _, members in BLOCKS_LAYOUT_PAPER for key, _ in members}  # the 12 submitted configurations
+BLOCKS_LAYOUT_PAPER_UPDATE = [  # the post-submission data: a block here replaces any submitted block labelling the same
+    # configuration. Each label keeps a leader to its own marker; the frontier labels sit above their dots, the
+    # dominated runs' labels are pulled out of the cluster to its two sides.
+    # Top row, left to right: Gemini 4 Argon up-left of its dot; GPT-6 Astra (M) up-left; GPT-6.1 Sol (H) straight
+    # above; GPT-6 Astra (XH) above-left of the Claude Opus 5.5 (XH) label so the two leaders run side by side.
+    (("gemini-4-argon", "high", "priority"), -150, 40, [
+        (("gemini-4-argon", "high", "priority"), (0.8, 0.0)),
+    ]),
+    (("gpt-6-astra", "medium", "standard"), -100, 50, [
+        (("gpt-6-astra", "medium", "standard"), (0.9, 0.0)),
+    ]),
+    (("gpt-6.1-sol", "high", "fast"), -70, 70, [
+        (("gpt-6.1-sol", "high", "fast"), (0.65, 0.0)),
+    ]),
+    (("gpt-6-astra", "xhigh", "fast"), -40, 100, [
+        (("gpt-6-astra", "xhigh", "fast"), (0.4, 0.0)),
+    ]),
+    (("claude-opus-5-5", "xhigh", "fast"), 45, 70, [
+        (("claude-opus-5-5", "xhigh", "fast"), (0.0, 0.5)),
+        (("gpt-6.1-sol", "high", "ultrafast"), (0.5, 0.0)),  # the row below, its leader dropping to its own dot
+    ]),
+    # The lower cluster: Claude Opus 5.5 (M), Claude Opus 5 (M) and Gemini 3.6 Flash in a column to the left of the
+    # markers; GPT-5.6 Sol and GPT-6 Sol in a column to the right.
+    (("claude-opus-5", "medium", "standard"), -216, -21, [  # one row above the column and 1 cm further left
+        (("claude-opus-5-5", "medium", "standard"), (1.0, 0.5)),
+    ]),
+    (("claude-opus-5", "medium", "standard"), -155, -47, [
+        (("claude-opus-5", "medium", "standard"), (1.0, 0.5)),
+        (("gemini-3.6-flash", "high", "standard"), (1.0, 0.5)),
+    ]),
+    (("gpt-5.6-sol", "high", "fast"), 14, -8, [
+        (("gpt-5.6-sol", "high", "fast"), (0.0, 0.5)),
+        (("gpt-6-sol", "high", "fast"), (0.0, 0.5)),
+    ]),
+]
 BLOCKS_LAYOUT_PER_TRIAL = [  # --per-trial, --layout blocks
     # (reference config, dx, dy of the first row in points from the reference marker,
     #  members top-to-bottom as (config, relpos): relpos is the point on the label box the leader leaves from)
@@ -594,6 +641,10 @@ def block_labels(ax, fig, pts) -> None:
         for key, (_, (fx, fy), _, _) in where.items():
             print(f"{key}: ax=({fx:.4f}, {fy:.4f})")
     table = BLOCKS_LAYOUT_PAPER if PAPER else (BLOCKS_LAYOUT_PER_TRIAL_TALL if TALL else BLOCKS_LAYOUT_PER_TRIAL) if PER_TRIAL else BLOCKS_LAYOUT
+    if PAPER:  # a later data set: its blocks replace any submitted block labelling the same configuration
+        extra = [b for b in BLOCKS_LAYOUT_PAPER_UPDATE if b[0] in where and any(k not in BLOCKS_SUBMITTED for k in where)]
+        relabelled = {key for _, _, _, members in extra for key, _ in members}
+        table = [b for b in table if not any(key in relabelled for key, _ in b[3])] + extra
     for ref, dx, dy, members in table:
         (_, (rx, ry), _, _) = where[ref]
         for i, (key, relpos) in enumerate(members):

@@ -13,7 +13,7 @@ per_trial = p.milestones_per_trial()
 def dominated(a):
     return any(b is not a and b["cost"] <= a["cost"] and b["time"] <= a["time"] and b["score"] >= a["score"]
                and (b["cost"] < a["cost"] or b["time"] < a["time"] or b["score"] > a["score"]) for b in rows)
-out = p.HERE / "robodojo-3d-cost-time-score-per-milestone.csv"
+out = p.OUT_DIR / "robodojo-3d-cost-time-score-per-milestone.csv"  # next to the script, or under BITTER_LESSON_OUT
 with out.open("w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["model", "name", "developer", "release_date", "effort", "mode", "label", "n_trials", "cost_basis",

@@ -1,0 +1,60 @@
+% Clustered bars, blurred trials pooled over the five tasks: for each model, the refusal rate under closed-loop
+% EEF control, as a VLA planner and as an instruction judge (60 trials per bar). Each bar is labelled with its
+% whole-percent rate; "n/p" marks a modality the model was not probed in. Rates come from delegation_counts.tex
+% (\SetDelegationPooled). Needs \ModelName (figure_settings.tex) and \ModalityName (delegation_settings.tex).
+% Series colours pass the dataviz validator on white (CVD dE >= 9.8); orange is below 3:1 contrast, so every
+% bar carries a text label.
+\providecolor{modalityE}{HTML}{2A7FA8}% closed-loop EEF
+\providecolor{modalityV}{HTML}{D9822B}% VLA planner
+\providecolor{modalityJ}{HTML}{009075}% judge
+\providecolor{barsgrid}{HTML}{DADDE0}
+\providecolor{barsink}{HTML}{4A5056}
+\begingroup%
+\def\BarsFont{\fontsize{8.1pt}{9.7pt}\selectfont}%
+\def\BarsSmall{\fontsize{6.5pt}{7.5pt}\selectfont}%
+\pgfmathsetlengthmacro{\AxisLeft}{24pt}%
+\pgfmathsetlengthmacro{\PlotWidth}{\linewidth-\AxisLeft}%
+\pgfmathsetlengthmacro{\ClusterWidth}{\PlotWidth/6}%
+\pgfmathsetlengthmacro{\BarWidth}{\ClusterWidth*0.22}%
+\pgfmathsetlengthmacro{\BarGap}{2pt}%
+\pgfmathsetlengthmacro{\LegendTop}{0pt}%
+\pgfmathsetlengthmacro{\PlotTop}{22pt}%
+\pgfmathsetlengthmacro{\PlotHeight}{80pt}%
+\pgfmathsetlengthmacro{\Baseline}{\PlotTop+\PlotHeight}%
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,font=\sffamily\BarsFont]
+  \path[use as bounding box] (0,0) rectangle (\linewidth,\Baseline+16pt);
+  % Legend row.
+  \foreach \modality/\swatch [count=\index from 0] in {1/modalityE,2/modalityV,3/modalityJ} {
+    \pgfmathsetlengthmacro{\LegendX}{\AxisLeft+\index*86pt}
+    \fill[\swatch] (\LegendX,\LegendTop+1.5pt) rectangle ++(7pt,7pt);
+    \node[anchor=west,inner sep=0pt] at (\LegendX+10pt,\LegendTop+5pt) {\ModalityName{\modality}};
+  }
+  % Recessive grid and y labels.
+  \foreach \tick in {0,25,50,75,100} {
+    \pgfmathsetlengthmacro{\TickY}{\Baseline-\tick/100*\PlotHeight}
+    \draw[barsgrid,line width=0.4pt] (\AxisLeft,\TickY) -- (\linewidth,\TickY);
+    \node[anchor=east,inner sep=0pt,text=barsink,font=\sffamily\BarsSmall] at (\AxisLeft-3pt,\TickY) {\tick\%};
+  }
+  \foreach \model in {1,...,6} {
+    \pgfmathsetlengthmacro{\ClusterX}{\AxisLeft+(\model-0.5)*\ClusterWidth}
+    \foreach \modality/\swatch in {1/modalityE,2/modalityV,3/modalityJ} {
+      \pgfmathsetlengthmacro{\BarX}{\ClusterX+(\modality-2)*(\BarWidth+\BarGap)-0.5*\BarWidth}
+      \edef\Rate{\csname dlpooled-\model-\modality\endcsname}
+      \ifx\Rate\MissingRefusal
+        \node[anchor=base,inner sep=0pt,text=barsink,font=\sffamily\BarsSmall]
+          at (\BarX+0.5*\BarWidth,\Baseline-3pt) {n/p};
+      \else
+        \pgfmathsetlengthmacro{\BarTop}{\Baseline-\Rate/100*\PlotHeight}
+        \ifdim\BarTop<\Baseline
+          \fill[\swatch] (\BarX,\Baseline) rectangle (\BarX+\BarWidth,\BarTop);
+        \fi
+        \node[anchor=base,inner sep=0pt,font=\sffamily\BarsSmall]
+          at (\BarX+0.5*\BarWidth,\BarTop-2pt) {\Rate};
+      \fi
+    }
+    \node[anchor=north,inner sep=0pt,align=center,text width=\ClusterWidth-4pt] at (\ClusterX,\Baseline+4pt)
+      {\ModelName{\model}};
+  }
+  \draw[barsink,line width=0.5pt] (\AxisLeft,\Baseline) -- (\linewidth,\Baseline);
+\end{tikzpicture}%
+\endgroup%

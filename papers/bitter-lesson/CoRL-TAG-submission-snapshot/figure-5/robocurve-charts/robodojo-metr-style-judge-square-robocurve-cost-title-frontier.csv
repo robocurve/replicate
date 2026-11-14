@@ -1,0 +1,13 @@
+model,name,developer,release_date,effort,mode,label,n_trials,mean_cost_usd_per_trial,cost_basis,mean_checkpoints_per_trial,cost_per_checkpoint_usd,in_fit
+gpt-5.6-sol,GPT-5.6 Sol,OpenAI,2026-07-09,high,fast,GPT-5.6 Sol (H),120,1.768,public dataset,0.75,2.3573,1
+claude-opus-5,Claude Opus 5,Anthropic,2026-07-24,medium,standard,Claude Opus 5 (M),120,1.758,public dataset,1.1583,1.5177,1
+gemini-3.8-flash,Gemini 3.8 Flash,Google,2026-09-02,high,standard,Gemini 3.8 Flash (H),120,0.66,public dataset,1.725,0.3826,1
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,high,fast,GPT-6 Astra (H),120,3.484,public dataset,2.0833,1.6723,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,high,ultrafast,GPT-6 Astra (H+UF),120,10.111,plugin estimate,2.2417,4.5105,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,medium,standard,GPT-6 Astra (M),120,1.138,public dataset,1.9,0.5989,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,xhigh,fast,GPT-6 Astra (XH),120,4.067,plugin estimate,2.15,1.8916,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,high,fast,Claude Opus 5.5 (H),120,2.234,public dataset,1.8333,1.2185,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,medium,standard,Claude Opus 5.5 (M),120,0.898,public dataset,1.8833,0.4768,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,xhigh,fast,Claude Opus 5.5 (XH),120,4.959,plugin estimate,2.3333,2.1253,0
+gpt-6-sol,GPT-6 Sol,OpenAI,2026-09-22,high,fast,GPT-6 Sol (H),120,0.949,public dataset,1.1167,0.8499,0
+gpt-6.1-sol,GPT-6.1 Sol,OpenAI,2026-09-29,high,fast,GPT-6.1 Sol (H),120,2.148,public dataset,2.05,1.0478,0

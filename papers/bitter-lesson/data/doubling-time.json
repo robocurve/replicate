@@ -1,0 +1,67 @@
+{
+ "data_dir": "figure-2",
+ "record_setters": [
+  {
+   "config": "gpt-5.6-sol|high|fast",
+   "label": "GPT-5.6 Sol (H)",
+   "mean_score_pct": 14.89,
+   "release_date": "2026-07-09"
+  },
+  {
+   "config": "claude-opus-5|medium|standard",
+   "label": "Claude Opus 5 (M)",
+   "mean_score_pct": 23.0,
+   "release_date": "2026-07-24"
+  },
+  {
+   "config": "gemini-3.8-flash|high|standard",
+   "label": "Gemini 3.8 Flash (H)",
+   "mean_score_pct": 36.24,
+   "release_date": "2026-09-02"
+  },
+  {
+   "config": "claude-opus-5-5|xhigh|fast",
+   "label": "Claude Opus 5.5 (XH)",
+   "mean_score_pct": 48.27,
+   "release_date": "2026-09-22"
+  },
+  {
+   "config": "gpt-6-astra|high|ultrafast",
+   "label": "GPT-6 Astra (H+UF)",
+   "mean_score_pct": 47.08,
+   "release_date": "2026-09-04"
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "label": "Gemini 3.6 Flash (H)",
+   "mean_score_pct": 19.59,
+   "release_date": "2026-07-21"
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "label": "Gemini 4 Argon (H+PR)",
+   "mean_score_pct": 48.4,
+   "release_date": "2026-10-13"
+  }
+ ],
+ "doubling_days": 53.94,
+ "bootstrap_95": [
+  36.11,
+  59.49
+ ],
+ "replicates": 20000,
+ "seed": 20261005,
+ "leave_one_out": {
+  "GPT-5.6 Sol (H)": 61.14,
+  "Claude Opus 5 (M)": 52.26,
+  "Gemini 3.8 Flash (H)": 54.1,
+  "Claude Opus 5.5 (XH)": 55.15,
+  "GPT-6 Astra (H+UF)": 56.16,
+  "Gemini 3.6 Flash (H)": 54.93,
+  "Gemini 4 Argon (H+PR)": 44.3
+ },
+ "leave_one_out_range": [
+  44.3,
+  61.14
+ ]
+}

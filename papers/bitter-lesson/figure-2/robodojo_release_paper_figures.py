@@ -32,7 +32,7 @@ from __future__ import annotations
 
 import csv
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -53,8 +53,8 @@ from matplotlib.ticker import FixedLocator, FuncFormatter, NullLocator  # noqa: 
 
 import robodojo_metr_style_robocurve_plot as base  # noqa: E402  (icon paths, label placement, overlap check)
 
-CHARTS = HERE / "robocurve-charts"
-OUT = HERE / "paper-figures"
+CHARTS = base.CHARTS  # next to this script, or under BITTER_LESSON_OUT (see the base module)
+OUT = base.OUT_DIR / "paper-figures"
 CHECK = "--check" in sys.argv
 ICONS = "--icons" in sys.argv
 
@@ -85,7 +85,8 @@ DX = MARK_PT / 2 + 2.5  # label offset from a marker centre, in points
 MARGIN = dict(left=0.56 + AXIS_PT * 1.2 / 72, right=0.08, bottom=0.36, top=0.21)  # inches around the axes: y tick labels and a two-line title (quantity, then unit: on one line the rate title would be longer than the panel is tall); x tick labels and title; the legend row
 X0, X1 = date(2026, 7, 1), date(2026, 11, 11)  # the X cards' date range
 FIT_X = (date(2026, 7, 1), date(2026, 10, 7))
-COL_L, COL_R = "2026-08-28", "2026-10-05"  # label columns: right-aligned left of the September 2-4 cluster, left-aligned right of the September 22-29 one
+COL_L, COL_R = "2026-08-28", "2026-10-05"
+COL_R_UPDATE = "2026-10-19"  # the post-submission data: the right column moves past the Gemini 4 Argon marker (13 October)  # label columns: right-aligned left of the September 2-4 cluster, left-aligned right of the September 22-29 one
 
 plt.rcParams.update(
     {
@@ -150,6 +151,25 @@ SCORE = {
         ("claude-opus-5-5", "high"): ("data", COL_R, 29.0, "left", (0.0, 0.5)),
         ("gpt-6-sol", "high"): ("data", COL_R, 21.98, "left", (0.0, 0.5)),
     },
+    # the post-submission data (three more configurations, --height=2.6): the right column moves past the Gemini 4 Argon
+    # marker (13 October, 48.4%); Gemini 3.6 Flash and GPT-5.6 Sol are labelled right of their markers, one above the other.
+    "update_place": {
+        ("gemini-3.6-flash", "high"): ("offset", DX, -10, "left"),  # right of its marker, clear of the y axis title
+        ("gpt-5.6-sol", "high"): ("offset", DX, -6, "left"),  # under the Gemini 3.6 Flash bar
+        # Claude Opus 5.5 (M) and (H) coincide: one label in the right column, anchored on the (H) marker so the leader
+        # passes under the GPT-6.1 Sol (H+UF) bar ("update_text" / "update_skip").
+        ("claude-opus-5-5", "high"): ("data", COL_R_UPDATE, 27.0, "left", (0.0, 0.5)),
+        ("claude-opus-5-5", "medium"): ("data", COL_R_UPDATE, 27.0, "left", (0.0, 0.5)),  # skipped
+        # Right column, past the Argon marker: Argon level with its marker, the others spread one line apart; the
+        # Opus 5.5 (XH) leader clears the Argon bar.
+        ("claude-opus-5-5", "xhigh"): ("data", COL_R_UPDATE, 57.0, "left", (0.0, 0.5)),
+        ("gemini-4-argon", "high"): ("data", COL_R_UPDATE, 48.4, "left", (0.0, 0.5)),
+        ("gpt-6.1-sol", "high"): ("data", COL_R_UPDATE, 42.0, "left", (0.0, 0.5)),
+        ("gpt-6.1-sol", "high", "ultrafast"): ("data", COL_R_UPDATE, 37.0, "left", (0.0, 0.5)),
+        ("gpt-6-sol", "high"): ("data", COL_R_UPDATE, 21.98, "left", (0.0, 0.5)),
+    },
+    "update_text": {("claude-opus-5-5", "high", "fast"): "Claude Opus 5.5 (H, M)"},
+    "update_skip": {("claude-opus-5-5", "medium", "standard")},
 }
 COST = {
     "file": "cost",
@@ -173,12 +193,24 @@ COST = {
         ("gpt-6-sol", "high"): ("data", COL_R, 0.82, "left", (0.0, 0.5)),
         ("claude-opus-5-5", "medium"): ("data", COL_R, 0.4768, "left", (0.0, 0.5)),
     },
+    # the post-submission data: the column opens around the Gemini 4 Argon marker ($0.97, 13 October).
+    "update_place": {
+        ("claude-opus-5-5", "xhigh"): ("data", COL_R_UPDATE, 2.2, "left", (0.0, 0.5)),
+        ("claude-opus-5-5", "high"): ("data", COL_R_UPDATE, 1.6, "left", (0.0, 0.5)),
+        ("gpt-6.1-sol", "high"): ("data", COL_R_UPDATE, 1.25, "left", (0.0, 0.5)),
+        ("gpt-6-sol", "high"): ("data", COL_R_UPDATE, 0.76, "left", (0.0, 0.5)),
+        ("claude-opus-5-5", "medium"): ("data", COL_R_UPDATE, 0.4768, "left", (0.0, 0.5)),
+        ("gemini-3.6-flash", "high"): ("offset", DX, 8, "left"),  # right of the marker, clear of the $1 tick label
+        ("gpt-6.1-sol", "high", "ultrafast"): ("offset", DX, 0, "left"),
+        ("gemini-4-argon", "high"): ("offset", DX, 0, "left"),
+    },
 }
 RATE = {
     "file": "rate",
     "load": lambda: load("rate-", lambda r: 60 * float(r["checkpoints_per_minute"])),
     "ylabel": "Subtask completion rate\n(subtasks/hour)",  # two lines: on one it is 143 pt, longer than the 110 pt panel
     "ylim": (8, 63), "ticks": [10, 20, 50], "fmt": lambda v, _=None: f"{v:g}", "bars": False,
+    "ylim_floor": 6,  # lowered when a configuration sits under 8 (Gemini 4 Argon, 7.1 subtasks per hour, in the post-submission data)
     "trend": "Doubling", "fit": False,  # three record setters: no trend is drawn; the table in the .tex gives the range
     "place": {
         ("gpt-5.6-sol", "high"): ("offset", DX, 0, "left"),
@@ -193,6 +225,19 @@ RATE = {
         ("claude-opus-5-5", "xhigh"): ("data", COL_R, 26.0, "left", (0.0, 0.5)),
         ("claude-opus-5-5", "medium"): ("data", COL_R, 21.8, "left", (0.0, 0.5)),
         ("gpt-6-sol", "high"): ("data", COL_R, 17.92, "left", (0.0, 0.5)),
+    },
+    # the post-submission data: the axis floor drops to 6 for Gemini 4 Argon, so the column spreads; Gemini 3.6 Flash sits
+    # above-right of its marker, over the GPT-5.6 Sol label.
+    "update_place": {
+        ("claude-opus-5-5", "high"): ("data", COL_R_UPDATE, 40.0, "left", (0.0, 0.5)),
+        ("gpt-6.1-sol", "high"): ("data", COL_R_UPDATE, 32.5, "left", (0.0, 0.5)),
+        ("claude-opus-5-5", "xhigh"): ("data", COL_R_UPDATE, 26.5, "left", (0.0, 0.5)),
+        ("claude-opus-5-5", "medium"): ("data", COL_R_UPDATE, 21.5, "left", (0.0, 0.5)),
+        ("gpt-6-sol", "high"): ("data", COL_R_UPDATE, 17.5, "left", (0.0, 0.5)),
+        ("gemini-3.8-flash", "high"): ("offset", DX, 0, "left"),  # right of its marker, clear of the Gemini 3.6 Flash label
+        ("gemini-3.6-flash", "high"): ("offset", DX, 7, "left"),
+        ("gpt-6.1-sol", "high", "ultrafast"): ("offset", DX, 0, "left"),
+        ("gemini-4-argon", "high"): ("offset", DX, 0, "left"),
     },
     "text": {("gpt-6-astra", "xhigh", "fast"): "GPT-6 Astra (XH, M)"},
     "skip": {("gpt-6-astra", "medium", "standard")},
@@ -268,7 +313,7 @@ def y_range(spec: dict, ax_h: float) -> tuple[float, float]:
     return lo, hi
 
 
-def style_axes(ax, spec: dict, ax_h: float, xlabels: bool) -> None:
+def style_axes(ax, spec: dict, ax_h: float, xlabels: bool, x1: date = X1) -> None:
     """Spines, grid, the log y axis with its ticks and the x axis; ``xlabels`` False hides the x tick labels and title."""
     for side in ("top", "right"):
         ax.spines[side].set_visible(False)
@@ -282,8 +327,8 @@ def style_axes(ax, spec: dict, ax_h: float, xlabels: bool) -> None:
     ax.yaxis.set_major_locator(FixedLocator(spec["ticks"]))
     ax.yaxis.set_minor_locator(NullLocator())
     ax.yaxis.set_major_formatter(FuncFormatter(spec["fmt"]))
-    ax.set_xlim(X0, X1)
-    ax.set_xticks([date(2026, m, 1) for m in (7, 8, 9, 10)])
+    ax.set_xlim(X0, x1)
+    ax.set_xticks([date(2026, m, 1) for m in range(7, 7 + (x1 - X0).days // 30)])
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%b %Y"))
     ax.tick_params(axis="both", which="both", length=0, pad=3)
     if xlabels:
@@ -296,10 +341,17 @@ def style_axes(ax, spec: dict, ax_h: float, xlabels: bool) -> None:
 def panel(ax, spec: dict, ax_h: float, xlabels: bool = True, with_legend: bool = True) -> tuple:
     """Draw one metric into ``ax`` (``ax_h`` inches tall); return (points, annots, legend, numbers for the captions)."""
     rows = spec["load"]()
-    style_axes(ax, spec, ax_h, xlabels)
+    if "ylim_floor" in spec and min(r["y"] for r in rows) < spec["ylim"][0]:  # a later configuration sits under the submitted floor
+        spec = {**spec, "ylim": (spec["ylim_floor"], spec["ylim"][1])}
+    latest = max(r["date"] for r in rows)
+    x1 = X1 if latest + timedelta(days=43) <= X1 else latest + timedelta(days=48)  # a later data set: room for a label right of its latest marker and the moved column
+    style_axes(ax, spec, ax_h, xlabels, x1)
     icons = {dev: base.icon_marker(base.ICONS[dev]["path"]) for dev in LAB} if ICONS else {}
     fit = [r for r in rows if r["in_fit"]]
     place, texts, skip = spec["place"], spec.get("text", {}), spec.get("skip", set())
+    if any((r["model"], r["effort"], r["mode"]) not in place and (r["model"], r["effort"]) not in place for r in rows):
+        place = {**place, **spec["update_place"]}  # a later data set: its placements override the submitted ones
+        texts, skip = {**texts, **spec.get("update_text", {})}, skip | spec.get("update_skip", set())
     lo, hi = y_range(spec, ax_h)
     decade_pt = ax_h * 72 / np.log10(hi / lo)
     line_decades = LABEL_PT * 1.3 / decade_pt  # one label line plus air, in log10 units
@@ -327,14 +379,15 @@ def panel(ax, spec: dict, ax_h: float, xlabels: bool = True, with_legend: bool =
     slope, intercept = np.polyfit(xb, np.log2([r["y"] for r in fit]), 1)
     days = abs(1 / slope)
     if spec["fit"]:
-        xs = np.array([mdates.date2num(d) for d in FIT_X])
+        fit_end = max(FIT_X[1], max(r["date"] for r in fit) + timedelta(days=14))  # past the latest record setter
+        xs = np.array([mdates.date2num(d) for d in (FIT_X[0], fit_end)])
         ax.plot(xs, 2 ** (slope * xs + intercept), color=FIT, linewidth=0.8, linestyle=(0, (2, 3)), dash_capstyle="round", zorder=1, clip_on=True)
     leg = legend(ax, spec, days, icons, ax_h) if with_legend else None
     first, last = min(fit, key=lambda r: r["date"]), max(fit, key=lambda r: r["date"])
     print(f"{spec['file']}: {spec['trend'].lower()} time {days:.1f} days over {len(fit)} record setters{'' if spec['fit'] else ' (not drawn)'}; "
           f"{first['label']} {first['y']:.3g} ({first['date']}) to {last['label']} {last['y']:.3g} ({last['date']})")
 
-    return points, annots, leg, {"days": days, "n": len(fit), "first": first, "last": last, "fit": spec["fit"]}
+    return points, annots, leg, {"days": days, "n": len(fit), "first": first, "last": last, "fit": spec["fit"], "rows": rows}
 
 
 def finish(fig, height: float, name: str, panels: list[tuple]) -> None:
@@ -425,7 +478,8 @@ def table_env(score: dict, cost: dict, rate: dict) -> str:
     rows = (block("Mean task score", score, lambda v: f"{v:.1f}\\%") + [r"\midrule"]
             + block("API cost per subtask", cost, lambda v: f"\\${v:.2f}") + [r"\midrule"]
             + block("Subtasks per hour", rate, lambda v: f"{v:.1f}"))
-    caption = (r"\textbf{Range of the record setters on RoboDojo-RC Tier~1, July to September 2026.} For each metric, "
+    span = f"{score['first']['date']:%B} to {score['last']['date']:%B %Y}"  # the score record setters' months
+    caption = (rf"\textbf{{Range of the record setters on RoboDojo-RC Tier~1, {span}.}} For each metric, "
                "the first and the latest record: the lowest and highest values among the record setters (for cost, the "
                r"first record is the highest). Configurations are labelled as in Figure~\ref{fig:release-score}.")
     return "\n".join([
@@ -463,7 +517,8 @@ def write_tex(score: dict, cost: dict, rate: dict) -> None:
              r"($\log_2$ of the value against release date).")
     score_cap = (r"\textbf{Mean task score on RoboDojo-RC Tier~1 against model release date.} "
                  "Each point is one model configuration (M/H/XH: medium, high and extra-high reasoning effort; UF: ultrafast "
-                 "serving), scored over 120 attempts (20 per task); bars are 95\\% bootstrap intervals. " + marks +
+                 "serving" + ("; PR: Google's Priority tier" if any(r["mode"] == "priority" for r in score["rows"]) else "")
+                 + "), scored over 120 attempts (20 per task); bars are 95\\% bootstrap intervals. " + marks +
                  f" Its doubling time is {score['days']:.1f} days: the record rose from {score['first']['y']:.1f}\\% "
                  f"({tex_name(score['first'])}, {month(score['first']['date'])}) to {score['last']['y']:.1f}\\% "
                  f"({tex_name(score['last'])}, {month(score['last']['date'])}).")
@@ -471,8 +526,10 @@ def write_tex(score: dict, cost: dict, rate: dict) -> None:
               r"model release date.} Rate is a configuration's summed subtasks over its 120 attempts divided by their summed "
               "duration (an attempt judged at milestone $k$ of its task completes $k$ subtasks); cost is its summed API cost "
               r"divided by the same subtasks. As ratios of totals they carry no intervals. Markers are as in Figure~\ref{fig:release-score}, "
-              "with record setters the fastest and the cheapest configurations to date; with only three record setters on each "
-              f"panel, no trend is fitted. The rate record rose from {rate['first']['y']:.1f} subtasks per hour "
+              "with record setters the fastest and the cheapest configurations to date; "
+              + ("with only three record setters on each panel, no trend is fitted. " if rate["n"] == cost["n"] == 3 else
+                 f"no trend is fitted ({rate['n']} record setters on the rate panel, {cost['n']} on the cost panel). ")
+              + f"The rate record rose from {rate['first']['y']:.1f} subtasks per hour "
               f"({tex_name(rate['first'])}, {month(rate['first']['date'])}) to {rate['last']['y']:.1f} ({tex_name(rate['last'])}, "
               f"{month(rate['last']['date'])}), and the cost record fell from \\${cost['first']['y']:.2f} per subtask "
               f"({tex_name(cost['first'])}, {month(cost['first']['date'])}) to \\${cost['last']['y']:.2f} ({tex_name(cost['last'])}, "

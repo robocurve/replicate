@@ -1,0 +1,77 @@
+% Two panels side by side, six models by five tasks, blurred trials that were not refusals only.
+% Left: trials where the model recognised a hazard on at least one call / trials.
+% Right: mean share of calls per trial in which the model recognised a hazard.
+% Fill steps follow the completion figure: red under 25%, yellow 25-49%, blue 50-74%, green 75% and up;
+% grey for a cell with no trials. No titles or key; the caption explains both panels. Counts come from hazard_counts.tex (\SetHazard). Needs \TaskName and
+% \ModelName from figure_settings.tex.
+\providecolor{completionbinA}{HTML}{B1182C}% under 25%
+\providecolor{completionbinB}{HTML}{FECA76}% 25-49%
+\providecolor{completionbinC}{HTML}{15617B}% 50-74%
+\providecolor{completionbinE}{HTML}{009075}% 75% and up
+\begingroup%
+\def\HeatmapFont{\fontsize{8.1pt}{9.7pt}\selectfont}%
+% Task names broken after each hyphen, set at 45 degrees; both parts start at the same height.
+\def\HeaderTop#1{\ifcase#1\or doll\or power-\or toaster\or mix-\or pour-\fi}%
+\def\HeaderBottom#1{\ifcase#1\or \or strip\or \or chemicals\or drink\fi}%
+\pgfmathsetlengthmacro{\ModelLabelWidth}{68pt}%
+\pgfmathsetlengthmacro{\PanelGap}{12pt}%
+% Room on the right for the last slanted task label.
+\pgfmathsetlengthmacro{\RightPad}{14pt}%
+\pgfmathsetlengthmacro{\PanelWidth}{(\linewidth-\ModelLabelWidth-\PanelGap-\RightPad)/2}%
+\pgfmathsetlengthmacro{\CellWidth}{\PanelWidth/5}%
+\pgfmathsetlengthmacro{\CellHeight}{14pt}%
+\pgfmathsetlengthmacro{\GridTop}{34pt}%
+\pgfmathsetlengthmacro{\GridBottom}{\GridTop+6*\CellHeight}%
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,font=\sffamily\HeatmapFont]
+  \path[use as bounding box] (0,0) rectangle (\linewidth,\GridBottom);
+  \foreach \panel in {1,2} {
+    \pgfmathsetlengthmacro{\PanelX}{\ModelLabelWidth+(\panel-1)*(\PanelWidth+\PanelGap)}
+    \foreach \task in {1,...,5} {
+      % The two parts sit 9.5pt apart horizontally (about 6.7pt line to line), tighter than the line spacing.
+      \pgfmathtruncatemacro{\OneLine}{\task==1||\task==3}%
+      \ifnum\OneLine=1
+        \node[anchor=south west,inner sep=0pt,rotate=45]
+          at ({\PanelX+(\task-0.5)*\CellWidth-2pt},\GridTop-3pt) {\HeaderTop{\task}};
+      \else
+        \node[anchor=south west,inner sep=0pt,rotate=45]
+          at ({\PanelX+(\task-0.5)*\CellWidth-6.75pt},\GridTop-3pt) {\HeaderTop{\task}};
+        \node[anchor=south west,inner sep=0pt,rotate=45]
+          at ({\PanelX+(\task-0.5)*\CellWidth+2.75pt},\GridTop-3pt) {\HeaderBottom{\task}};
+      \fi
+      \foreach \model in {1,...,6} {
+        \pgfmathsetlengthmacro{\CellY}{\GridTop+(\model-1)*\CellHeight}
+        \pgfmathsetlengthmacro{\CellX}{\PanelX+(\task-1)*\CellWidth}
+        \edef\Trials{\csname hztrials-\task-\model\endcsname}
+        \edef\Identified{\csname hzidentified-\task-\model\endcsname}
+        \edef\Share{\csname hzshare-\task-\model\endcsname}
+        \ifnum\Trials=0
+          \def\CellFill{placeholderfill}\def\CellText{placeholdertext}\def\CellLabel{0/0}%
+          \ifnum\panel=2 \def\CellLabel{--}\fi
+        \else
+          \ifnum\panel=1
+            \edef\CellLabel{\Identified/\Trials}%
+            \pgfmathtruncatemacro{\Rate}{100*\Identified/\Trials}%
+          \else
+            \edef\CellLabel{\Share\%}%
+            \edef\Rate{\Share}%
+          \fi
+          \ifnum\Rate<25 \def\CellFill{completionbinA}\def\CellText{white}%
+          \else\ifnum\Rate<50 \def\CellFill{completionbinB}\def\CellText{black}%
+          \else\ifnum\Rate<75 \def\CellFill{completionbinC}\def\CellText{white}%
+          \else \def\CellFill{completionbinE}\def\CellText{white}%
+          \fi\fi\fi
+        \fi
+        \draw[fill=\CellFill,draw=white,line width=0.6pt]
+          (\CellX,\CellY) rectangle ++(\CellWidth,\CellHeight);
+        \node[inner sep=0pt,text=\CellText]
+          at (\CellX+0.5*\CellWidth,\CellY+0.5*\CellHeight) {\CellLabel};
+      }
+    }
+  }
+  \foreach \model in {1,...,6} {
+    \node[anchor=east,inner sep=0pt]
+      at (\ModelLabelWidth-4pt,{\GridTop+(\model-0.5)*\CellHeight})
+      {\ModelName{\model}};
+  }
+\end{tikzpicture}%
+\endgroup%

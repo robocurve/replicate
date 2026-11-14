@@ -37,9 +37,10 @@ and rebuilds `robocurve-runs.csv` with `make_runs_csv.py`.
 `data/robocurve-runs(1).csv` is the robocurve.org all-runs export of the 120 Dream-1 attempts
 (its `minutes` is wall-clock, 3.0 for every row). `robocurve-runs.csv` (this folder) is the same
 file with `minutes` replaced by the measured completion time in minutes (blank for the two
-unscored trials) and two columns appended: `wall_clock_minutes` (the original value) and
-`time_to_score_s`. `cost` stays wall-clock based ($3/hr x duration), as on the site. Cost and both
-minute columns are rounded to 2 decimal places. The same values were pushed to the
+unscored trials) and `time_to_score_s` appended. The wall-clock duration is deliberately not
+carried: every attempt ran the full 180 s, and the figure only confuses. `cost` stays
+wall-clock based ($3/hr x duration), as on the site. Cost and minutes are rounded to 2
+decimal places. The same values were pushed to the
 website's Dream-1 rows on 2026-10-20 (robocurve/website branch `dream1-measured-minutes`), so
 the site's "Download filtered CSV" for the Dream-1 cohort matches this file once merged.
 
@@ -81,5 +82,35 @@ scale and 3.6% of pixels differ by more than 64 levels, all at glyph edges and s
 the title and subtitle lines. That residue is text rasterization: the posted card was shot
 with Chromium on macOS, this one with Playwright's Chromium on Linux. Rendering with the
 CDN fonts or the self-hosted copies gives the same bytes here, so the font files are not the
-cause. `make_runs_csv.py` reports 118 measured trials with mean 1.447 min, matching the
-leaderboard's `minutes` for Dream-1.
+cause. `make_runs_csv.py` reported 118 measured trials with mean 1.447 min, matching the
+leaderboard's `minutes` for Dream-1 at the time (1.537 min after the correction below).
+
+## Correction (2026-10-21): Stand Up Bottles times measured against the v1 grade
+
+The time-to-score pass above showed the judge the newer 8-level bottles rubric and each
+trial's grade under it, while the card and the site publish the trials' grades under the
+older 5-level (v1) rubric. A time to a v2 grade is not the time to the published v1 grade
+(the five GR00T/MolmoAct2 trials re-graded 0.25 to 0.1 were timed to the 0.25 "tilted at
+least halfway upright" milestone; 15 Dream-1 trials have a different v1 score, and two more
+sit at 0.7, which v1 defines at trial end rather than at any point). The 0.1 and 1 levels
+mean the same in both rubrics, so the other 26 scored bottle trials were left as they were.
+No non-bottle timing record disagrees with its published score (125 + 118 checked).
+
+The 22 affected trials were re-asked the same question with the v1 rubric, the v1 score and
+the v1 grader explanation (`data/judge-results/bottles-v1/prompt.txt`): same judge (GPT-6
+Astra, high), same frame sampling, same per-camera dashboard clips (fetched from the rig
+dashboard; sha256 of each clip in the result files). Raw replies:
+`data/judge-results/bottles-v1/` (22 files; the v2-based originals stay in the two folders
+above). `data/time-to-score-dream-1.json` and `data/time-to-score-vla-baselines.csv` now
+carry the v1 score and time for these trials (`rubric_revision` on the Dream-1 bottle rows).
+9 of the 22 moved later (an at-trial-end condition is held only from the moment the
+bottles stay up, and the v1 grader placed some lifts later), 11 earlier (a lower v1 level
+is reached before the higher v2 one) and 2 are unchanged.
+
+Corrected means: Dream-1 92.19 s = 1.537 min over 118 scored trials
+(median 82 s; was 86.84 s = 1.447 min); GR00T N1.7 56.3 s (48 trials; was 55.2 s);
+MolmoAct2 48.2 s (77 trials; was 50.0 s). `robocurve-runs.csv` is rebuilt from the corrected
+file (`make_runs_csv.py` now checks every row's score against the timing record, bottles
+included). `dream-1.jpeg`, `data/chart-values.json` and the figures quoted above are left as
+the replicate of the card that was posted on 2026-10-19; the corrected values go to the
+website (robocurve/website branch `bottles-v1-time-to-score`).
