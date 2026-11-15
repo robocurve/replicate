@@ -29,7 +29,7 @@ from __future__ import annotations
 
 import csv
 import sys
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -124,7 +124,8 @@ def main() -> None:
         x = np.array([mdates.date2num(r["date"]) for r in front])
         y = np.array([r[ykey] for r in front])
         slope, intercept = np.polyfit(x, y, 1)
-        ends = [slope * mdates.date2num(d) + intercept for d in LINE_DATES]
+        line_dates = (LINE_DATES[0], max(LINE_DATES[1], max(r["date"] for r in front) + timedelta(days=14)))  # past the latest record setter
+        ends = [slope * mdates.date2num(d) + intercept for d in line_dates]
         if space == "log10":
             ends = [10 ** v for v in ends]
         fits.append({
@@ -132,8 +133,8 @@ def main() -> None:
             "fitted_configurations": "; ".join(r["label"] for r in front),
             "slope_per_month": round(slope * 30.44, 5), "slope_units": units,
             "pct_change_per_month": round((10 ** (slope * 30.44) - 1) * 100, 2) if space == "log10" else "",
-            "line_start_date": LINE_DATES[0].isoformat(), "line_start_y": round(ends[0], 4),
-            "line_end_date": LINE_DATES[1].isoformat(), "line_end_y": round(ends[1], 4),
+            "line_start_date": line_dates[0].isoformat(), "line_start_y": round(ends[0], 4),
+            "line_end_date": line_dates[1].isoformat(), "line_end_y": round(ends[1], 4),
         })
     write(out / f"{STEM}-frontier-fits.csv", fits)
 

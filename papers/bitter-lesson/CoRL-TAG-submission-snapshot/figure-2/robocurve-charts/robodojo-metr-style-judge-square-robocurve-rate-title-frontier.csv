@@ -1,0 +1,13 @@
+model,name,developer,release_date,effort,mode,label,n_trials,mean_checkpoints_per_trial,mean_minutes_per_trial,n_timed_trials,checkpoints_per_minute,in_fit
+gpt-5.6-sol,GPT-5.6 Sol,OpenAI,2026-07-09,high,fast,GPT-5.6 Sol (H),120,0.75,3.641,120,0.206,1
+claude-opus-5,Claude Opus 5,Anthropic,2026-07-24,medium,standard,Claude Opus 5 (M),120,1.1583,7.254,120,0.1597,0
+gemini-3.8-flash,Gemini 3.8 Flash,Google,2026-09-02,high,standard,Gemini 3.8 Flash (H),120,1.725,7.209,120,0.2393,1
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,high,fast,GPT-6 Astra (H),120,2.0833,3.963,120,0.5257,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,high,ultrafast,GPT-6 Astra (H+UF),120,2.2417,2.474,120,0.9061,1
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,medium,standard,GPT-6 Astra (M),120,1.9,4.178,120,0.4548,0
+gpt-6-astra,GPT-6 Astra,OpenAI,2026-09-04,xhigh,fast,GPT-6 Astra (XH),120,2.15,4.792,120,0.4487,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,high,fast,Claude Opus 5.5 (H),120,1.8333,3.102,120,0.591,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,medium,standard,Claude Opus 5.5 (M),120,1.8833,4.48,120,0.4204,0
+claude-opus-5-5,Claude Opus 5.5,Anthropic,2026-09-22,xhigh,fast,Claude Opus 5.5 (XH),120,2.3333,5.331,116,0.4377,0
+gpt-6-sol,GPT-6 Sol,OpenAI,2026-09-22,high,fast,GPT-6 Sol (H),120,1.1167,3.738,120,0.2987,0
+gpt-6.1-sol,GPT-6.1 Sol,OpenAI,2026-09-29,high,fast,GPT-6.1 Sol (H),120,2.05,4.037,120,0.5078,0

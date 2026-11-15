@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+# LaTeX preview scratch (run.sh writes build/; the rendered previews live in paper-figures/)
+build/

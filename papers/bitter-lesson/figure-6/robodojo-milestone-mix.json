@@ -4218,6 +4218,1005 @@
    "description": "Basket scores 0.5 + 0.5: all three objects of each category in separate pure baskets.",
    "count": 1,
    "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stack Bowls",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No qualifying overlap or stack at trial end.",
+   "count": 14,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stack Bowls",
+   "level_score": 0.25,
+   "level_title": "0.25",
+   "description": "Two bowls overlapping at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stack Bowls",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Two bowls stacked at trial end.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stack Bowls",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Three bowls overlapping in one connected arrangement at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stack Bowls",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three bowls stacked at trial end.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Store In Safe",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No objects inside the safe at trial end.",
+   "count": 5,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Store In Safe",
+   "level_score": 0.25,
+   "level_title": "0.25",
+   "description": "One object inside the safe at trial end.",
+   "count": 9,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Store In Safe",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Two objects inside the safe at trial end.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Store In Safe",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Three objects inside the safe at trial end.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Store In Safe",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three objects inside the safe and the lid closed at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "Both baskets score 0.",
+   "count": 10,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.17,
+   "level_title": "0.17",
+   "description": "Basket scores 0.17 + 0, in either order.",
+   "count": 6,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.33,
+   "level_title": "0.33",
+   "description": "Basket scores 0.33 + 0, in either order.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.34,
+   "level_title": "0.34",
+   "description": "Basket scores 0.17 + 0.17, for different categories.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Basket scores 0.5 + 0, or 0.33 + 0.17, in either order.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.66,
+   "level_title": "0.66",
+   "description": "Basket scores 0.33 + 0.33, for different categories.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.67,
+   "level_title": "0.67",
+   "description": "Basket scores 0.5 + 0.17, in either order.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 0.83,
+   "level_title": "0.83",
+   "description": "Basket scores 0.5 + 0.33, in either order.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Sort Objects",
+   "level_score": 1.0,
+   "level_title": "1.0",
+   "description": "Basket scores 0.5 + 0.5: all three objects of each category in separate pure baskets.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Cap Pen",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "Neither pen nor cap picked up.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Cap Pen",
+   "level_score": 0.2,
+   "level_title": "0.2",
+   "description": "Pen or cap picked up.",
+   "count": 8,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Cap Pen",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Pen and cap both held off the surface simultaneously.",
+   "count": 6,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Cap Pen",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Pen and cap touch while both are held in the air. No alignment requirement.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Cap Pen",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Cap successfully placed onto the pen and remains attached at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No fruit successfully packed and no higher criterion achieved.",
+   "count": 10,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.1,
+   "level_title": "0.1",
+   "description": "One fruit successfully placed into the small bowl.",
+   "count": 6,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.3,
+   "level_title": "0.3",
+   "description": "Two fruits successfully contained in the small bowl at the same time.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Three fruits successfully contained in the small bowl at the same time.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.7,
+   "level_title": "0.7",
+   "description": "Small bowl lifted clear of its supporting surface with all three fruits inside.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.8,
+   "level_title": "0.8",
+   "description": "One fruit poured from the small bowl into the large bowl and remains there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.9,
+   "level_title": "0.9",
+   "description": "Two fruits poured from the small bowl into the large bowl and remain there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Pack And Pour Fruit",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "All three fruits poured from the small bowl into the large bowl and remain there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stand Up Bottles",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No bottles upright and no bottle successfully gripped and lifted.",
+   "count": 12,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stand Up Bottles",
+   "level_score": 0.1,
+   "level_title": "0.1",
+   "description": "A bottle gripped and lifted clear of its supporting surface.",
+   "count": 7,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stand Up Bottles",
+   "level_score": 0.4,
+   "level_title": "0.4",
+   "description": "One bottle upright at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stand Up Bottles",
+   "level_score": 0.7,
+   "level_title": "0.7",
+   "description": "Two bottles upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-3.6-flash|high|standard",
+   "task": "Stand Up Bottles",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three bottles upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stack Bowls",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No qualifying overlap or stack at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stack Bowls",
+   "level_score": 0.25,
+   "level_title": "0.25",
+   "description": "Two bowls overlapping at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stack Bowls",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Two bowls stacked at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stack Bowls",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Three bowls overlapping in one connected arrangement at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stack Bowls",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three bowls stacked at trial end.",
+   "count": 19,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Store In Safe",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No objects inside the safe at trial end.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Store In Safe",
+   "level_score": 0.25,
+   "level_title": "0.25",
+   "description": "One object inside the safe at trial end.",
+   "count": 7,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Store In Safe",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Two objects inside the safe at trial end.",
+   "count": 5,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Store In Safe",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Three objects inside the safe at trial end.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Store In Safe",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three objects inside the safe and the lid closed at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "Both baskets score 0.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.17,
+   "level_title": "0.17",
+   "description": "Basket scores 0.17 + 0, in either order.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.33,
+   "level_title": "0.33",
+   "description": "Basket scores 0.33 + 0, in either order.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.34,
+   "level_title": "0.34",
+   "description": "Basket scores 0.17 + 0.17, for different categories.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Basket scores 0.5 + 0, or 0.33 + 0.17, in either order.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.66,
+   "level_title": "0.66",
+   "description": "Basket scores 0.33 + 0.33, for different categories.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.67,
+   "level_title": "0.67",
+   "description": "Basket scores 0.5 + 0.17, in either order.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 0.83,
+   "level_title": "0.83",
+   "description": "Basket scores 0.5 + 0.33, in either order.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Sort Objects",
+   "level_score": 1.0,
+   "level_title": "1.0",
+   "description": "Basket scores 0.5 + 0.5: all three objects of each category in separate pure baskets.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Cap Pen",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "Neither pen nor cap picked up.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Cap Pen",
+   "level_score": 0.2,
+   "level_title": "0.2",
+   "description": "Pen or cap picked up.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Cap Pen",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Pen and cap both held off the surface simultaneously.",
+   "count": 12,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Cap Pen",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Pen and cap touch while both are held in the air. No alignment requirement.",
+   "count": 6,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Cap Pen",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Cap successfully placed onto the pen and remains attached at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No fruit successfully packed and no higher criterion achieved.",
+   "count": 9,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.1,
+   "level_title": "0.1",
+   "description": "One fruit successfully placed into the small bowl.",
+   "count": 8,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.3,
+   "level_title": "0.3",
+   "description": "Two fruits successfully contained in the small bowl at the same time.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Three fruits successfully contained in the small bowl at the same time.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.7,
+   "level_title": "0.7",
+   "description": "Small bowl lifted clear of its supporting surface with all three fruits inside.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.8,
+   "level_title": "0.8",
+   "description": "One fruit poured from the small bowl into the large bowl and remains there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.9,
+   "level_title": "0.9",
+   "description": "Two fruits poured from the small bowl into the large bowl and remain there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Pack And Pour Fruit",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "All three fruits poured from the small bowl into the large bowl and remain there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stand Up Bottles",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No bottles upright and no bottle successfully gripped and lifted.",
+   "count": 9,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stand Up Bottles",
+   "level_score": 0.1,
+   "level_title": "0.1",
+   "description": "A bottle gripped and lifted clear of its supporting surface.",
+   "count": 11,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stand Up Bottles",
+   "level_score": 0.4,
+   "level_title": "0.4",
+   "description": "One bottle upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stand Up Bottles",
+   "level_score": 0.7,
+   "level_title": "0.7",
+   "description": "Two bottles upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gpt-6.1-sol|high|ultrafast",
+   "task": "Stand Up Bottles",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three bottles upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stack Bowls",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No qualifying overlap or stack at trial end.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stack Bowls",
+   "level_score": 0.25,
+   "level_title": "0.25",
+   "description": "Two bowls overlapping at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stack Bowls",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Two bowls stacked at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stack Bowls",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Three bowls overlapping in one connected arrangement at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stack Bowls",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three bowls stacked at trial end.",
+   "count": 15,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Store In Safe",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No objects inside the safe at trial end.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Store In Safe",
+   "level_score": 0.25,
+   "level_title": "0.25",
+   "description": "One object inside the safe at trial end.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Store In Safe",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Two objects inside the safe at trial end.",
+   "count": 7,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Store In Safe",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Three objects inside the safe at trial end.",
+   "count": 8,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Store In Safe",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three objects inside the safe and the lid closed at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "Both baskets score 0.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.17,
+   "level_title": "0.17",
+   "description": "Basket scores 0.17 + 0, in either order.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.33,
+   "level_title": "0.33",
+   "description": "Basket scores 0.33 + 0, in either order.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.34,
+   "level_title": "0.34",
+   "description": "Basket scores 0.17 + 0.17, for different categories.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Basket scores 0.5 + 0, or 0.33 + 0.17, in either order.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.66,
+   "level_title": "0.66",
+   "description": "Basket scores 0.33 + 0.33, for different categories.",
+   "count": 7,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.67,
+   "level_title": "0.67",
+   "description": "Basket scores 0.5 + 0.17, in either order.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 0.83,
+   "level_title": "0.83",
+   "description": "Basket scores 0.5 + 0.33, in either order.",
+   "count": 7,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Sort Objects",
+   "level_score": 1.0,
+   "level_title": "1.0",
+   "description": "Basket scores 0.5 + 0.5: all three objects of each category in separate pure baskets.",
+   "count": 4,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Cap Pen",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "Neither pen nor cap picked up.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Cap Pen",
+   "level_score": 0.2,
+   "level_title": "0.2",
+   "description": "Pen or cap picked up.",
+   "count": 6,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Cap Pen",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Pen and cap both held off the surface simultaneously.",
+   "count": 5,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Cap Pen",
+   "level_score": 0.75,
+   "level_title": "0.75",
+   "description": "Pen and cap touch while both are held in the air. No alignment requirement.",
+   "count": 5,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Cap Pen",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Cap successfully placed onto the pen and remains attached at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No fruit successfully packed and no higher criterion achieved.",
+   "count": 3,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.1,
+   "level_title": "0.1",
+   "description": "One fruit successfully placed into the small bowl.",
+   "count": 2,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.3,
+   "level_title": "0.3",
+   "description": "Two fruits successfully contained in the small bowl at the same time.",
+   "count": 7,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.5,
+   "level_title": "0.5",
+   "description": "Three fruits successfully contained in the small bowl at the same time.",
+   "count": 6,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.7,
+   "level_title": "0.7",
+   "description": "Small bowl lifted clear of its supporting surface with all three fruits inside.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.8,
+   "level_title": "0.8",
+   "description": "One fruit poured from the small bowl into the large bowl and remains there at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 0.9,
+   "level_title": "0.9",
+   "description": "Two fruits poured from the small bowl into the large bowl and remain there at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Pack And Pour Fruit",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "All three fruits poured from the small bowl into the large bowl and remain there at trial end.",
+   "count": 1,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stand Up Bottles",
+   "level_score": 0,
+   "level_title": "0",
+   "description": "No bottles upright and no bottle successfully gripped and lifted.",
+   "count": 5,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stand Up Bottles",
+   "level_score": 0.1,
+   "level_title": "0.1",
+   "description": "A bottle gripped and lifted clear of its supporting surface.",
+   "count": 15,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stand Up Bottles",
+   "level_score": 0.4,
+   "level_title": "0.4",
+   "description": "One bottle upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stand Up Bottles",
+   "level_score": 0.7,
+   "level_title": "0.7",
+   "description": "Two bottles upright at trial end.",
+   "count": 0,
+   "n": 20
+  },
+  {
+   "config": "gemini-4-argon|high|priority",
+   "task": "Stand Up Bottles",
+   "level_score": 1,
+   "level_title": "1",
+   "description": "Three bottles upright at trial end.",
+   "count": 0,
+   "n": 20
   }
  ]
 }

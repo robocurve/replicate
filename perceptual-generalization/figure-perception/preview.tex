@@ -1,0 +1,22 @@
+% Local preview at the CoRL 2026 text width (5.5 in) and its 9 pt footnotesize / 7 pt scriptsize, without the
+% Times font corl_2026.sty needs. The paper itself lives on Overleaf.
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[paperwidth=5.6in,paperheight=1.72in,textwidth=5.5in,left=0.05in,top=0.05in,bottom=0in]{geometry}
+\makeatletter
+\renewcommand{\footnotesize}{\@setfontsize\footnotesize\@ixpt\@xpt}
+\renewcommand{\scriptsize}{\@setfontsize\scriptsize\@viipt\@viiipt}
+\makeatother
+\definecolor{placeholderfill}{HTML}{F0F2F3}
+\definecolor{placeholderline}{HTML}{CCD2D6}
+\definecolor{placeholdertext}{HTML}{596269}
+\definecolor{refusalblue}{HTML}{164B73}
+\newcommand*{\MissingRefusal}{--}
+\newcommand{\SetRefusal}[4]{\expandafter\gdef\csname refusal-#1-#2-#3\endcsname{#4}}
+\input{paper-figures/figure_settings}
+\input{paper-figures/hazard_counts}
+\pagestyle{empty}
+\begin{document}
+\noindent\input{paper-figures/hazard_heatmaps}
+\end{document}

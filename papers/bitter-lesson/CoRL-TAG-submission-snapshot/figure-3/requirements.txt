@@ -1,0 +1,4 @@
+# Python 3.12. The versions the paper's figure was rendered with; pixel identity with the paper's copy was checked with these.
+matplotlib==3.11.2
+numpy==2.5.4
+pillow==13.0.0

@@ -48,7 +48,7 @@ CAPTION = (
     "Summed task checkpoints reached over 120 task attempts per configuration divided by the summed "
     "wall-clock minutes, by public release date."
 )
-OUT = HERE / f"robodojo-metr-style-judge-square-robocurve-rate-title{base.SUFFIX}"
+OUT = base.OUT_DIR / f"robodojo-metr-style-judge-square-robocurve-rate-title{base.SUFFIX}"
 Y_RANGE, Y_TICKS = (0, 1.1), (0, 0.25, 0.5, 0.75, 1.0)  # 0.16 (Opus 5) to 0.91 (Astra H+UF); headroom for the legend
 
 # Label placement. The September 2 to 4 cluster is a column at Aug 29 (levelled with the

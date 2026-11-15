@@ -29,6 +29,7 @@ Reads robodojo-milestone-mix.json beside this script and writes PNG, SVG and PDF
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -40,8 +41,11 @@ matplotlib.use("Agg")
 
 HERE = Path(__file__).resolve().parent
 FONT_DIR = next((d for d in (HERE / "fonts", Path("/usr/share/fonts/truetype/liberation")) if d.is_dir()), HERE / "fonts")  # the bundled Liberation TTFs (SIL OFL 1.1), else Debian's fonts-liberation package
-DATA = HERE / "robodojo-milestone-mix.json"
-OUT = HERE / "robodojo-survival-curves"
+# BITTER_LESSON_DATA / BITTER_LESSON_OUT point at another data and output folder (the submission snapshot reads its own); unset, the script reads and writes next to itself, as for the submitted figure.
+DATA_DIR = Path(os.environ.get("BITTER_LESSON_DATA", HERE))
+OUT_DIR = Path(os.environ.get("BITTER_LESSON_OUT", HERE))
+DATA = DATA_DIR / "robodojo-milestone-mix.json"
+OUT = OUT_DIR / "robodojo-survival-curves"
 if "--suffix" in sys.argv:
     OUT = OUT.with_name(OUT.name + "-" + sys.argv[sys.argv.index("--suffix") + 1])
 JITTER = "--no-jitter" not in sys.argv
@@ -61,7 +65,7 @@ CHECK = "--check" in sys.argv
 WIDTH = float(sys.argv[sys.argv.index("--width") + 1]) if "--width" in sys.argv else 5.5  # --paper: figure width in inches (the CoRL text width)
 SUFFIX = sys.argv[sys.argv.index("--suffix") + 1] if "--suffix" in sys.argv else ""
 if PAPER:
-    OUT = HERE / "paper-figures" / (OUT.name + ("-serif" if SERIF else ""))
+    OUT = OUT_DIR / "paper-figures" / (OUT.name + ("-serif" if SERIF else ""))
 
 # Chart chrome: shared with the sibling RoboDojo figures, except that the surface
 # is pure white so the figure sits on a paper page without a visible edge.
@@ -86,11 +90,16 @@ MODEL_COLOR = {
     "claude-opus-5": "#e87ba4",
     "gpt-6-sol": "#008300",
     "gpt-5.6-sol": "#4a3aa7",
+    # Models added in the post-submission data (absent from the submitted data).
+    "gemini-4-argon": "#1f1f1f",
+    "gemini-3.6-flash": "#8a8a8a",
 }
 NAME = {
     "gpt-5.6-sol": "GPT-5.6 Sol", "claude-opus-5": "Claude Opus 5", "gemini-3.8-flash": "Gemini 3.8 Flash",
     "gpt-6-astra": "GPT-6 Astra", "gpt-6-sol": "GPT-6 Sol", "claude-opus-5-5": "Claude Opus 5.5", "gpt-6.1-sol": "GPT-6.1 Sol",
+    "gemini-4-argon": "Gemini 4 Argon", "gemini-3.6-flash": "Gemini 3.6 Flash",
 }
+MODE_SUFFIX = {"ultrafast": "+UF", "priority": "+PR"}  # serving tiers named in the label; fast and standard are not
 EFFORT = {"medium": "M", "high": "H", "xhigh": "XH"}
 EFFORT_MARKER = {"medium": "o", "high": "s", "xhigh": "^"}
 ULTRAFAST_MARKER = "D"
@@ -201,6 +210,9 @@ if PAPER:  # the 2D paper figures' dress (../robodojo-release-date-charts/robodo
         "gpt-6-sol": "#04844d",  # green
         "gpt-5.6-sol": "#b18e15",  # olive gold
         "claude-opus-5": "#e65d76",  # salmon
+        # the post-submission data: two more Google models (absent from the submitted data)
+        "gemini-4-argon": "#4b2a85",  # deep violet
+        "gemini-3.6-flash": "#8f8a85",  # warm grey
     }
     BASE, AXIS_PT, TITLE_SIZE = 7.0, 8.0, 8.0
     LINE_W, MARKER_SIZE, EDGE_W, LINE_ALPHA = 0.8, 4.0, 0.6, 1.0
@@ -241,7 +253,7 @@ plt.rcParams.update(
 
 def label(cfg: str) -> str:
     model, effort, mode = cfg.split("|")
-    return f"{NAME[model]} ({EFFORT[effort]}{'+UF' if mode == 'ultrafast' else ''})"
+    return f"{NAME[model]} ({EFFORT[effort]}{MODE_SUFFIX.get(mode, '')})"
 
 
 def marker(cfg: str) -> str:

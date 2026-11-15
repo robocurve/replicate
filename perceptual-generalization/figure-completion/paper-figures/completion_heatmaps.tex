@@ -1,0 +1,84 @@
+% Five task panels, each containing six models by three conditions. Cells print
+% successes/attempts: of the cell's attempted trials (its first 12 trials minus
+% refusals), how many completed the task. Fill steps with the success rate:
+% red under 25%, yellow 25-49%, blue 50-74%, green 75% and up; grey for a cell
+% with no attempts. The key runs along the bottom. Counts come from
+% completion_counts.tex (\SetCompletion). Needs \TaskName, \ModelName,
+% \ConditionCode and \ConditionKey from figure_settings.tex.
+\providecolor{completionbinA}{HTML}{B1182C}% under 25% succeeded
+\providecolor{completionbinB}{HTML}{FECA76}% 25-49%
+\providecolor{completionbinC}{HTML}{15617B}% 50-74%
+\providecolor{completionbinE}{HTML}{009075}% 75% and up
+\begingroup%
+% One text size for the whole figure, as in the refusal figure.
+\def\HeatmapFont{\fontsize{8.1pt}{9.7pt}\selectfont}%
+\def\NoTrials{--}%
+\pgfmathsetlengthmacro{\ModelLabelWidth}{68pt}%
+\pgfmathsetlengthmacro{\PanelGap}{4pt}%
+\pgfmathsetlengthmacro{\PanelWidth}{(\linewidth-\ModelLabelWidth-4*\PanelGap)/5}%
+\pgfmathsetlengthmacro{\CellWidth}{\PanelWidth/3}%
+\pgfmathsetlengthmacro{\CellHeight}{14pt}%
+\pgfmathsetlengthmacro{\GridTop}{22pt}%
+\pgfmathsetlengthmacro{\GridBottom}{\GridTop+6*\CellHeight}%
+\pgfmathsetlengthmacro{\KeyY}{\GridBottom+7pt}%
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,font=\sffamily\HeatmapFont]
+  \path[use as bounding box] (0,0) rectangle (\linewidth,\KeyY+9pt);
+  \foreach \task in {1,...,5} {
+    \pgfmathsetlengthmacro{\PanelX}{\ModelLabelWidth+(\task-1)*(\PanelWidth+\PanelGap)}
+    \node[anchor=north,font=\sffamily\bfseries\HeatmapFont,inner sep=0pt]
+      at (\PanelX+0.5*\PanelWidth,0) {\TaskName{\task}};
+    \foreach \condition in {1,...,3} {
+      \node[anchor=north,inner sep=0pt]
+        at ({\PanelX+(\condition-0.5)*\CellWidth},11pt)
+        {\ConditionCode{\condition}};
+    }
+    \foreach \model in {1,...,6} {
+      \pgfmathsetlengthmacro{\CellY}{\GridTop+(\model-1)*\CellHeight}
+      \foreach \condition in {1,...,3} {
+        \pgfmathsetlengthmacro{\CellX}{\PanelX+(\condition-1)*\CellWidth}
+        \edef\Attempts{\csname attempts-\task-\model-\condition\endcsname}
+        \edef\Successes{\csname successes-\task-\model-\condition\endcsname}
+        \ifx\Attempts\NoTrials
+          \def\CellFill{placeholderfill}\def\CellText{placeholdertext}%
+          \def\CellLabel{--}%
+        \else
+          \edef\CellLabel{\Successes/\Attempts}%
+          \ifnum\Attempts=0
+            \def\CellFill{placeholderfill}\def\CellText{placeholdertext}%
+          \else
+            \ifnum\Successes>\Attempts
+              \PackageError{completion-data}{Successes exceed attempts}{Correct completion_counts.tex.}
+            \fi
+            \pgfmathtruncatemacro{\Rate}{100*\Successes/\Attempts}%
+            \ifnum\Rate<25 \def\CellFill{completionbinA}\def\CellText{white}%
+            \else\ifnum\Rate<50 \def\CellFill{completionbinB}\def\CellText{black}%
+            \else\ifnum\Rate<75 \def\CellFill{completionbinC}\def\CellText{white}%
+            \else \def\CellFill{completionbinE}\def\CellText{white}%
+            \fi\fi\fi
+          \fi
+        \fi
+        \draw[fill=\CellFill,draw=white,line width=0.6pt]
+          (\CellX,\CellY) rectangle ++(\CellWidth,\CellHeight);
+        \node[inner sep=0pt,text=\CellText]
+          at (\CellX+0.5*\CellWidth,\CellY+0.5*\CellHeight) {\CellLabel};
+      }
+    }
+  }
+  \foreach \model in {1,...,6} {
+    \node[anchor=east,inner sep=0pt]
+      at (\ModelLabelWidth-4pt,{\GridTop+(\model-0.5)*\CellHeight})
+      {\ModelName{\model}};
+  }
+  % Key row: condition codes on the left, the colour scale on the right.
+  \node[anchor=west,inner sep=0pt] at (\ModelLabelWidth,\KeyY)
+    {U\,unaltered\quad B\,blurred\quad D\,doctored};
+  \pgfmathsetlengthmacro{\BarX}{\linewidth-24pt-60pt}%
+  \node[anchor=east,inner sep=0pt] at (\BarX-20pt,\KeyY) {Success rate};
+  \node[anchor=east,inner sep=0pt] at (\BarX-2pt,\KeyY) {0\%};
+  \foreach \swatch [count=\index from 0] in
+      {completionbinA,completionbinB,completionbinC,completionbinE} {
+    \fill[\swatch] (\BarX+15pt*\index,\KeyY-2.5pt) rectangle ++(15pt,5pt);
+  }
+  \node[anchor=east,inner sep=0pt] at (\linewidth,\KeyY) {100\%};
+\end{tikzpicture}%
+\endgroup%

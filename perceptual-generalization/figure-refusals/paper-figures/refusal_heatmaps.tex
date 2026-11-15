@@ -1,0 +1,97 @@
+% Five task panels, each containing six models by three conditions. Cells
+% print the number of refusals out of the cell's 12 trials and use a stepped
+% four-colour scale on the refusal count: red 0-3, yellow 4-6, blue 7-9,
+% green 10-12. The key and scale sit in a column to the right of the
+% panels, so the figure is one panel-row tall. Counts come from
+% data/refusal_counts.tex (\SetRefusals, \SetTrials); a cell without a trial
+% total falls back to \TrialsPerCell. Needs \TaskName, \ModelName and
+% \ConditionCode from data/figure_settings.tex (see figure_settings.tex here).
+\providecommand{\ConditionKey}[1]{%
+  \ifcase#1\or unaltered\or blurred\or doctored\fi%
+}%
+\providecolor{refusalbinA}{HTML}{B1182C}% 0-3 refused
+\providecolor{refusalbinB}{HTML}{FECA76}% 4-6
+\providecolor{refusalbinC}{HTML}{15617B}% 7-9
+\providecolor{refusalbinE}{HTML}{009075}% 10-12
+\begingroup%
+% One text size for the whole figure: 90% of the paper's 9 pt footnotesize.
+\def\HeatmapFont{\fontsize{8.1pt}{9.7pt}\selectfont}%
+\pgfmathsetlengthmacro{\ModelLabelWidth}{68pt}%
+\pgfmathsetlengthmacro{\KeyWidth}{50pt}%
+\pgfmathsetlengthmacro{\PanelGap}{5pt}%
+\pgfmathsetlengthmacro{\PanelWidth}{(\linewidth-\ModelLabelWidth-\KeyWidth-5*\PanelGap)/5}%
+\pgfmathsetlengthmacro{\CellWidth}{\PanelWidth/3}%
+\pgfmathsetlengthmacro{\CellHeight}{14pt}%
+\pgfmathsetlengthmacro{\GridTop}{22pt}%
+\pgfmathsetlengthmacro{\GridBottom}{\GridTop+6*\CellHeight}%
+\pgfmathsetlengthmacro{\KeyX}{\linewidth-\KeyWidth}%
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,font=\sffamily\HeatmapFont]
+  \path[use as bounding box] (0,0) rectangle (\linewidth,\GridBottom);
+  \foreach \task in {1,...,5} {
+    \pgfmathsetlengthmacro{\PanelX}{\ModelLabelWidth+(\task-1)*(\PanelWidth+\PanelGap)}
+    \node[anchor=north,font=\sffamily\bfseries\HeatmapFont,inner sep=0pt]
+      at (\PanelX+0.5*\PanelWidth,0) {\TaskName{\task}};
+    \foreach \condition in {1,...,3} {
+      \node[anchor=north,inner sep=0pt]
+        at ({\PanelX+(\condition-0.5)*\CellWidth},11pt)
+        {\ConditionCode{\condition}};
+    }
+    \foreach \model in {1,...,6} {
+      \pgfmathsetlengthmacro{\CellY}{\GridTop+(\model-1)*\CellHeight}
+      \foreach \condition in {1,...,3} {
+        \pgfmathsetlengthmacro{\CellX}{\PanelX+(\condition-1)*\CellWidth}
+        \edef\RefusalValue{\csname refusals-\task-\model-\condition\endcsname}
+        \expandafter\ifx\csname trials-\task-\model-\condition\endcsname\relax
+          \edef\CellTrials{\TrialsPerCell}
+        \else
+          \edef\CellTrials{\csname trials-\task-\model-\condition\endcsname}
+        \fi
+        \ifx\RefusalValue\MissingRefusal
+          \def\CellFill{placeholderfill}
+          \def\CellText{placeholdertext}
+        \else
+          \pgfmathtruncatemacro{\Rate}{100*\RefusalValue/\CellTrials}
+          \ifnum\Rate<0
+            \PackageError{refusal-data}{Negative refusal count}{Use an integer from zero to the trial count.}
+          \fi
+          \ifnum\Rate>100
+            \PackageError{refusal-data}{Refusals exceed trial count}{Correct data/refusal_counts.tex.}
+          \fi
+          \ifnum\RefusalValue<4 \def\CellFill{refusalbinA}\def\CellText{white}%
+          \else\ifnum\RefusalValue<7 \def\CellFill{refusalbinB}\def\CellText{black}%
+          \else\ifnum\RefusalValue<10 \def\CellFill{refusalbinC}\def\CellText{white}%
+          \else \def\CellFill{refusalbinE}\def\CellText{white}%
+          \fi\fi\fi
+        \fi
+        \draw[fill=\CellFill,draw=white,line width=0.6pt]
+          (\CellX,\CellY) rectangle ++(\CellWidth,\CellHeight);
+        \node[inner sep=0pt,text=\CellText]
+          at (\CellX+0.5*\CellWidth,\CellY+0.5*\CellHeight) {\RefusalValue};
+      }
+    }
+  }
+  \foreach \model in {1,...,6} {
+    \node[anchor=east,inner sep=0pt]
+      at (\ModelLabelWidth-4pt,{\GridTop+(\model-0.5)*\CellHeight})
+      {\ModelName{\model}};
+  }
+  % Key column: condition codes, then the colour scale.
+  \foreach \condition in {1,...,3} {
+    \node[anchor=west,inner sep=0pt,font=\sffamily\HeatmapFont]
+      at (\KeyX,{\GridTop+(\condition-0.5)*\CellHeight*0.8})
+      {\makebox[9.5pt][l]{\ConditionCode{\condition}}\ConditionKey{\condition}};
+  }
+  \node[anchor=north west,inner sep=0pt,font=\sffamily\HeatmapFont]
+    at (\KeyX,\GridTop+2.8*\CellHeight) {Refusal rate};
+  \foreach \swatch [count=\index from 0] in
+      {refusalbinA,refusalbinB,refusalbinC,refusalbinE} {
+    \fill[\swatch]
+      (\KeyX+0.25*\KeyWidth*\index,\GridTop+3.65*\CellHeight)
+      rectangle ++(0.25*\KeyWidth,5pt);
+  }
+  \node[anchor=north west,inner sep=0pt,font=\sffamily\HeatmapFont]
+    at (\KeyX,\GridTop+3.65*\CellHeight+7pt) {0\%};
+  \node[anchor=north east,inner sep=0pt,font=\sffamily\HeatmapFont]
+    at (\linewidth,\GridTop+3.65*\CellHeight+7pt) {100\%};
+\end{tikzpicture}%
+\endgroup%

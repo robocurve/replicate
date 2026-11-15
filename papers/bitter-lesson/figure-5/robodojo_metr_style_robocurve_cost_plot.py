@@ -56,8 +56,8 @@ CAPTION = (
 )
 EFFORTS = {"medium", "high", "xhigh"}  # configurations shown (all of them); ultrafast is kept
 KEEP_ULTRAFAST = True
-OUT = HERE / f"robodojo-metr-style-judge-square-robocurve-cost-title{base.SUFFIX}"
-MILESTONES = HERE / "robodojo-milestone-mix.json"
+OUT = base.OUT_DIR / f"robodojo-metr-style-judge-square-robocurve-cost-title{base.SUFFIX}"
+MILESTONES = base.DATA_DIR / "robodojo-milestone-mix.json"
 Y_RANGE, Y_TICKS = (0.1, 10.0), (0.1, 0.2, 0.5, 1, 2, 5, 10)  # two full decades with 1-2-5 ticks, so the log scale reads as one; $0.38 (Gemini) to $4.51 (Astra H+UF), headroom for the legend, and the frontier fit stays in frame to October
 
 # Checkpoints credited per judge level: the level's rank in its task rubric (same table as robodojo_3d_plot.py).

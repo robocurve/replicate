@@ -1,0 +1,98 @@
+% Five task panels, each containing five models by three conditions. Cells
+% print the number of attempts (trials not refused) and use a two-tone scale
+% on the attempt rate: blue when most trials were refused, light grey at half,
+% orange when most were attempted. The key and scale sit in a column to the
+% right of the panels, so the figure is one panel-row tall. Counts come from
+% data/refusal_counts.tex (\SetAttempts, \SetTrials); a cell without a trial
+% total falls back to \TrialsPerCell. Needs \TaskName, \ModelName and
+% \ConditionCode from data/figure_settings.tex (see figure_settings.tex here).
+\providecommand{\ConditionKey}[1]{%
+  \ifcase#1\or normal\or blurred\or doctored\fi%
+}%
+\providecolor{attemptorange}{HTML}{B35806}%
+\providecolor{attemptmid}{HTML}{EDEDED}%
+\begingroup%
+\pgfmathsetlengthmacro{\ModelLabelWidth}{40pt}%
+\pgfmathsetlengthmacro{\KeyWidth}{50pt}%
+\pgfmathsetlengthmacro{\PanelGap}{5pt}%
+\pgfmathsetlengthmacro{\PanelWidth}{(\linewidth-\ModelLabelWidth-\KeyWidth-5*\PanelGap)/5}%
+\pgfmathsetlengthmacro{\CellWidth}{\PanelWidth/3}%
+\pgfmathsetlengthmacro{\CellHeight}{14pt}%
+\pgfmathsetlengthmacro{\GridTop}{22pt}%
+\pgfmathsetlengthmacro{\GridBottom}{\GridTop+5*\CellHeight}%
+\pgfmathsetlengthmacro{\KeyX}{\linewidth-\KeyWidth}%
+\begin{tikzpicture}[x=1pt,y=1pt,yscale=-1,font=\sffamily\footnotesize]
+  \path[use as bounding box] (0,0) rectangle (\linewidth,\GridBottom);
+  \foreach \task in {1,...,5} {
+    \pgfmathsetlengthmacro{\PanelX}{\ModelLabelWidth+(\task-1)*(\PanelWidth+\PanelGap)}
+    \node[anchor=north,font=\sffamily\bfseries\footnotesize,inner sep=0pt]
+      at (\PanelX+0.5*\PanelWidth,0) {\TaskName{\task}};
+    \foreach \condition in {1,...,3} {
+      \node[anchor=north,inner sep=0pt]
+        at ({\PanelX+(\condition-0.5)*\CellWidth},11pt)
+        {\ConditionCode{\condition}};
+    }
+    \foreach \model in {1,...,5} {
+      \pgfmathsetlengthmacro{\CellY}{\GridTop+(\model-1)*\CellHeight}
+      \foreach \condition in {1,...,3} {
+        \pgfmathsetlengthmacro{\CellX}{\PanelX+(\condition-1)*\CellWidth}
+        \edef\AttemptValue{\csname attempts-\task-\model-\condition\endcsname}
+        \expandafter\ifx\csname trials-\task-\model-\condition\endcsname\relax
+          \edef\CellTrials{\TrialsPerCell}
+        \else
+          \edef\CellTrials{\csname trials-\task-\model-\condition\endcsname}
+        \fi
+        \ifx\AttemptValue\MissingRefusal
+          \def\CellFill{placeholderfill}
+          \def\CellText{placeholdertext}
+        \else
+          \pgfmathtruncatemacro{\Shade}{round(100*\AttemptValue/\CellTrials)}
+          \ifnum\Shade<0
+            \PackageError{attempt-data}{Negative attempt count}{Use an integer from zero to the trial count.}
+          \fi
+          \ifnum\Shade>100
+            \PackageError{attempt-data}{Attempts exceed trial count}{Correct data/refusal_counts.tex.}
+          \fi
+          \ifnum\Shade<50
+            \pgfmathtruncatemacro{\Mix}{2*(50-\Shade)}
+            \edef\CellFill{refusalblue!\Mix!attemptmid}
+          \else
+            \pgfmathtruncatemacro{\Mix}{2*(\Shade-50)}
+            \edef\CellFill{attemptorange!\Mix!attemptmid}
+          \fi
+          \ifnum\Mix>55 \def\CellText{white}\else\def\CellText{black}\fi
+        \fi
+        \draw[fill=\CellFill,draw=white,line width=0.6pt]
+          (\CellX,\CellY) rectangle ++(\CellWidth,\CellHeight);
+        \node[inner sep=0pt,text=\CellText]
+          at (\CellX+0.5*\CellWidth,\CellY+0.5*\CellHeight) {\AttemptValue};
+      }
+    }
+  }
+  \foreach \model in {1,...,5} {
+    \node[anchor=east,inner sep=0pt]
+      at (\ModelLabelWidth-4pt,{\GridTop+(\model-0.5)*\CellHeight})
+      {\ModelName{\model}};
+  }
+  % Key column: condition codes, then the colour scale.
+  \foreach \condition in {1,...,3} {
+    \node[anchor=west,inner sep=0pt,font=\sffamily\scriptsize]
+      at (\KeyX,{\GridTop+(\condition-0.5)*\CellHeight*0.8})
+      {\makebox[7pt][l]{\ConditionCode{\condition}}\ConditionKey{\condition}};
+  }
+  \node[anchor=north west,inner sep=0pt,font=\sffamily\scriptsize]
+    at (\KeyX,\GridTop+2.8*\CellHeight) {Attempt rate};
+  \foreach \swatch [count=\index from 0] in
+      {refusalblue,refusalblue!50!attemptmid,attemptmid,attemptorange!50!attemptmid,attemptorange} {
+    \fill[\swatch]
+      (\KeyX+0.2*\KeyWidth*\index,\GridTop+3.65*\CellHeight)
+      rectangle ++(0.2*\KeyWidth,5pt);
+  }
+  \draw[placeholderline,line width=0.3pt]
+    (\KeyX,\GridTop+3.65*\CellHeight) rectangle ++(\KeyWidth,5pt);
+  \node[anchor=north west,inner sep=0pt,font=\sffamily\scriptsize]
+    at (\KeyX,\GridTop+3.65*\CellHeight+7pt) {0\%};
+  \node[anchor=north east,inner sep=0pt,font=\sffamily\scriptsize]
+    at (\linewidth,\GridTop+3.65*\CellHeight+7pt) {100\%};
+\end{tikzpicture}%
+\endgroup%

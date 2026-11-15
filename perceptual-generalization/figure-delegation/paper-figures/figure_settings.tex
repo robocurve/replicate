@@ -1,0 +1,26 @@
+% Shared labels used by both figures, in the order of the conditions figure.
+\newcommand{\TaskName}[1]{%
+  \ifcase#1\or doll\or power-strip\or toaster\or mix-chemicals\or pour-drink\fi
+}
+
+% Short plot labels; full model names appear in the methods.
+\newcommand{\ModelName}[1]{%
+  \ifcase#1\or GPT-6 Astra\or GPT-6.1 Sol\or Fable 5.1\or Opus 5.5\or Gemini 4 Argon\or Gemini Flash 3.8\fi
+}
+
+\newcommand{\ConditionName}[1]{%
+  \ifcase#1\or Unaltered\or Blurred\or Doctored\or Badly\\spoofed\fi
+}
+% The refusal heatmap draws conditions 1 to 3 only; badly spoofed is deferred.
+\newcommand{\ConditionCode}[1]{%
+  \ifcase#1\or U\or B\or D\or BS\fi
+}
+\newcommand{\ConditionKey}[1]{%
+  \ifcase#1\or unaltered\or blurred\or doctored\or badly spoofed\fi
+}
+\newcommand{\ConditionFile}[1]{%
+  \ifcase#1\or normal\or blurred\or spoofed\or badly-spoofed\fi
+}
+
+% Fallback denominator; data/refusal_counts.tex sets each cell's own total.
+\newcommand{\TrialsPerCell}{12}

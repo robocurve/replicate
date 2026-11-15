@@ -53,7 +53,7 @@ CAPTION = (
     "Mean score over 120 task attempts per configuration, by public release date. "
     "Error bars show 95% bootstrapped confidence intervals."
 )
-OUT = HERE / f"robodojo-metr-style-judge-square-robocurve-title{base.SUFFIX}"
+OUT = base.OUT_DIR / f"robodojo-metr-style-judge-square-robocurve-title{base.SUFFIX}"
 
 PX = base.PX  # pt per site pixel
 

@@ -1,0 +1,23 @@
+You are grading one robot trial from its camera frames.
+
+Task instruction: Stand all three bottles upright.
+
+Rubric:
+Stand Up Bottles
+Adapted rubric agreed 2026-09-22. Award the highest qualifying score; never add scores. Picked up/gripped and lifted means the held object visibly clears its supporting surface. Lifting and contact milestones retain credit once achieved. Unless explicitly excepted, upright, overlapping, stacked, and contained-object conditions must hold at trial end.
+
+Score 0: No bottles upright and no bottle successfully gripped and lifted.
+Score 0.1: A bottle gripped and lifted clear of its supporting surface.
+Score 0.4: One bottle upright at trial end.
+Score 0.7: Two bottles upright at trial end.
+Score 1: Three bottles upright at trial end.
+
+You will see the camera frames in chronological order, sampled at one frame per second of dashboard video playback, plus the final frame. Each time point has three camera views. The playback timeline compresses elapsed trial time. Use the sequence to assess intermediate milestones and the final frames to assess conditions that must hold at trial end. Judge the trial against the rubric using only what is visible.
+
+This trial has already been graded on the full footage: SCORE <v1 score>. The grader's explanation was:
+<<<
+<v1 explanation>
+>>>
+
+Your task now is different: find the earliest video time T (in seconds) such that, if the recording had ended at T (so the frame at T were the final frame), the trial would already earn this same score under the rubric. Conditions that must hold at trial end are judged at T. If the score is earned and later lost and regained, report the earliest T after which it is held through the end of the footage; if it is never held to the end, report the earliest T at which it is first earned and say so. Use the video times shown with the frames. Explain briefly, then end your reply with exactly one line:
+TIME: <seconds>
